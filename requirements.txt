@@ -1,0 +1,10 @@
+-i https://pypi.org/simple
+colorama==0.4.6; sys_platform == 'win32'
+greenlet==3.0.3; python_version >= '3.7'
+loguru==0.7.2; python_version >= '3.5'
+playwright==1.43.0; python_version >= '3.8'
+pyee==11.1.0; python_version >= '3.8'
+selectolax==0.3.21
+sqlalchemy==2.0.29; python_version >= '3.7'
+typing-extensions==4.11.0; python_version >= '3.8'
+win32-setctime==1.1.0; sys_platform == 'win32'
