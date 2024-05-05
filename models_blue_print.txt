@@ -1,0 +1,15 @@
+
+Product:
+    -name: str
+    -max_price:int
+    -min_price:int
+    -guarantee_by_aliaba:bool
+
+
+Supplier:
+    -name:str                                               class = "search-card-e-company"
+    -verified_type:Litteral["standard","pro","unverified"]  class = "verified-supplier-icon__wrapper" then look for data-....            
+    -sopi_level:int             class = "search-cards-e-star" then look for data-....something like that
+    -country_abr:str            class="search-card-e-country-flag__wrapper" then look for alt attr
+    -gold_supplier_year: int    class = "search-card-e-supplier__year" then look for span tag
+
