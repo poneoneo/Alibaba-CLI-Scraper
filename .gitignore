@@ -1,4 +1,5 @@
 Pipfile.lock
 __main__
 .gitignore
-Alibaba_Scrapper_info/
+__pycache__/*
+httpx_*
