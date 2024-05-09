@@ -8,7 +8,7 @@ from playwright.async_api import async_playwright
 from html_to_disk import write_to_disk
 
 logger.remove(0)
-logger.add("pw.log", colorize=True)
+logger.add(sys.stderr, colorize=True)
 
 SBR_WS_CDP = 'wss://brd-customer-hl_cc4d7c7e-zone-scraping_browser1:p4fgpzg17yly@brd.superproxy.io:9222'
 
