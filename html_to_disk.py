@@ -3,7 +3,7 @@ from loguru import logger
 import sys
 
 
-logger.add("htmld.log",colorize=True)
+logger.add(sys.stderr,colorize=True)
 
 def _create_folder(folder_name:str):
     logger.info(f"Create folder with {folder_name} as name if not exists")
