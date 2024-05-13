@@ -10,16 +10,14 @@ def _create_folder(folder_name:str):
     Path(f"{folder_name}").mkdir(exist_ok=True)
     return Path(f"{folder_name}")
 
-# def _create_file(current_folder:Path,file_name:str):
-#     (current_folder/f"{file_name}").touch()
-
-def write_to_disk(folder_name:str, html_contents: list[str]):
+@logger.catch()
+def write_to_disk(folder_name:str, pages_contents: list[str]):
     logger.info("Saving your scrapping result in disk...")
     path_obj = _create_folder(folder_name)
-    for page_number,html_content in enumerate(html_contents,start=1):
-        # _create_file(path_obj,f"page_{page_number}.html")
-        with open((path_obj/f"page_{page_number}.html").resolve() ,"w",encoding='utf-8') as file:
-            file.write(html_content)
-        logger.info(f"Html content from page {page_number} has been saved succesfully !")
+    for page_number,content in enumerate(pages_contents):
+            with open((path_obj/f"page_{page_number+1}.html").resolve() ,'a+',encoding='utf-8') as file:
+                    file.write(content)
+            logger.info(f"Html content from page {page_number+1} has been saved succesfully !")
+            
 
 if __name__ =="__name__":...
