@@ -9,6 +9,10 @@ loguru = "*"
 playwright = "*"
 selectolax = "*"
 aiohttp = "*"
+pyright = "*"
+pony = "*"
+pymysql = "*"
+python-decouple = "*"
 
 [dev-packages]
 
