@@ -10,9 +10,9 @@ playwright = "*"
 selectolax = "*"
 aiohttp = "*"
 pyright = "*"
-pony = "*"
 pymysql = "*"
 python-decouple = "*"
+sqlmodel = "*"
 
 [dev-packages]
 
