@@ -1,12 +1,8 @@
-import sys
-from typing import Any, Optional
+from typing import Optional
 
-from loguru import logger
-from sqlalchemy import Engine
-from sqlmodel import Field, Session, SQLModel
+from sqlmodel import Field, SQLModel
 
-# logger.remove(5)
-# logger.add(sys.stderr, colorize=True)
+
 class Product(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name : str = Field(index=True)
