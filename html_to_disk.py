@@ -1,12 +1,14 @@
+
+
 from pathlib import Path
 from loguru import logger
 import sys
 
-
-logger.add(sys.stderr,colorize=True)
+# logger.remove(4)
+# logger.add(sys.stderr,colorize=True)
 
 def _create_folder(folder_name:str):
-    logger.info(f"Create folder with {folder_name} as name if not exists")
+    logger.info(f"Create folder with {folder_name} as name if not exists yet ...")
     Path(f"{folder_name}").mkdir(exist_ok=True)
     return Path(f"{folder_name}")
 
