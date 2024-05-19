@@ -1,5 +1,10 @@
 Pipfile.lock
 __main__
-.gitignore
 __pycache__/*
 httpx_*
+A*/
+*.html
+*I/
+*.sqlite
+todo.txt
+.gitignore
