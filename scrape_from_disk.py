@@ -24,11 +24,18 @@ from utils_scrapping import (
     ordered_or_sold
 )
 
-logger.remove(0)
-logger.add(sys.stderr,level="DEBUG",colorize=True)
+# logger.remove(4)
+# logger.add(sys.stderr,level="DEBUG",colorize=True)
 
 @dataclass
 class PageParser:
+    """Parse each html page downloaded from alibaba and return a list of suppliers and products
+
+    :raises TypeError: _description_
+    :raises FileNotFoundError: if the targeted folder does not exist
+    :return: PageParser object
+    :rtype: class `PageParser`
+    """
     targeted_folder:Union[str,Path] #folder path that contains all html files to be scraped
 
     def _retrieve_html_content_as_string(self,html_file:Path):
@@ -41,7 +48,7 @@ class PageParser:
             html_content = fs.read()
         logger.info("Html content has been retrieved.")
         return html_content
-    
+    logger.catch(FileNotFoundError)
     def _html_files_explorer(self):
         targeted_folder = Path(self.targeted_folder)
         if not targeted_folder.exists():
