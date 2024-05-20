@@ -1,4 +1,3 @@
-Pipfile.lock
 __main__
 __pycache__/*
 httpx_*
