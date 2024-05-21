@@ -5,8 +5,11 @@ from models import Product,Supplier # noqa: F401
 from sqlalchemy.engine import Engine
 from loguru import logger
 
-def create_sqlite_db(db_name:str):
-    engine = create_engine(f"sqlite:///{db_name}.sqlite")
+def create_db_engine(db_name:str="",db_url:str=""):
+    if db_url == "":
+        engine = create_engine(f"sqlite:///{db_name}.sqlite")
+    if db_url != "":
+        engine = create_engine(db_url)
     return engine
 
 # engine = create_engine("sqlite:///iphones_xs.sqlite")
@@ -19,7 +22,7 @@ def save_all_changes(engine_db:Engine,sql_model,):
     sql_model: The SQL model for which to create the metadata.
     """
     logger.info("Saving all changes ...")
-    sql_model.metadata.create_all(engine_db)
+    SQLModel.metadata.create_all(engine_db)
 
 def add_suppliers_to_db(suppliers:list[dict[str,Any]],engine_db:Engine):
     logger.info("Adding suppliers to database ...")
