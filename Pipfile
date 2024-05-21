@@ -13,7 +13,6 @@ pyright = "*"
 python-decouple = "*"
 sqlmodel = "*"
 typer = "*"
-pymysql = {extras = ["rsa"], version = "*"}
 mysqlclient = "*"
 cryptography = "*"
 
