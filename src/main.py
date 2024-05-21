@@ -24,7 +24,7 @@ def _db_url(credentials:dict=dict(),auto_fill:bool=False):
             raise FileNotFoundError("db_credentials.json is missing YOU NEED TO RUN `db-init` COMMAND FIRST !!")
         with open("db_credentials.json","r") as f:
             cred = json.load(f)
-        return f"mysql+pymysql://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"
+        return f"mysql+mysqldb://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"
     else:
         cred = {
             "user":credentials.get("user"),
@@ -76,7 +76,7 @@ def db_update(
         save_all_changes(engine_db=mysql_engine,sql_model=SQLModel)
         rprint("[bold white]Step :three:  is [bold green] done  :star: ! [/bold green] [/bold white]  ")
         rprint("[bold white blink]Your database has been updated with new products and their related suppliers :white_heavy_check_mark-emoji: ![/bold white blink]")
-        rprint("[bold white blink]Now you can do some amazing analysis woth your database for making your business more profitable :dollar-emoji: :star: ! [/bold white blink]")
+        rprint("[bold white blink]Now you can do some amazing analysis woth your database for making your business more profitable :star: :star: ! [/bold white blink]")
      
 
     else:
