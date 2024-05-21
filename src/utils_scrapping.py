@@ -96,7 +96,7 @@ def minimum_to_order(tag:Node):
         print(elements)
         element = _get_minimum_to_order_tag(tags=elements)
         if element is None:
-            return 'undefined'
+            return 0
         number_str=element.text()
         print(f"number_str : {number_str}")
         number = number_str.split(':')[1].split()[0].strip()
@@ -116,7 +116,7 @@ def ordered_or_sold(tag:Node):
         return 0  
 
 def _from_abr_to_full_name(country_abr:str):
-    with open('pays_data.json', encoding='utf-8') as f:
+    with open('src/pays_data.json', encoding='utf-8') as f:
         countries = json.load(f,)
         pays_data = countries['continents_pays']
         for pays in pays_data:

@@ -1,6 +1,6 @@
 # Alibaba Scrapper
 
-This project is a Python-based web scraper for scraping data from Alibaba. It uses Playwright, a Python library for automating web browsers, to scrape product and supplier information from the website.
+This project is a Python-based web scraper for scraping data from Alibaba base on entry user. It uses Playwright, a Python library for automating web browsers, to scrape products and suppliers informations from the website and store them in a database(Sqlite or MySQL).
 
 ## Installation
 

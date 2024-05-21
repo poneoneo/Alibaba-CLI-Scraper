@@ -10,9 +10,12 @@ playwright = "*"
 selectolax = "*"
 aiohttp = "*"
 pyright = "*"
-pymysql = "*"
 python-decouple = "*"
 sqlmodel = "*"
+typer = "*"
+pymysql = {extras = ["rsa"], version = "*"}
+mysqlclient = "*"
+cryptography = "*"
 
 [dev-packages]
 
