@@ -70,12 +70,12 @@ This project provides a user-friendly command-line interface (CLI) built with `t
 
 ### Available Commands:
 
-**Need Help?**  Type the command followed by `--help` for detailed information about its usage and options. For example: `python main.py run-scrapper --help`
+**Need Help?**  Type the command followed by `--help` for detailed information about its usage and options. For example: `python src/main.py run-scrapper --help`
 
 *   **`run-scrapper`:**  Initiates scraping of Alibaba.com based on the provided keywords.
 
     ```bash
-    python main.py run-scrapper "electric bikes" --html-folder bike_results
+    python src/main.py run-scrapper "electric bikes" --html-folder bike_results
     ```
 
     *   **`key_words` (required):** The search term(s) for finding products on Alibaba. Enclose multiple keywords in quotes.
@@ -85,12 +85,12 @@ This project provides a user-friendly command-line interface (CLI) built with `t
 
     **MySQL Example:**
     ```bash
-    python main.py db-update --db-engine mysql --kw-results bike_results 
+    python src/main.py db-update --db-engine mysql --kw-results bike_results 
     ```
 
     **SQLite Example:**
     ```bash
-    python main.py db-update --db-engine sqlite --kw-results bike_results --filename alibaba_data
+    python src/main.py db-update --db-engine sqlite --kw-results bike_results --filename alibaba_data
     ```
 
     *   **`--db-engine` (required):** Select your database engine: `sqlite` or `mysql`.
@@ -101,12 +101,12 @@ This project provides a user-friendly command-line interface (CLI) built with `t
 
     **MySQL Example:**
     ```bash
-    python main.py db-init --engine mysql --user your_username --password your_password --db-name alibaba_products 
+    python src/main.py db-init --engine mysql --user your_username --password your_password --db-name alibaba_products 
     ```
 
     **SQLite Example:**
     ```bash
-    python main.py db-init --engine sqlite --sqlite-file alibaba_data.db
+    python src/main.py db-init --engine sqlite --sqlite-file alibaba_data.db
     ```
 
     *   **`--engine` (required):** Choose either `sqlite` or `mysql`.
@@ -127,7 +127,7 @@ I believe in the power of open source! If you'd like to contribute to this proje
 
 ## License
 
-This project is licensed under the [Gnu General Public License Version 3](COPYING).
+This project is licensed under the [Gnu General Public License Version **3**](COPYING).
 
 
   
