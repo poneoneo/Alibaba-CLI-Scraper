@@ -25,6 +25,19 @@ def save_all_changes(engine_db:Engine,sql_model,):
     SQLModel.metadata.create_all(engine_db)
 
 def add_suppliers_to_db(suppliers:list[dict[str,Any]],engine_db:Engine):
+    """
+    Adds a list of suppliers to the database.
+
+    Args:
+        suppliers (list[dict[str, Any]]): A list of dictionaries representing suppliers. 
+        engine_db (Engine): The SQLAlchemy engine object representing the database connection.
+
+    Returns:
+        None
+
+    Raises:
+        None
+    """
     logger.info("Adding suppliers to database ...")
     with Session(engine_db) as session:
         for supplier in suppliers:
@@ -39,6 +52,19 @@ def add_suppliers_to_db(suppliers:list[dict[str,Any]],engine_db:Engine):
         session.commit()
 
 def add_products_to_db(products:list[dict[str,Any]],engine_db:Engine):
+    """
+    Adds a list of products to the database.
+
+    Args:
+        products (list[dict[str, Any]]): A list of dictionaries representing products. 
+        engine_db (Engine): The SQLAlchemy engine object representing the database connection.
+
+    Returns:
+        None
+
+    Raises:
+        None
+    """
     logger.info("Adding products to database ...")
     with Session(engine_db) as session:
         for product in products:

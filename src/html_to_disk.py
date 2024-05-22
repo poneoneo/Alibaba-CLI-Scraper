@@ -11,6 +11,28 @@ def _create_folder(folder_name:str):
 
 @logger.catch()
 def write_to_disk(folder_name:str, pages_contents: list[str]):
+    """
+    Writes the contents of a list of HTML pages to disk.
+
+    Args:
+        folder_name (str): The name of the folder where the HTML files will be saved.
+        pages_contents (list[str]): A list of strings representing the contents of the HTML pages.
+
+    Returns:
+        None
+
+    Raises:
+        None
+
+    Side Effects:
+        - Creates a folder with the given name if it does not exist.
+        - Saves each HTML page as a separate file in the folder.
+        - Logs the progress of saving each HTML page.
+
+    Example Usage:
+        write_to_disk("my_folder", ["<html>...</html>", "<html>...</html>"])
+    """
+
     logger.info("Saving your scrapping result in disk...")
     path_obj = _create_folder(folder_name)
     for page_number,content in enumerate(pages_contents):
