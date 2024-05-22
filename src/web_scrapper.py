@@ -11,8 +11,7 @@ from playwright.async_api import async_playwright,BrowserContext
 from decouple import config,Csv
 from html_to_disk import write_to_disk
 
-# logger.remove(1)
-# logger.add(sys.stderr, colorize=True)
+
 
 SBR_WS_CDP_LIST:list[str]= config("SBR_WS_CDP_LIST", cast=Csv()) # type: ignore
 
@@ -73,9 +72,7 @@ def _looking_for_urls(keywords:str) -> list[str]:
 async def async_scrapper(save_in:str,key_words:str) -> None:
     """Create a list of tasks with `goto` coroutine and pass it to `asyncio.wait` coroutine
     then wait for all the results.
-
     The function takes no arguments and returns None.
-
     :return: None
     """
     # start the timer to measure the time it takes to run all the tasks

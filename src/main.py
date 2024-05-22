@@ -45,13 +45,26 @@ def run_scrapper(
         key_words:Annotated[str,typer.Argument(help="Keywords to search")],
         html_folder:Annotated[Optional[str],typer.Option(help="Folder to save the results")]=None,
         ) -> None:
+    """
+    Runs the web scrapper to search for keywords and save the results in a specified folder.
+    
+    Args:
+        key_words (str): The keywords to search for.
+        html_folder (Optional[str], optional): The folder to save the results. Defaults to None.
+    
+    Returns:
+        None
+    
+    Raises:
+        None
+    """
     if html_folder is None:
         save_in = key_words.strip().replace(" ","_")
     asyncio.run(async_scrapper(save_in=save_in,key_words=key_words))
-    rprint("[bold white]Step :two:  is [bold green] done  :star: ! [/bold green] [/bold white]  ")
+    rprint("[bold white]Step :one:  is [bold green] done  :star: ! [/bold green] [/bold white]  ")
     rprint("[bold white blink]Scrapper has been completed [bold green]succesfully :white_heavy_check_mark-emoji: ![/bold green] [/bold white blink]")
-    rprint("[bold white]Here we go to the step :three:   [/bold white]  ")
-    rprint(f"[bold white blink]Now all pages results matching your keywords has been saved in [magenta]{html_folder}[/magenta] directory you can now append all products and suppliers into your database with [bold magenta]`db-update --keywords-results {html_folder}`[/bold magenta] command[/bold white blink]")
+    rprint("[bold white]Here we go to the step :two:   [/bold white]  ")
+    rprint(f"[bold white blink]Now all pages results matching your keywords has been saved in [magenta]{html_folder}[/magenta] directory you can now append all products and suppliers into your database with [bold magenta]`db-update --kw-results {html_folder}`[/bold magenta] command[/bold white blink]")
 
 @app.command()
 def db_update(
@@ -59,6 +72,20 @@ def db_update(
     kw_results=typer.Option(default=...,help="Folder where the html results are stored"),
     filename:Annotated[Optional[str],typer.Option(help="Name of the sqlite file(without any extensions) to update with news data",)]=None,
 ):
+    """
+    Updates the database with new products and their related suppliers.
+
+    Args:
+        db_engine (str, optional): The name of the database engine to use. Defaults to 'sqlite'.
+        kw_results (str): The folder where the HTML results are stored.
+        filename (str, optional): The name of the sqlite file (without any extensions) to update with news data. Defaults to None.
+
+    Raises:
+        MissingParameter: If the engine is not 'sqlite' or 'mysql', or if the filename is required for sqlite engine, or if the filename is specified for non-sqlite engine.
+
+    Returns:
+        None
+    """
     if db_engine not in ["sqlite","mysql"]:
         raise MissingParameter("--engine should be sqlite or mysql")
     if db_engine == "sqlite" and filename is None:
@@ -74,11 +101,10 @@ def db_update(
         add_suppliers_to_db(suppliers=suppliers,engine_db=mysql_engine)
         add_products_to_db(products=products,engine_db=mysql_engine)
         save_all_changes(engine_db=mysql_engine,sql_model=SQLModel)
-        rprint("[bold white]Step :three:  is [bold green] done  :star: ! [/bold green] [/bold white]  ")
+        rprint("[bold white]Step :three:  is [bold green] done  :star: ! [/bold green] [/bold white]")
         rprint("[bold white blink]Your database has been updated with new products and their related suppliers :white_heavy_check_mark-emoji: ![/bold white blink]")
         rprint("[bold white blink]Now you can do some amazing analysis woth your database for making your business more profitable :star: :star: ! [/bold white blink]")
      
-
     else:
         page_parser = PageParser(targeted_folder=kw_results)
         suppliers = page_parser.detected_suppliers()
@@ -87,8 +113,9 @@ def db_update(
         add_suppliers_to_db(suppliers=suppliers,engine_db=sqlite_engine)
         add_products_to_db(products=products,engine_db=sqlite_engine)
         save_all_changes(engine_db=sqlite_engine,sql_model=SQLModel)
-        rprint(f"[magenta bold] {filename}.sqlite [/magenta bold] file has been updated succesfully  with new products and their related suppliers :white_heavy_check_mark-emoji: !")
+        rprint(f"[bold white] [magenta bold] {filename}.sqlite [/magenta bold] file has been updated succesfully  with new products and their related suppliers :white_heavy_check_mark-emoji: ![/bold white]")
         rprint("[bold white]Step :three:  is [bold green] done  :star: ! [/bold green] [/bold white]  ")
+        rprint("[bold white blink]Now you can do some amazing analysis with your database for making your business more profitable :star: :star: ! [/bold white blink]")
 
 
 @app.command()
@@ -101,6 +128,32 @@ def db_init(
         password:Annotated[Optional[str],typer.Option(help="Password of the database engine",show_default=False)]=None,
         db_name:Annotated[Optional[str],typer.Option(help="Database of the database engine",show_default=False)]=None,
   ):
+    """
+    Initializes a database using the specified engine.
+
+    Args:
+        engine (str): The name of the database engine to use. Defaults to 'sqlite'.
+        sqlite_file (Optional[str]): The name of the sqlite file to use (without any extensions).
+            Required for 'sqlite' engine.
+        host (Optional[str]): The host of the database engine. Defaults to 'localhost'.
+        port (Optional[int]): The port of the database engine.
+        user (Optional[str]): The user of the database engine.
+        password (Optional[str]): The password of the database engine.
+        db_name (Optional[str]): The database of the database engine.
+
+    Raises:
+        MissingParameter: If the engine is not 'sqlite' or 'mysql', or if the filename is required for sqlite engine,
+            or if the filename is specified for non-sqlite engine.
+
+    Returns:
+        None
+
+    This function initializes a database using the specified engine. It checks the validity of the engine and the
+    required parameters. If the engine is 'sqlite', it creates a sqlite database file with the specified name. If the
+    engine is 'mysql', it creates a mysql database using the specified host, port, user, password, and database name.
+    After creating the database, it saves the changes to the database using the `save_all_changes` function. Finally,
+    it prints a success message indicating the creation of the database.
+    """
     if engine not in ["sqlite","mysql"]:
         raise MissingParameter("--engine should be sqlite or mysql")
     if engine == "sqlite" and sqlite_file is None:
@@ -111,14 +164,11 @@ def db_init(
         db_url = _db_url(credentials=locals())
         mysql_engine = create_db_engine(db_url=db_url)
         save_all_changes(engine_db=mysql_engine,sql_model=SQLModel)
-        rprint(f"Database [magenta bold] {db_name} [/magenta bold] has been created succesfully :white_heavy_check_mark-emoji: !")
+        rprint(f"[bold white]Database [magenta bold] {db_name} [/magenta bold] has been created succesfully :white_heavy_check_mark-emoji: ![/bold white]")
     else:
         sqlite_engine = create_db_engine(db_name=sqlite_file) # type: ignore
         save_all_changes(engine_db=sqlite_engine,sql_model=SQLModel)
-        rprint(f"Database [magenta bold] {sqlite_file}.sqlite [/magenta bold] file has been created succesfully :white_heavy_check_mark-emoji: !")
+        rprint(f"[bold white]Database [magenta bold] {sqlite_file}.sqlite [/magenta bold] file has been created succesfully :white_heavy_check_mark-emoji: ![bold white]")
               
-
 if __name__ == "__main__":
-    # typer.run(app(key_words="samsung galaxy s20 plus",save_in="samsung",database_name="samsung"))
-    # typer.run(main)
     app()

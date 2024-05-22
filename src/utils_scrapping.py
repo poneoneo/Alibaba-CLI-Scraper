@@ -65,7 +65,6 @@ def suppliers_status(tag:Node):
     status =tag.css_first(".verified-supplier-icon__wrapper")
     if status is not None:
         mode = status.attrs.get('data-aplus-auto-card-mod').split('=')[2]
-        print(mode)
         return mode
     return 'unverified'
 
@@ -93,12 +92,10 @@ def _get_minimum_to_order_tag(tags:list[Node]):
 def minimum_to_order(tag:Node):
     elements =tag.css('.search-card-m-sale-features__item.tow-line')
     if len(elements) != 0  :
-        print(elements)
         element = _get_minimum_to_order_tag(tags=elements)
         if element is None:
             return 0
         number_str=element.text()
-        print(f"number_str : {number_str}")
         number = number_str.split(':')[1].split()[0].strip()
         return int(number)
     else:
@@ -129,7 +126,6 @@ def _from_abr_to_full_name(country_abr:str):
 
 
 def country_name(tag:Node):
-    print("tag_value",tag)
     try:
         selector_resul1 = tag.css_first('.search-card-e-country-flag__wrapper')
         selector_result = selector_resul1.css_first('img')
