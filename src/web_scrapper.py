@@ -36,11 +36,11 @@ async def goto_task(
     async with page:
         logger.info(f"Opening the page {url.split('page=')[1]} ...")
         logger.info("Waiting for 3 milliseconds ...")
-        await page.wait_for_timeout(300)
+        # await page.wait_for_timeout(300)
         await page.goto(url, timeout=0, wait_until="domcontentloaded")
         logger.info(f"Getting HTML content from page {url.split('page=')[1]}")
         # logger.info("Waiting for .organic-list class to be present in the DOM...")
-        # await page.wait_for_selector('.organic-list',state='visible')
+        await page.wait_for_selector('.organic-list',state='visible')
         product_divs_locator = await page.query_selector('.organic-list')
         # await product_divs.inner_html()
         # product_divs_locator = page.locator('.organic-list',)
@@ -86,22 +86,24 @@ async def async_scrapper(save_in:str,key_words:str) -> None:
         browser = await p.chromium.connect_over_cdp(SBR_WS_CDP_LIST[0])
         context_browser = await browser.new_context()
         logger.info("Creating tasks list...")
-        async with asyncio.TaskGroup() as tg:
-            tasks = [tg.create_task(goto_task(url, context_browser)) for url in pages_urls]
-            logger.info("Running all the tasks ...")
-            html_contents = [await task for task in tasks if task is not None]
+        # async with asyncio.TaskGroup() as tg:
+        #     tasks = [tg.create_task(goto_task(url, context_browser)) for url in pages_urls]
+        #     logger.info("Running all the tasks ...")
+        #     html_contents = [await task for task in tasks if task is not None]
             
-        # logger.info("Closing the context of the browser ...")
-        # await context_browser.close()
-        # logger.info("Closing the browser ...")
-        # await browser.close()
 
         # create the list of tasks to run
-        # tasks_list = [ asyncio.create_task(goto_task(url, context_browser)) for url in pages_urls ]
+        logger.info("Creating tasks list...")
+        tasks_list = [ asyncio.create_task(goto_task(url, context_browser)) for url in pages_urls ]
 
         # run all the tasks and gather the results
         logger.info("Running all the tasks ...")
-        # html_contents = await asyncio.gather(*tasks_list)
+        html_contents = await asyncio.gather(*tasks_list)
+
+        logger.info("Closing the context of the browser ...")
+        await context_browser.close()
+        logger.info("Closing the browser ...")
+        await browser.close()
 
         # append all the results to the global list
         html_content_list.extend([html_content for html_content in html_contents if html_content is not None])

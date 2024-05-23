@@ -38,7 +38,7 @@ def _db_url(credentials:dict=dict(),auto_fill:bool=False):
                 raise MissingParameter(f"{key} is missing")
         with open("db_credentials.json","w") as f:
             json.dump(cred,f)
-        return f"mysql+myslqdb://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"  
+        return f"mysql+mysqldb://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"  
 
 @app.command()
 def run_scrapper(
@@ -58,13 +58,13 @@ def run_scrapper(
     Raises:
         None
     """
-    if html_folder is None:
-        save_in = key_words.strip().replace(" ","_")
+    
+    save_in = key_words.strip().replace(" ","_") if (html_folder is None and html_folder != '') else html_folder
     asyncio.run(async_scrapper(save_in=save_in,key_words=key_words))
     rprint("[bold white]Step :one:  is [bold green] done  :star: ! [/bold green] [/bold white]  ")
     rprint("[bold white blink]Scrapper has been completed [bold green]succesfully :white_heavy_check_mark-emoji: ![/bold green] [/bold white blink]")
     rprint("[bold white]Here we go to the step :two:   [/bold white]  ")
-    rprint(f"[bold white blink]Now all pages results matching your keywords has been saved in [magenta]{html_folder}[/magenta] directory you can now append all products and suppliers into your database with [bold magenta]`db-update --kw-results {html_folder}`[/bold magenta] command[/bold white blink]")
+    rprint(f"[bold white blink]Now all pages results matching your keywords has been saved in [magenta]{save_in}[/magenta] directory you can now append all products and suppliers into your database with [bold magenta]`db-update --kw-results {save_in}`[/bold magenta] command[/bold white blink]")
 
 @app.command()
 def db_update(
