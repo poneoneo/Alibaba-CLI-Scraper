@@ -99,7 +99,7 @@ def minimum_to_order(tag:Node):
         number = number_str.split(':')[1].split()[0].strip()
         return int(number)
     else:
-        return 'undefined'
+        return 0
     
 @logger.catch(TypeError)
 def ordered_or_sold(tag:Node):
