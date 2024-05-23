@@ -38,7 +38,7 @@ def _db_url(credentials:dict=dict(),auto_fill:bool=False):
                 raise MissingParameter(f"{key} is missing")
         with open("db_credentials.json","w") as f:
             json.dump(cred,f)
-        return f"mysql+pymysql://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"  
+        return f"mysql+myslqdb://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"  
 
 @app.command()
 def run_scrapper(
