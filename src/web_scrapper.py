@@ -89,7 +89,7 @@ async def async_scrapper(save_in:str,key_words:str) -> None:
         browser = await p.chromium.connect_over_cdp(SBR_WS_CDP_LIST[0])
         context_browser = await browser.new_context()
         logger.info("Creating tasks list...")
-        async with asyncio.taskgroups.TaskGroup() as tg:
+        async with asyncio.TaskGroup() as tg:
             tasks = [tg.create_task(goto_task(url, context_browser)) for url in pages_urls]
             logger.info("Running all the tasks ...")
             html_contents = [await task for task in tasks if task is not None]
