@@ -1,28 +1,68 @@
 """
-This script is responsible for scraping data from the Alibaba website. It uses the Playwright library to navigate through multiple pages, extract HTML content, and save it to disk. The script defines functions to handle asynchronous tasks, interact with browser contexts, and gather data from the scraped HTML files. Additionally, it utilizes loguru for logging purposes and decouple for managing environment variables.
+This script is responsible for scraping data from the Alibaba website.
+It uses the Playwright library to navigate through multiple pages
+extract HTML content,and save it to disk. The script defines
+functions to handle asynchronous tasks,interact with
+browser contexts, and gather data from the scraped HTML files.
+Additionally, it utilizes loguru for logging purposes and decouple for
+managing environment variables.
 """
 
 import asyncio
+
 import time
-from typing import Optional
+
 
 from loguru import logger
-from playwright.async_api import async_playwright,BrowserContext
-from decouple import config,Csv
+from playwright.async_api import async_playwright,BrowserContext,Browser
+from playwright.async_api import Page as AsyncPage
+from playwright.sync_api import sync_playwright
+from dotenv import load_dotenv
+import os
+import selectolax
+
 from html_to_disk import write_to_disk
 
+load_dotenv()
 
 
-SBR_WS_CDP_LIST:list[str]= config("SBR_WS_CDP_LIST", cast=Csv()) # type: ignore
+SBR_WS_CDP_LIST: str = "wss://brd-customer-hl_82bed799-zone-scraping_browser1:scn06xx7tquc@brd.superproxy.io:9222"  # type: ignore
 
 html_content_list = []
 
 
+def _browser_parser(html_content: str|bytes, curr_url:str):
+    """Parse the HTML content of the page to get the divs with class `.organic-list.viewtype-list`
+
+    :param html_content: The HTML content of the page
+    :type html_content: str
+    :return: A list of divs with class `.organic-list.viewtype-list`
+    :rtype: list
+    """
+    if html_content is None:
+        logger.warning(" your page could not be loaded, an empty none value has been returned")
+        return None
+    body_parser = selectolax.parser.HTMLParser(html_content)
+    logger.info(
+                f"looking for .organic-list class in the DOM page {curr_url.split('page=')[1]}..."
+            )
+    product_div = body_parser.css_first(".organic-list")
+    if product_div is None:
+        return None
+    html_result = product_div.html
+    if html_result is None:
+        logger.warning(
+            f"any HTML content from page {curr_url.split('page=')[1]} matched the selector '.organic-list', None value has been returned"
+            )
+        return None
+    else: 
+        logger.info(f"HTML content from page {curr_url.split('page=')[1]} has been returned ")
+        return html_result
 
 async def goto_task(
     url: str,
-    context_browser: BrowserContext,
-) -> Optional[str]:
+    page: AsyncPage
+) -> str|None:
     """Return the entire HTML content from each page only the divs with class `.organic-list.viewtype-list`
 
     :param url: URL of page range 1 to 42 include
@@ -32,32 +72,32 @@ async def goto_task(
     :return: A string of HTML content of the current page, or None if the page has no expected div
     :rtype: Optional[str]
     """
-    page = await context_browser.new_page()  
-    async with page:
-        logger.info(f"Loading page {url.split('page=')[1]} ...")
-        logger.info("Waiting for 3 milliseconds ...")
-        await page.wait_for_timeout(300)
-        await page.goto(url, timeout=0,wait_until='domcontentloaded')
-        logger.info(f"Waiting for .organic-list class to be attached in the DOM page {url.split('page=')[1]}...")
-        await page.wait_for_selector('.organic-list',state='visible')
-        element_handler = await page.query_selector('.organic-list')
-        # await product_divs.inner_html()
-        # product_divs_locator = page.locator('.organic-list').all()
-        # logger.info(f"Getting elements content with `.organic-list` class  from page {url.split('page=')[1]}")
-
-        html_content = None if element_handler is None else await element_handler.inner_html()
-        print(html_content)
-        if html_content is None:
-            logger.warning(f"any HTML content from page {url.split('page=')[1]} matched the selector '.organic-list', None has been returned")
-            return html_content
-    logger.info(f"HTML content from page {url.split('page=')[1]} has been returned ")
-    # logger.info(f"Closing page {url.split('page=')[1]} and return HTML content ...")
-    # await page.close()
-    return html_content
+    try:
+        async with page:
+            logger.info(f"Loading page {url.split('page=')[1]} ...")
+            await page.wait_for_load_state('domcontentloaded')
+            response = await page.goto(url, wait_until='domcontentloaded',timeout=0)    
+            if response is None:
+                return None
+            logger.info(f"Returns html representation of response body from page {url.split('page=')[1]} ...")
+            html_body = await response.text()
+            # parser_result = await asyncio.to_thread(_browser_parser, html_content=html_body, curr_url=url)
+            logger.info(f"Closing page {url.split('page=')[1]} ...")
+            await page.close()
+            return html_body
+            if html_body is None:
+                await page.close()
+                return None
+            await page.close()
+            return html_body
+    except Exception as e:
+        logger.error(f"Error processing page {url.split('page=')[1]}: {e}")
+        return None
+    
 
 
 @logger.catch()
-def _looking_for_urls(keywords:str) -> list[str]:
+def _looking_for_urls(keywords: str) -> list[str]:
     """Return a list of urls for each page of the search results matching the keywords
 
     :param keyword: Keywords to search
@@ -65,57 +105,68 @@ def _looking_for_urls(keywords:str) -> list[str]:
     :return: List of urls
     :rtype: list[str]
     """
-    word = keywords.replace(" ","+").strip()
-    pages_urls = [f"https://french.alibaba.com/trade/search?spm=a2700.galleryofferlist.0.0.538f1619xDyhzJ&fsb=y&IndexArea=product_en&keywords={word}&tab=all&&page={page_number}" for page_number in range(1,43)]
+    word = keywords.replace(" ", "+").strip()
+    pages_urls = [
+        f"https://french.alibaba.com/trade/search?spm=a2700.galleryofferlist.0.0.538f1619xDyhzJ&fsb=y&IndexArea=product_en&keywords={word}&tab=all&&page={page_number}"
+        for page_number in range(1, 43)
+    ]
     return pages_urls
 
 
-
 @logger.catch()
-async def async_scrapper(save_in:str,key_words:str) -> None:
+async def async_scrapper(*,save_in: str, key_words: str) -> None:
     """Create a list of tasks with `goto` coroutine and pass it to `asyncio.wait` coroutine
     then wait for all the results.
     The function takes no arguments and returns None.
     :return: None
     """
     # start the timer to measure the time it takes to run all the tasks
-    start_time = time.perf_counter()
 
     # get the list of urls
     pages_urls = _looking_for_urls(keywords=key_words)
-
     async with async_playwright() as p:
         logger.info("Connecting to CDP and creating the browser...")
-        browser = await p.chromium.connect_over_cdp(SBR_WS_CDP_LIST[0])
+        browser = await p.chromium.connect_over_cdp(SBR_WS_CDP_LIST)
         context_browser = await browser.new_context()
+        tasks_list = []
         logger.info("Creating tasks list...")
-        async with asyncio.TaskGroup() as tg:
-            tasks = [tg.create_task(goto_task(url, context_browser)) for url in pages_urls]
-            logger.info("Running all the tasks ...")
-            html_contents = [await task for task in tasks if task is not None]
-            
-        # logger.info("Closing the context of the browser ...")
-        # await context_browser.close()
-        logger.info("Closing the browser ...")
-        await browser.close()
-
-        # create the list of tasks to run
-        # logger.info("Creating tasks list...")
-        # tasks_list = [ asyncio.create_task(goto_task(url, context_browser)) for url in pages_urls ]
+        for idx, url in enumerate(pages_urls,start=0):
+            page = await context_browser.new_page()
+            tasks_list.append( asyncio.create_task(goto_task(url, page),name=f"page_{idx}"))
 
         # run all the tasks and gather the results
-        # logger.info("Running all the tasks ...")
-        # html_contents = await asyncio.gather(*tasks_list)
-
+        logger.info("Running all the tasks ...")
+        html_contents = await asyncio.gather(*tasks_list, return_exceptions=False)
+        # html_contents,_ = await asyncio.wait(tasks_list)
         # append all the results to the global list
-        html_content_list.extend([html_content for html_content in html_contents if html_content is not None])
+        html_content_list.extend( html_content for html_content in html_contents if isinstance(html_content, str) )
+        print(len(html_content_list))
+        # write the results to a file
+        write_to_disk(save_in, html_content_list)
 
-    # stop the timer and print the time it took to run all the tasks
-    end_time = time.perf_counter()
-    print(f" all those tasks tooks: {end_time-start_time:.2f}")
-    # write the results to a file
+def sync_scrapper(*,save_in: str, key_words: str):
+    playwright = sync_playwright().start()
+    browser = playwright.chromium.launch(headless=True)
+    context = browser.new_context()
+    pages_urls = _looking_for_urls(keywords=key_words)
+    for idx, url in enumerate(pages_urls,start=0):
+        page = context.new_page()
+        logger.info(f"Loading page {url.split('page=')[1]} ...")
+        response = page.goto(url,wait_until='domcontentloaded',timeout=0)
+        if response is None:
+            return None
+        logger.info(f"Returns the text representation of response body from page {url.split('page=')[1]} ...")
+        html_content = response.text()
+        parsed_content = _browser_parser(html_content=html_content, curr_url=url)
+        html_content_list.append(parsed_content)
+        logger.info(f"Closing the page {url.split('page=')[1]} ...")
+        page.close()
     write_to_disk(save_in, html_content_list)
 
-
-if __name__ == "__main__": ...
-    # asyncio.run(async_scrapper('Velo_vtt'))
+if __name__ == "__main__":
+    start_time = time.perf_counter()
+    asyncio.run(async_scrapper(save_in='pc_lenovo', key_words='pc lenovo'),debug=False)
+    # sync_scrapper(save_in='pc_lenovo', key_words='pc lenovo')
+    end_time = time.perf_counter()
+    print(f" all those tasks tooks: {end_time-start_time:.2f}")
+    ...
