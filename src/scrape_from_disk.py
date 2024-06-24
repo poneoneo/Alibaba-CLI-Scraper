@@ -57,7 +57,7 @@ class PageParser:
     logger.catch(FileNotFoundError)
 
     def _html_files_explorer(self):
-        targeted_folder = Path(self.targeted_folder)
+        targeted_folder = Path(self.targeted_folder).resolve()
         if not targeted_folder.exists():
             raise FileNotFoundError()
         logger.info(f"getting html files from {targeted_folder} ... ")
