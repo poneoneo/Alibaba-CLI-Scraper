@@ -149,10 +149,9 @@ async def async_scrapper(*, save_in: str, key_words: str) -> None:
         logger.info("Creating tasks list... ")
         with Progress(console=Console(record=True),) as progress:
             task = progress.add_task("[green blink] async Scraping...", start=False)
-            s_one = asyncio.Semaphore(value=20)
+            s_one = asyncio.Semaphore(value=10)
             for idx, url in enumerate(pages_urls, start=0):
                 page = await context_browser.new_page()
-                print(idx)
                 async with s_one:
                     tasks_list.append(
                         asyncio.create_task(
