@@ -98,12 +98,12 @@ Now `electric_bikes` directory will contain the HTML file matching your keywords
 
     **MySQL Example:**
     ```bash
-    python src/app.py db-update --db-engine mysql --kw-results bike_results 
+    python src/app.py db-update  mysql --kw-results bike_results 
     ```
 
     **SQLite Example:**
     ```bash
-    python src/app.py db-update --db-engine sqlite --kw-results bike_results --filename alibaba_data
+    python src/app.py db-update  sqlite --kw-results bike_results --filename alibaba_data
     ```
 
     *   **`--db-engine` (required):** Select your database engine: `sqlite` or `mysql`.
@@ -114,12 +114,12 @@ Now `electric_bikes` directory will contain the HTML file matching your keywords
 
     **MySQL Example:**
     ```bash
-    python src/app.py db-init --engine mysql --user your_username --password your_password --db-name alibaba_products 
+    python src/app.py db-init mysql --user your_username --password your_password --db-name alibaba_products 
     ```
 
     **SQLite Example:**
     ```bash
-    python src/app.py db-init --engine sqlite --sqlite-file alibaba_data.db
+    python src/app.py db-init sqlite --sqlite-file alibaba_data
     ```
 
     *   **`--engine` (required):** Choose either `sqlite` or `mysql`.
