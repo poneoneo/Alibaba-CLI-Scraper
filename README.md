@@ -39,7 +39,7 @@ This  project is a Python-based web scraper for scraping data from Alibaba.com. 
    pip install -r requirements.txt
    ```
 
-## Behind the Scenes: How I Tackled Web Scraping Challenges
+## Behind the Scene: How I Tackled Web Scraping Challenges
 
 Developing a web scraper comes with its own set of hurdles, and this project was no exception! Here's how I overcame some common obstacles:
 
@@ -70,18 +70,31 @@ This project provides a user-friendly command-line interface (CLI) built with `t
 
 ### Available Commands:
 
-**Need Help?**  Type the command followed by `--help` for detailed information about its usage and options. For example: `python src/app.py run-scrapper --help`
+**Need Help?**  Type the any commands followed by `--help` for detailed information about its usage and options. For example: `python src/app.py run-scrapper --help`
+
+<div align="center">
+  <p>
+    <a href="#"><img src="images\run-scrapper-help-message.png" width="600" height="300" alt="pytube logo" /></a>
+  </p>
+  <p align="center">
+
+  </p>
+</div>
+
+The best way to learn is by practice isn't ? So let's get started with a use case example. 
+Let's suppose that you want to scrape data about electric bikes from Alibaba.com.
 
 *   **`run-scrapper`:**  Initiates scraping of Alibaba.com based on the provided keywords.
 
     ```bash
     python src/app.py run-scrapper "electric bikes" --html-folder bike_results
     ```
-
+Now `electric_bikes` directory will contain the HTML file matching your keywords.
     *   **`key_words` (required):** The search term(s) for finding products on Alibaba. Enclose multiple keywords in quotes.
-    *   **`--html-folder` (optional):** Specifies the directory to store the raw HTML files. If omitted, a folder named after sanitized keywords is automatically created.
+    *   **`--html-folder` (optional):** Specifies the directory to store the raw HTML files. If omitted, a folder with sanitized keywords as name will be automatically created.
 
 *   **`db-update`:** Updates your chosen database with the scraped data.
+**NB: If for any reason you encounter an issue with async api which is set by default, you can use instead sync api by specifying `--sync-api` flag cause is more stable than the other.**
 
     **MySQL Example:**
     ```bash
