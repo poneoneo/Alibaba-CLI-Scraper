@@ -30,7 +30,7 @@ def save_all_changes(
     """
     logger.info("Saving all changes ...")
     try:
-        SQLModel.metadata.create_all(engine_db)
+        sql_model.metadata.create_all(engine_db)
     except OperationalError as e:
         logger.error(f"Errors has occured: {e}")
         raise OperationalError from e
