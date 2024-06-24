@@ -152,8 +152,7 @@ async def async_scrapper(*, save_in: str, key_words: str) -> None:
             s_one = asyncio.Semaphore(value=10)
             for idx, url in enumerate(pages_urls, start=0):
                 page = await context_browser.new_page()
-                async with s_one:
-                    tasks_list.append(
+                tasks_list.append(
                         asyncio.create_task(
                             goto_task(url=url, page=page, task=task, progress=progress, semaphore=s_one)
                             

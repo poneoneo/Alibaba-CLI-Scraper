@@ -10,9 +10,9 @@ def run_scrapper_with_success(folder_name: str):
     )
     rprint("[bold white]Here we go to the step :two:   [/bold white]  ")
     rprint(
-        f"""[bold white blink]Now all pages results matching your keywords has been saved in [magenta]{folder_name}[/magenta] now if is still not the case you must to initialize your database with [bold magenta]
-        `python src/app.py db-init --engine mysql --user your_username --password your_password --db-name alibaba_products`[/bold magenta] command(for mysql engine).
-        Or python src/app.py db-init --engine sqlite --sqlite-file sqlite_file_name(without any extensions) command(for sqlite engine). As soon as you have done that, you can update all thoses new scraped products and suppliers inside your database with [bold magenta]`python src/app.py db-update --db-engine mysql --kw-results {folder_name} command (for sqlite engine)`[/bold magenta] or [bold magenta]`python src/app.py db-update --db-engine sqlite --kw-results bike_results --filename {folder_name}`[/bold magenta]..."""
+        f"""[bold white ]Now all pages results matching your keywords has been saved in [magenta]{folder_name}[/magenta] now if is still not the case you must to initialize your database with [bold magenta blink]
+        `python src/app.py db-init --engine mysql --user your_username --password your_password --db-name alibaba_products`[/bold magenta blink] command(for mysql engine).
+        Or `python src/app.py db-init --engine sqlite --sqlite-file sqlite_file_name(without any extensions)` command(for sqlite engine). As soon as you have done that, you can update all thoses new scraped products and suppliers inside your database with [bold magenta blink]`python src/app.py db-update --db-engine mysql --kw-results {folder_name} command (for sqlite engine)`[/bold magenta blink] or [bold magenta blink]`python src/app.py db-update --db-engine sqlite --kw-results bike_results --filename {folder_name}`[/bold magenta blink]..."""
     )
 
 
