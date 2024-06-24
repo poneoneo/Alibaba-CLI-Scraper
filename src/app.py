@@ -141,7 +141,7 @@ def db_update(
         add_suppliers_to_db(suppliers=suppliers, engine_db=sqlite_engine)
         add_products_to_db(products=products, engine_db=sqlite_engine)
         save_all_changes(engine_db=sqlite_engine, sql_model=SQLModel)
-        update_db_success_sqlite(sqlite_file=kw_results)
+        update_db_success_sqlite(sqlite_file=filename)  # type: ignore
 
 
 @app.command()
