@@ -3,6 +3,7 @@ import json
 import os
 import sys
 from pathlib import Path
+from threading import local
 from typing import Optional
 
 import sqlalchemy
@@ -22,6 +23,7 @@ from scrape_from_disk import PageParser
 from sqlmodel import SQLModel
 from typing_extensions import Annotated
 from web_scrapper import async_scrapper, sync_scrapper
+from rich import print as rprint
 
 load_dotenv()
 
@@ -38,7 +40,22 @@ def _db_url(credentials: dict = dict(), auto_fill: bool = False):
                 "db_credentials.json is missing YOU NEED TO RUN `db-init` COMMAND FIRST !!"
             )
         with open("db_credentials.json", "r") as f:
-            cred = json.load(f)
+            cred: dict = json.load(f)
+            items = credentials.items()
+            for item in items:
+                if item[0] == 'host' and item[1] not in ['localhost',None]:
+                    cred.update({'host': item[1]})
+                elif item[0] == 'port' and item[1] not in [3306,None]:
+                    cred.update({'port': item[1]})
+                elif item[0] == 'db_name' and item[1] not in [cred.get('db_name'),None]:
+                    cred.update({'db_name': item[1]})
+                elif item[0] == 'user' and item[1] not in [cred.get('user'),None]:
+                    cred.update({'user': item[1]})
+                elif item[0] == 'password' and item[1] not in [cred.get('password'),None]:
+                    cred.update({'password': item[1]})
+                else:
+                    continue
+            rprint(cred)
         return f"mysql+mysqldb://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"
     else:
         cred = {
@@ -105,6 +122,27 @@ def db_update(
             help="Name of the sqlite file(without any extensions) to update with news data",
         ),
     ] = None,
+    host: Annotated[
+        Optional[str],
+        typer.Option(
+            help="Host of the database engine",
+        ),
+    ] = "localhost",
+    port: Annotated[
+        Optional[int], typer.Option(help="Port of the database engine")
+    ] = 3306,
+    user: Annotated[
+        Optional[str],
+        typer.Option(help="User of the database engine", show_default=False),
+    ] = None,
+    password: Annotated[
+        Optional[str],
+        typer.Option(help="Password of the database engine", show_default=False),
+    ] = None,
+    db_name: Annotated[
+        Optional[str],
+        typer.Option(help="Database of the database engine", show_default=False),
+    ] = None,
 ):
     """
     Updates the database with new products and their related suppliers.
@@ -123,7 +161,7 @@ def db_update(
             "You don't need to specify --filename for non-sqlite engine"
         )
     if db_engine == "mysql":
-        db_url = _db_url(auto_fill=True)
+        db_url = _db_url(credentials=locals(),auto_fill=True)
         mysql_engine = create_db_engine(db_url=db_url)
         page_parser = PageParser(targeted_folder=kw_results)
         suppliers = page_parser.detected_suppliers()

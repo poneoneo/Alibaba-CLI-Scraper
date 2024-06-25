@@ -10,8 +10,10 @@ managing environment variables.
 
 import asyncio
 import time
+from urllib import request
 
 import playwright
+import requests
 import selectolax
 from dotenv import load_dotenv
 from html_to_disk import write_to_disk
@@ -136,6 +138,8 @@ async def async_scrapper(*, save_in: str, key_words: str) -> None:
     async with async_playwright() as p:
         logger.info("Connecting to CDP and creating the browser... ")
         try:
+            country_name = requests.get("http://geo.brdtest.com/mygeo.json").json()['country']
+            SBR_WS_CDP_LIST.replace("country-us", f"country-{country_name}")
             browser = await p.chromium.connect_over_cdp(SBR_WS_CDP_LIST)
         except playwright._impl._errors.Error as e:  # type: ignore
             if "Account is suspended" in str(e):
@@ -155,7 +159,7 @@ async def async_scrapper(*, save_in: str, key_words: str) -> None:
                 tasks_list.append(
                         asyncio.create_task(
                             goto_task(url=url, page=page, task=task, progress=progress, semaphore=s_one)
-                            
+                          
                         )
                     )
 
