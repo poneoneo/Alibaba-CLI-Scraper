@@ -139,7 +139,7 @@ async def async_scrapper(*, save_in: str, key_words: str) -> None:
         logger.info("Connecting to CDP and creating the browser... ")
         try:
             country_name = requests.get("http://geo.brdtest.com/mygeo.json").json()['country']
-            SBR_WS_CDP_LIST.replace("country-us", f"country-{country_name}")
+            SBR_WS_CDP_LIST.replace("country-us", f"country-{country_name.lower()}")
             browser = await p.chromium.connect_over_cdp(SBR_WS_CDP_LIST)
         except playwright._impl._errors.Error as e:  # type: ignore
             if "Account is suspended" in str(e):
