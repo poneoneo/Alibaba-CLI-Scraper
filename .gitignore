@@ -7,3 +7,4 @@ A*/
 *.sqlite
 todo.txt
 .gitignore
+src/__pycache__/
