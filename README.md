@@ -1,8 +1,6 @@
 <div align="center">
   <p>
-    <a href="#"><img src="images\1.png" width="600" height="300" alt="pytube logo" /></a>
-  </p>
-  <p align="center">
+    <a href="#"><img src="images\1.png" width="600" height="300" alt="overview image" /></a>
   </p>
 </div>
 
