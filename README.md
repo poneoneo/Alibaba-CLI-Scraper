@@ -1,3 +1,11 @@
+<div align="center">
+  <p>
+    <a href="#"><img src="images\1.webp" width="600" height="300" alt="pytube logo" /></a>
+  </p>
+  <p align="center">
+  </p>
+</div>
+
 # Alibaba-CLI-Scraper
 
 This  project is a Python-based web scraper for scraping data from Alibaba.com. The purpose of this project is to extract products and theirs related suppliers informations from Alibaba.com and store it in a local database (SQLite or MySQL). The project utilizes asynchronous requests for efficient handling of numerous requests and allows users to easily run the scraper and manage the database using a user-friendly command-line interface (CLI) 
