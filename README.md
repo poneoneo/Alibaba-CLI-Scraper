@@ -82,7 +82,7 @@ This project provides a user-friendly command-line interface (CLI) built with `t
 
 <div align="center">
   <p>
-    <a href="#"><img src="images\run-scrapper-help-message.png" width="600" height="300" alt="pytube logo" /></a>
+    <a href="#"><img src="images\run-scrapper-help-message.png" width="600" height="300" alt="command result 1" /></a>
   </p>
   <p align="center">
   </p>
