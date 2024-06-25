@@ -10,10 +10,11 @@ managing environment variables.
 
 import asyncio
 import time
-from urllib import request
 
-import playwright
+
+
 import requests
+import playwright
 import selectolax
 from dotenv import load_dotenv
 from html_to_disk import write_to_disk
@@ -23,7 +24,7 @@ from playwright.async_api import Page as AsyncPage
 from playwright.async_api import async_playwright
 from playwright.sync_api import sync_playwright
 from rich import print as rprint
-from rich.progress import Progress, TaskID, SpinnerColumn, TimeElapsedColumn
+from rich.progress import Progress, TaskID
 from rich.console import Console
 import os
 
@@ -139,8 +140,8 @@ async def async_scrapper(*, save_in: str, key_words: str) -> None:
         logger.info("Connecting to CDP and creating the browser... ")
         try:
             country_name = requests.get("http://geo.brdtest.com/mygeo.json").json()['country']
-            SBR_WS_CDP_LIST.replace("country-us", f"country-{country_name.lower()}")
-            browser = await p.chromium.connect_over_cdp(SBR_WS_CDP_LIST)
+            api_key = SBR_WS_CDP_LIST.replace("country-us", f"country-{country_name.lower()}")
+            browser = await p.chromium.connect_over_cdp(api_key)
         except playwright._impl._errors.Error as e:  # type: ignore
             if "Account is suspended" in str(e):
                 print(str(e))

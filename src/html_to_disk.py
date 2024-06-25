@@ -1,5 +1,6 @@
-from pathlib import Path
 from asyncio import Task
+from pathlib import Path
+
 import selectolax
 from loguru import logger
 
@@ -10,9 +11,7 @@ def _create_folder(folder_name: str):
     return Path(f"{folder_name}")
 
 
-def _browser_parser(
-    html_content: str | bytes
-):
+def _browser_parser(html_content: str | bytes):
     """Parse the HTML content of the page to get the divs with class `.organic-list.viewtype-list`
 
     :param html_content: The HTML content of the page
@@ -20,9 +19,9 @@ def _browser_parser(
     :return: A list of divs with class `.organic-list.viewtype-list`
     :rtype: list
     """
-    if isinstance(html_content,Task):
+    if isinstance(html_content, Task):
         html_content = html_content.result()
-    
+
     if html_content is None:
         logger.warning(
             " your page could not be loaded, an empty none value has been returned"
