@@ -11,7 +11,7 @@ from typing import Union
 
 from loguru import logger
 from selectolax.parser import HTMLParser, Node
-from utils_scrapping import (
+from .utils_scrapping import (
     country_name,
     get_product_certification,
     get_product_price,

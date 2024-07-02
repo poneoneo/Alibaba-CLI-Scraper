@@ -9,19 +9,19 @@ import sqlalchemy
 import typer
 from click import MissingParameter
 from dotenv import load_dotenv
-from engine_and_database import (
+from .engine_and_database import (
     add_products_to_db,
     add_suppliers_to_db,
     create_db_engine,
     save_all_changes,
 )
-from info_message import update_db_success_sqlite, update_db_with_success
+from .info_message import update_db_success_sqlite, update_db_with_success
 from loguru import logger
 from rich import print as rprint
-from scrape_from_disk import PageParser
+from .scrape_from_disk import PageParser
 from sqlmodel import SQLModel
 from typing_extensions import Annotated
-from web_scrapper import async_scrapper, sync_scrapper
+from .web_scrapper import async_scrapper, sync_scrapper
 
 load_dotenv()
 
@@ -59,8 +59,8 @@ def _db_url(credentials: dict = dict(), auto_fill: bool = False):
                     cred.update({"password": item[1]})
                 else:
                     continue
-            rprint(cred)
         return f"mysql+mysqldb://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"
+
     else:
         cred = {
             "user": credentials.get("user"),
@@ -84,7 +84,7 @@ def run_scrapper(
         Optional[str], typer.Option(help="Folder to save the results")
     ] = None,
     sync_api: Annotated[
-        Optional[bool], typer.Option(help="Folder to save the results")
+        Optional[bool], typer.Option(help="wether to sync or not",default=False)
     ] = False,
 ) -> None:
     """
@@ -209,16 +209,22 @@ def db_init(
     ] = 3306,
     user: Annotated[
         Optional[str],
-        typer.Option(help="User of the database engine", show_default=False),
+        typer.Option(help="User of the database engine"),
     ] = None,
     password: Annotated[
         Optional[str],
-        typer.Option(help="Password of the database engine", show_default=False),
+        typer.Option(help="Password of the database engine"),
     ] = None,
     db_name: Annotated[
         Optional[str],
-        typer.Option(help="Database of the database engine", show_default=False),
+        typer.Option(help="Database of the database engine", ),
     ] = None,
+    only_with: Annotated[
+        Optional[bool],
+        typer.Option(
+            help="set it to true if you just want to update some database crendentials but not all",
+        ),
+    ] = False
 ):
     """
     Initializes a database using the specified engine.
@@ -243,7 +249,10 @@ def db_init(
             "You dont need to specify --sqlite-file for non-sqlite engine"
         )
     if engine == "mysql":
-        db_url = _db_url(credentials=locals())
+        if only_with:
+            db_url = _db_url(credentials=locals(), auto_fill=True)
+        else:
+            db_url = _db_url(credentials=locals())
         mysql_engine = create_db_engine(db_url=db_url)
         try:
             save_all_changes(engine_db=mysql_engine, sql_model=SQLModel)

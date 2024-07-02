@@ -126,7 +126,7 @@ def ordered_or_sold(tag: Node):
 
 
 def _from_abr_to_full_name(country_abr: str):
-    with open("src/pays_data.json", encoding="utf-8") as f:
+    with open("pays_data.json", encoding="utf-8") as f:
         countries = json.load(
             f,
         )

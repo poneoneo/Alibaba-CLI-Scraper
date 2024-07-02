@@ -17,8 +17,8 @@ import requests
 import playwright
 import selectolax
 from dotenv import load_dotenv
-from html_to_disk import write_to_disk
-from info_message import run_scrapper_with_success
+from .html_to_disk import write_to_disk
+from .info_message import run_scrapper_with_success
 from loguru import logger
 from playwright.async_api import Page as AsyncPage
 from playwright.async_api import async_playwright

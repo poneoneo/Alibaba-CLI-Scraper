@@ -1,7 +1,7 @@
 from typing import Any
 
 from loguru import logger
-from models import Product, Supplier  # noqa: F401
+from .models import Product, Supplier  # noqa: F401
 from MySQLdb import OperationalError
 from sqlalchemy.engine import Engine
 from sqlmodel import Session, SQLModel, create_engine, select  # noqa: F401
