@@ -92,15 +92,17 @@ this command takes one required arguments and six optional arguments(depends on 
     python -m ali2b_cli_scrapper db-init mysql --user "mysql_username" --password "mysql_password" --db-name "alibaba_products" 
     ```
 Assuming that you have already initialized your database,and you want to created a new one without updating all your credentials, simply run :
-    ```bash
-    python -m ali2b_cli_scrapper db-init mysql --db-name "alibaba_products" --only-with 
-    ```
+
+  ```bash
+  python -m ali2b_cli_scrapper db-init mysql --db-name "alibaba_products" --only-with 
+  ```
+
 **NB: This commands will save your credentials in `db_credentials.json` file, so when you will need to update your database, simply run `python src/app.py db-update  mysql --kw-results bike_results\` to automatically update your database and using your saved credentials**
    
-    **SQLite Example:**
-    ```bash
-    python -m ali2b_cli_scrapper db-init sqlite --sqlite-file alibaba_data
-    ```
+  **SQLite Example:**
+  ```bash
+  python -m ali2b_cli_scrapper db-init sqlite --sqlite-file alibaba_data
+  ```
 
 As soons as your database is initialized, you can update it with the scraped data.
 *   **`db-update`:** Updates your chosen database with the scraped data.
@@ -113,15 +115,15 @@ this command takes two required arguments and two optional arguments:
 **NB:What if you want to change something while you updating the database? Assuming that you have run another scraping command and you want to save this data in another database name whitout update credential file or rewriting all theses parameter just to change your database name then, simply run `python src/app.py db-update  mysql --kw-results another_keyword_folder_result\ --db-name "another_database_name"`.**
  
 
-    **MySQL Example:**
-    ```bash
-    python -m ali2b_cli_scrapper db-update  mysql --kw-results bike_results\ 
-    ```
+  **MySQL Example:**
+  ```bash
+  python -m ali2b_cli_scrapper db-update  mysql --kw-results bike_results\ 
+  ```
 
-    **SQLite Example:**
-    ```bash
-    python -m ali2b-cli-scrapper db-update  sqlite --kw-results bike_results\ --filename alibaba_data
-    ```
+  **SQLite Example:**
+  ```bash
+  python -m ali2b-cli-scrapper db-update  sqlite --kw-results bike_results\ --filename alibaba_data
+  ```
 
 **NB: If for any reason you encounter an issue with async api which is set by default, you can use instead sync api by specifying `--sync-api` flag cause is more stable than the other.**
 
