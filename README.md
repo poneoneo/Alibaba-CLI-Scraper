@@ -16,45 +16,38 @@ The purpose of this project is to extract products and theirs related suppliers 
 * **User-Friendly CLI:** Provides easy-to-use commands for running the scraper and managing the database.
 
 ### Installation
+to avoid any issues, with other packages  or depencies installed in your machine, this tool should be installed with pipx to create isolated environments before to run it. But i didn't found a way to allow that. Then you will need to create a virtual environment with the following command:
 
-1. **Install tool from pypi:**
-to avoid any issues, with other packages  or depencies installed in your machine, this tool should be installed with pipx to create isolated environments before to run it:
+1. **Create virtual environment:**
    ```bash
-      pipx install ali2b-cli-scrapper
+      python -m venv scrapper
    ```
 
-## Behind the Scene: How I Tackled Web Scraping Challenges
+2. **Activate virtual environment:**
+   ```bash
+      scrapper\Scripts\activate.bat
+   ```
 
-Developing a web scraper comes with its own set of hurdles, and this project was no exception! Here's how I overcame some common obstacles:
+3. **Install scraper package:**
+   ```bash
+      python -m pip install aba-cli-scrapper 
+   ```
+  
+## Future Enhancements
 
-### The Challenges
+This project has a lot of potential for growth! Here are some exciting features I'm considering for the future:
 
-* **IP Blocking:**  Websites often block requests coming from the same IP address repeatedly, suspecting automated activity. 
-* **User-Agent Blocking:**  Identifying a scraper by its user-agent string (which reveals it's not a regular browser) is another common tactic.
-* **Pagination Bottleneck:** For a single keyword, Alibaba often returns numerous search results spread across multiple pages. Fetching data from each page sequentially would take far too long.
-
-### My Solution
-
-To overcome these challenges, I leveraged the power of three key tools and techniques:
-
-1. **Playwright and Asynchronous Requests:** I used Playwright, a powerful Python library, to simulate a real web browser. But I took it a step further! By harnessing Playwright's asynchronous API alongside Python's `asyncio` library, I could fetch data from multiple pages concurrently. For instance, if a search yielded 42 pages of results, my scraper would send requests to all 42 pages simultaneously and process the HTML content as each page loaded, rather than waiting for each page to load one by one. This drastically sped up the scraping process.
-
-2. **BrightData:** This is where BrightData came in! They provide a robust proxy network that routes my requests through different IPs, effectively bypassing IP blocks. It's like a cloak of anonymity for my scraper!
-
-   * BrightData's expertise in handling anti-scraping measures was crucial to this project's success. 
-
-   * To make things easier for you, I've included my BrightData credentials in the code. Please note that these might have limited usage. If you encounter issues with the `run-scrapper` command, you can easily create a free BrightData account (they offer $5 credit!) and plug in your own credentials. 
-
-     [Get started with BrightData](https://brightdata.com/) 
-
----
+*   **Data Export:** Add functionality to export scraped data to various formats like CSV and Excel spreadsheets for easier analysis and sharing.
+*   **PostgreSQL Support:**  Expand database compatibility to include PostgreSQL, giving users more database choices.
+*   **Retrieval Augmented Generation (RAG):** Integrate a RAG system that allows users to ask natural language questions about the scraped data, making it even more powerful for insights.
+ 
 ## Using the CLI Interface
 
 This project provides a user-friendly command-line interface (CLI) built with `typer` for interacting with the scraper and database. 
 
 ### Available Commands:
 
-**Need Help?**  Type the any commands followed by `--help` for detailed information about its usage and options. For example: `python -m ali2b-cli-scrapper run-scrapper --help`
+**Need Help?**  run  any commands followed by `--help` for detailed informations about its usage and options. For example: `python -m aba_cli_scrapper run-scrapper --help`
 
 <div align="center">
   <p>
@@ -74,7 +67,7 @@ this command takes one required argument and one optional argument:
 
     **Example**:
     ```bash
-    python -m ali2b_cli_scrapper run-scrapper "electric bikes" --html-folder bike_results
+    python -m aba_cli_scrapper run-scrapper "electric bikes" --html-folder bike_results
     ```
 if `--html-folder` option is not provided, a folder with sanitized keywords as name will be automatically created and should result to `electric_bikes` as a results folder name.
 after that  `bike_results` directory has been created and should contains all html files from alibaba.com matching your keywords.
@@ -89,19 +82,19 @@ this command takes one required arguments and six optional arguments(depends on 
   
     **MySQL Example:**
     ```bash
-    python -m ali2b_cli_scrapper db-init mysql --user "mysql_username" --password "mysql_password" --db-name "alibaba_products" 
+    python -m aba_cli_scrapper db-init mysql --user "mysql_username" --password "mysql_password" --db-name "alibaba_products" 
     ```
 Assuming that you have already initialized your database,and you want to created a new one without updating all your credentials, simply run :
 
   ```bash
-  python -m ali2b_cli_scrapper db-init mysql --db-name "alibaba_products" --only-with 
+  python -m aba_cli_scrapper db-init mysql --db-name "alibaba_products" --only-with 
   ```
 
 **NB: This commands will save your credentials in `db_credentials.json` file, so when you will need to update your database, simply run `python src/app.py db-update  mysql --kw-results bike_results\` to automatically update your database and using your saved credentials**
    
   **SQLite Example:**
   ```bash
-  python -m ali2b_cli_scrapper db-init sqlite --sqlite-file alibaba_data
+  python -m aba_cli_scrapper db-init sqlite --sqlite-file alibaba_data
   ```
 
 As soons as your database is initialized, you can update it with the scraped data.
@@ -117,7 +110,7 @@ this command takes two required arguments and two optional arguments:
 
   **MySQL Example:**
   ```bash
-  python -m ali2b_cli_scrapper db-update  mysql --kw-results bike_results\ 
+  python -m aba_cli_scrapper db-update  mysql --kw-results bike_results\ 
   ```
 
   **SQLite Example:**
@@ -128,13 +121,6 @@ this command takes two required arguments and two optional arguments:
 **NB: If for any reason you encounter an issue with async api which is set by default, you can use instead sync api by specifying `--sync-api` flag cause is more stable than the other.**
 
 
-## Future Enhancements
-
-This project has a lot of potential for growth! Here are some exciting features I'm considering for the future:
-
-*   **Data Export:** Add functionality to export scraped data to various formats like CSV and Excel spreadsheets for easier analysis and sharing.
-*   **PostgreSQL Support:**  Expand database compatibility to include PostgreSQL, giving users more database choices.
-*   **Retrieval Augmented Generation (RAG):** Integrate a RAG system that allows users to ask natural language questions about the scraped data, making it even more powerful for insights.
 
 ## Contributions Welcome!
 
