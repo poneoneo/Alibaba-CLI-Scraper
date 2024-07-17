@@ -78,38 +78,30 @@ def _db_url(credentials: dict = dict(), auto_fill: bool = False):
 
 
 @app.command()
-def run_scrapper(
-    key_words: Annotated[str, typer.Argument(help="Keywords to search")],
+def scraper(
+    key_words: Annotated[str, typer.Argument(help="Keywords to search for on alibaba")] = "",
     html_folder: Annotated[
         Optional[str], typer.Option(help="Folder to save the results")
     ] = None,
     sync_api: Annotated[
-        Optional[bool], typer.Option(help="wether to sync or not",default=False)
+        Optional[bool], typer.Option(help="wether to sync or not")
     ] = False,
+    page_results: Annotated[
+        int, typer.Option(help="Number of results per page to scrape from alibaba")
+    ] = 10,
 ) -> None:
     """
     Runs the web scrapper and loking for products and related suppliers infos based on provided keywords, then save the results in a specified folder by default this folder is named with the keywords that was provided and could attached with '_' if there are spaces in the keywords'.
-
-    Args:
-        key_words (str): The keywords to search for.
-        html_folder (Optional[str], optional): The folder to save the results. Defaults to None.
-
-    Returns:
-        None
-
-    Raises:
-        None
     """
-
     save_in_folder = (
         key_words.strip().replace(" ", "_")
         if (html_folder is None and html_folder != "")
         else html_folder
     )
     if sync_api:
-        sync_scrapper(save_in=save_in_folder, key_words=key_words)
+        sync_scrapper(save_in=save_in_folder, key_words=key_words, page_results=page_results)
     else:
-        asyncio.run(async_scrapper(save_in=save_in_folder, key_words=key_words))
+        asyncio.run(async_scrapper(save_in=save_in_folder, key_words=key_words, page_results=page_results))
 
 
 @app.command()
@@ -149,9 +141,11 @@ def db_update(
     ] = None,
 ):
     """
-    Updates the database with new products and their related suppliers.
-    Raises:
-        MissingParameter: If the engine is not 'sqlite' or 'mysql', or if the filename is required for sqlite engine, or if the filename is specified for non-sqlite engine.
+    Updates the database with new products and their related suppliers. \n
+    Example: \n
+    \b \b aba db-update sqlite/mysql --kw-results keyword_folder_result --db-name your_database_name \n 
+    Raises: \n
+    \b \b \b MissingParameter: If the engine is not 'sqlite' or 'mysql', or if the filename is required for sqlite engine, or if the filename is specified for non-sqlite engine.
 
     Returns:
         None
@@ -227,18 +221,15 @@ def db_init(
     ] = False
 ):
     """
-    Initializes a database using the specified engine.
-
-    Raises:
-        MissingParameter: If the engine is not 'sqlite' or 'mysql', or if the filename is required for sqlite engine,
-            or if the filename is specified for non-sqlite engine.
-
-
-    This function initializes a database using the specified engine. It checks the validity of the engine and the
+    This command initializes a database using the specified engine. It checks the validity of the engine and the
     required parameters. If the engine is 'sqlite', it creates a sqlite database file with the specified name. If the
-    engine is 'mysql', it creates a mysql database using the specified host, port, user, password, and database name.
-    After creating the database, it saves the changes to the database. Finally,
-    it prints a success message indicating the creation of the database.
+    engine is 'mysql', it creates a mysql database using the specified host, port, user, password, and database name provided by the user. \n
+    If your database has been initialized with mysql engine, a json file will be created with your credentials. Making it easier to update your database later means you will no longer need to write all your credentials each time you want to update.
+
+    Raises:\n
+    \b \b \b MissingParameter: If the engine is not 'sqlite' or 'mysql', or if the filename is required for sqlite engine, or if the filename is specified for non-sqlite engine.
+
+
     """
     if engine not in ["sqlite", "mysql"]:
         raise MissingParameter("--engine should be sqlite or mysql")

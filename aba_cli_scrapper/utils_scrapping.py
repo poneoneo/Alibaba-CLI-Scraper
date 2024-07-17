@@ -8,13 +8,13 @@ from selectolax.parser import Node
 
 def _remove_dot_from_price(price_as_string: str):
     price = price_as_string.split(".")
-    price = ".".join(price[:1])
-    return float(price.strip("$US"))
+    price_dot_removed = ".".join(price[:1])
+    return float(price_dot_removed.strip("$US"))
 
 
 @logger.catch(TypeError)
-def get_product_price(tag: Node, which: Literal["max", "min"]):
-    elt = tag.css_first(".search-card-e-price-main").text()
+def get_product_price(all_price_text: str, which: Literal["max", "min"]):
+    elt = all_price_text
     if "-" in elt and which == "max":
         max_price = elt.split("-")[1].split("&")[0]
         max_price = unicodedata.normalize("NFKC", max_price)
@@ -44,35 +44,72 @@ def get_product_price(tag: Node, which: Literal["max", "min"]):
 
 
 @logger.catch(TypeError)
-def is_alibaba_guaranteed(tag: Node):
-    elt = tag.css_matches(".search-card-e-icon__half-trust-icon")
-    return elt
-
-
-@logger.catch(TypeError)
-def get_product_certification(tag: Node):
-    tags_exists = tag.css_matches(".search-card-e-icon__certification-wrapper")
-    certifications: list[str] = []
-    if tags_exists is True:
-        elements = tag.css(".search-card-e-icon__certification-wrapper")
-        for element in elements:
-            certification_name = element.css_first(
-                ".search-card-e-icon__certification"
-            ).attrs.get("alt")
-            certifications.append(certification_name)
-        certification_str = ",".join(certifications)
-        return certification_str
+def is_alibaba_guaranteed(str_status: str):
+    if str_status == "false":
+        return False
     else:
-        return "any"
+        return True
 
 
 @logger.catch(TypeError)
-def suppliers_status(tag: Node):
-    status = tag.css_first(".verified-supplier-icon__wrapper")
-    if status is not None:
-        mode = status.attrs.get("data-aplus-auto-card-mod").split("=")[2]
-        return mode
+def get_product_certification(offer:dict):
+    certifications_name = []
+    for info in offer['productCertificates']:
+        certifications_name.append(info["name"])
+    
+    return ",".join(certifications_name)
+
+def is_full_promotion(str_status:str):
+    if str_status == "false":
+        return False
+    else:
+        return True
+    
+def is_customizable(str_status:str):
+    if str_status == "false":
+        return False
+    else:
+        return True
+    
+def is_instant_order(str_status:str):
+    if str_status == "false":
+        return False
+    else:
+        return True
+
+def is_trade_product(str_status:str):
+    if str_status == "false":
+        return False
+    else:
+        return True
+
+@logger.catch(TypeError)
+def suppliers_status(tags: list[Node],offer:dict):
+    for tag in tags :
+        # print(tag.attributes)
+        company_name = tag.css_first("a[data-spm='d_companyName']").text().strip().lower()
+        # print(company_name+ "1")
+        if company_name == offer['companyName'].lower().strip():
+            # print(offer['companyName'].lower().strip()+"2")
+            node_a = tag.css_first(".auth-info-group-normal.J_no_jump")
+            if node_a is None:
+                node_a = tag.css_first(".search-card-e-popper__trigger").child
+                # print(node_a.attributes)
+                node_a = node_a.css_first(".verified-supplier-icon__wrapper")
+                if node_a is None:
+                    return "unverified"
+                mode = node_a.attributes.get("data-aplus-auto-card-mod")
+                return mode.split("=")[2]
+            node_a = node_a.css_first("a.verified-supplier-icon__wrapper")
+            if node_a is not None:
+                # print(node_a.attributes)
+                mode = node_a.attributes.get("data-aplus-auto-card-mod")
+                # print(mode)
+                mode = mode.split("=")[2]
+                return mode
+            return "unverified" 
     return "unverified"
+           
 
 
 @logger.catch(TypeError)
@@ -114,13 +151,10 @@ def minimum_to_order(tag: Node):
 
 
 @logger.catch(TypeError)
-def ordered_or_sold(tag: Node):
-    element = tag.css_first(".search-card-e-market-power-common")
-    if element is not None:
-        number_str = element.text()
-        number = number_str.split()[0]
-        number = number.replace(",", "")
-        return int(number)
+def ordered_or_sold(offer:dict):
+    power_common_info = offer.get("marketingPowerCommon")
+    if power_common_info is not None:
+        return int( power_common_info['count'])
     else:
         return 0
 
@@ -132,18 +166,15 @@ def _from_abr_to_full_name(country_abr: str):
         )
         pays_data = countries["continents_pays"]
         for pays in pays_data:
-            if pays["Two_Letter_Country_Code"].lower() == country_abr:
+            # print("two letter code : ", pays["Two_Letter_Country_Code"])
+            # print("country abr : ", country_abr)
+            if pays["Two_Letter_Country_Code"].lower() == country_abr.lower():
+                # print("matched country : ", country_abr)
                 return pays["Country_Name"].lower()
-            if country_abr == "uk":
+            if country_abr.lower() == "uk":
                 return "royaume-uni"
+        return "unknow"
 
 
-def country_name(tag: Node):
-    try:
-        selector_resul1 = tag.css_first(".search-card-e-country-flag__wrapper")
-        selector_result = selector_resul1.css_first("img")
-    except AttributeError:
-        logger.warning("country name not found `undefined` will be returned")
-        return "undefined"
-    if selector_result is not None:
-        return _from_abr_to_full_name(country_abr=selector_result.attrs.get("alt"))
+def country_name(country_min: str):
+    return _from_abr_to_full_name(country_abr=country_min)

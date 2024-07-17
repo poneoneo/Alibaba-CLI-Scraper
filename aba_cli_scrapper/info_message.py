@@ -6,10 +6,9 @@ def run_scrapper_with_success(folder_name: str):
         "[bold white]Step :one:  is [bold green] done  :star: ! [/bold green] [/bold white]  "
     )
     rprint(
-        "[bold white blink]Scrapper has been completed [bold green]succesfully :white_heavy_check_mark-emoji: ![/bold green] [/bold white blink]"
+        "[bold white blink]Scraping step has been completed [bold green]succesfully :white_heavy_check_mark-emoji: ![/bold green] [/bold white blink]"
     )
-    rprint("""[bold white]Here we go to the step :two:   [/bold white]
-        initialize your database with [bold magenta blink]python src/app.py db-init --engine mysql --user your_username --password your_password --db-name alibaba_products[/bold magenta blink] command(for mysql engine) or [bold magenta blink]python src/app.py db-init --engine sqlite --sqlite-file sqlite_file_name(without any extensions) [/bold magenta blink] command(for sqlite engine)...""")
+    rprint("""[bold white]Here we go to the step :two:   [/bold white] initialize your database with [bold magenta blink]aba db-init  mysql --user your_database_username --password your_database_password --db-name alibaba_products[/bold magenta blink] command(for mysql engine) or [bold magenta blink]aba db-init --engine sqlite --sqlite-file sqlite_file_name(without any extensions) [/bold magenta blink] command(for sqlite engine)...""")
     # rprint(
     #     f"""[bold white ]Now all pages results matching your keywords has been saved in [magenta]{folder_name}[/magenta] now if is still not the case you must to initialize your database with [bold magenta blink]
     #     `python src/app.py db-init --engine mysql --user your_username --password your_password --db-name alibaba_products`[/bold magenta blink] command(for mysql engine).

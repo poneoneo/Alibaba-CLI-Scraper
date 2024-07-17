@@ -9,7 +9,10 @@ managing environment variables.
 """
 
 import asyncio
+from pprint import pprint
+import sys
 import time
+from tkinter import Place
 
 
 
@@ -21,19 +24,18 @@ from .html_to_disk import write_to_disk
 from .info_message import run_scrapper_with_success
 from loguru import logger
 from playwright.async_api import Page as AsyncPage
-from playwright.async_api import async_playwright
+from playwright.async_api import async_playwright, BrowserContext
 from playwright.sync_api import sync_playwright
 from rich import print as rprint
 from rich.progress import Progress, TaskID
 from rich.console import Console
 import os
+from tenacity import AsyncRetrying, RetryError, retry, stop_after_attempt
 
 load_dotenv()
-
-
+HTML_PAGE_RESULT = []
 SBR_WS_CDP_LIST: str = os.environ["SBR_WS_CDP_LIST"]
 
-html_content_list = []
 
 def _browser_parser(html_content: str | bytes, curr_url: str):
     """Parse the HTML content of the page to get the divs with class `.organic-list.viewtype-list`
@@ -67,13 +69,15 @@ def _browser_parser(html_content: str | bytes, curr_url: str):
         )
         return html_result
 
-
+@retry(stop=stop_after_attempt(3))
 async def goto_task(
     url: str,
-    page: AsyncPage,
+    context_browser: BrowserContext,
     task: TaskID,
     progress: Progress,
     semaphore: asyncio.Semaphore,
+    tg_instance:asyncio.TaskGroup,
+    page:AsyncPage
 ) -> str | None:
     """Return the entire HTML content from each page only the divs with class `.organic-list.viewtype-list`
 
@@ -84,58 +88,35 @@ async def goto_task(
     :return: A string of HTML content of the current page, or None if the page has no expected div
     :rtype: Optional[str]
     """
+    # page = await context_browser.new_page()
     try:
         async with page:
             logger.info(f"Loading page {url.split('page=')[1]} ... ")
             response = await page.goto(url, wait_until="domcontentloaded", timeout=0)
             if response is None:
                 return None
-            _lock = asyncio.Lock()
-            # async with _lock:
-            #     async with semaphore:
             logger.info(f"get response text from web page {url.split('page=')[1]} ... ")
             html_body = await response.text()
             progress.start_task(task)
-            progress.update(task, advance=2.385)
+            progress.update(task, advance=20)
+            global HTML_PAGE_RESULT
+            HTML_PAGE_RESULT.append(html_body)
             logger.info(f"Closing page {url.split('page=')[1]} ... ")
-            await page.close()
-            # logger.info(
-            #     f"Returns html representation of response body from page {url.split('page=')[1]} ... "
-            # )
-            return html_body
     except Exception as e:
         logger.error(f"Error processing page {url.split('page=')[1]}: {e}")
         return None
 
+def urls_pusher(words:str,stop_at:int):
+    for i in range(1,stop_at+1):
+        yield f"https://french.alibaba.com/trade/search?spm=a2700.galleryofferlist.0.0.538f1619xDyhzJ&fsb=y&IndexArea=product_en&keywords={words}&tab=all&&page={i}"
 
 @logger.catch()
-def _looking_for_urls(keywords: str) -> list[str]:
-    """Return a list of urls for each page of the search results matching the keywords
-
-    :param keyword: Keywords to search
-    :type keyword: str
-    :return: List of urls
-    :rtype: list[str]
-    """
-    word = keywords.replace(" ", "+").strip()
-    pages_urls = [
-        f"https://french.alibaba.com/trade/search?spm=a2700.galleryofferlist.0.0.538f1619xDyhzJ&fsb=y&IndexArea=product_en&keywords={word}&tab=all&&page={page_number}"
-        for page_number in range(1, 43)
-    ]
-    return pages_urls
-
-
-@logger.catch()
-async def async_scrapper(*, save_in: str, key_words: str) -> None:
+async def async_scrapper(*, save_in: str, key_words: str,page_results:int) -> None:
     """Create a list of tasks with `goto` coroutine and pass it to `asyncio.wait` coroutine
     then wait for all the results.
     The function takes no arguments and returns None.
     :return: None
     """
-    # start the timer to measure the time it takes to run all the tasks
-
-    # get the list of urls
-    pages_urls = _looking_for_urls(keywords=key_words)
     async with async_playwright() as p:
         logger.info("Connecting to CDP and creating the browser... ")
         try:
@@ -149,55 +130,41 @@ async def async_scrapper(*, save_in: str, key_words: str) -> None:
                     "[red] Bright data account has been suspended by system. contact me by email: [magenta]onealzero@gmail.com [/magenta] to fix this as soon as possible [/red]"
                 )
                 return
+            elif "exists" in str(e):
+                print(str(e))
+                rprint("[white] Seems like playwright is not installed. lets aba install it for you... [/white]")
+                os.system("playwright install")
+            else:
+                print(str(e))
         context_browser = await browser.new_context()
-        tasks_list = []
-        logger.info("Creating tasks list... ")
         with Progress(console=Console(record=True),) as progress:
             task = progress.add_task("[green blink] async Scraping...", start=False)
             s_one = asyncio.Semaphore(value=10)
-            for idx, url in enumerate(pages_urls, start=0):
-                page = await context_browser.new_page()
-                tasks_list.append(
-                        asyncio.create_task(
-                            goto_task(url=url, page=page, task=task, progress=progress, semaphore=s_one)
-                          
-                        )
-                    )
-
-        logger.info("Running all the tasks ... ")
-        html_contents,pending= await asyncio.wait(tasks_list,)
-        # html_contents= await asyncio.gather(*tasks_list,)
-        if isinstance(html_contents,set):
-            html_content_list.extend(
-                (html_content,html_content.cancel())[0]
-                for html_content in html_contents
-                if isinstance(html_content.result(), str)
-            )
-            
-            for i in range(len(pending)):
-                print(pending.pop())
-        elif isinstance(html_contents,list):
-            html_content_list.extend(
-                html_content
-                for html_content in html_contents
-                if isinstance(html_content, str)
-            )  
-        else:
-            pass  
-        # await context_browser.close()
-        # await browser.close()
-        write_to_disk(save_in, html_content_list)
+            logger.info("Loading pages results ... ")
+            async with asyncio.Lock() :
+                async with asyncio.TaskGroup() as tg:
+                    for url in urls_pusher(words=key_words,stop_at=page_results):
+                        async with asyncio.Lock():
+                            page = await context_browser.new_page()
+                        tg.create_task(goto_task(url=url, semaphore=s_one, progress=progress, task=task,tg_instance=tg,context_browser=context_browser,page=page))   
+                        
+        write_to_disk(save_in,HTML_PAGE_RESULT)
         run_scrapper_with_success(folder_name=save_in)
 
 
-def sync_scrapper(*, save_in: str, key_words: str):
+def sync_scrapper(*, save_in: str, key_words: str,page_results:int) -> None:
+
     playwright = sync_playwright().start()
-    browser = playwright.chromium.launch(headless=True)
+    try:    
+        browser = playwright.chromium.launch(headless=True)
+    except playwright._impl._errors.Error:
+        rprint("[white] Seems like playwright is not installed. lets aba install it for you... [/white]")
+        os.system("playwright install")
     context = browser.new_context()
-    pages_urls = _looking_for_urls(keywords=key_words)
+    # pages_urls = _looking_for_urls(keywords=key_words)
     with Progress(console=Console(record=True), transient=True) as progress:
         task = progress.add_task("[green blink] Sync Scraping...", start=False)
-        for idx, url in enumerate(pages_urls, start=0):
+        for url in urls_pusher(words=key_words,stop_at=page_results):
             page = context.new_page()
             logger.info(f"Loading page {url.split('page=')[1]} ... ")
             response = page.goto(url, wait_until="domcontentloaded", timeout=0)
@@ -209,18 +176,18 @@ def sync_scrapper(*, save_in: str, key_words: str):
             html_content = response.text()
             progress.start_task(task)
             progress.update(task, advance=2.381)
-            parsed_content = _browser_parser(html_content=html_content, curr_url=url)
-            html_content_list.append(parsed_content)
+            global HTML_PAGE_RESULT
+            HTML_PAGE_RESULT.append(html_content)
             logger.info(f"Closing the page {url.split('page=')[1]} ... ")
             page.close()
-    write_to_disk(save_in, html_content_list)
+    write_to_disk(save_in, HTML_PAGE_RESULT)
     run_scrapper_with_success(folder_name=save_in)
 
 
 if __name__ == "__main__":
     start_time = time.perf_counter()
     # asyncio.run(async_scrapper(save_in='pc_lenovo', key_words='pc lenovo'),debug=False)
-    sync_scrapper(save_in="pc_lenovo", key_words="pc lenovo")
+    sync_scrapper(save_in="pc_lenovo", key_words="pc lenovo", page_results=30)
     end_time = time.perf_counter()
     print(f" all those tasks tooks: {end_time-start_time:.2f}")
     ...
