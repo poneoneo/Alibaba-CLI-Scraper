@@ -5,23 +5,31 @@ This Module will gather all datas from html files and build database with two ta
 
 from collections import OrderedDict
 from dataclasses import dataclass
+import json
 from pathlib import Path
 from pprint import pprint
-from typing import Union
+from typing import Sequence, Union
 
 from loguru import logger
 from selectolax.parser import HTMLParser, Node
+
+from aba_cli_scrapper.typed_datas import ProductDict, SupplierDict
 from .utils_scrapping import (
     country_name,
     get_product_certification,
     get_product_price,
     is_alibaba_guaranteed,
+    is_customizable,
+    is_full_promotion,
+    is_instant_order,
+    is_trade_product,
     minimum_to_order,
     ordered_or_sold,
     sopi_level,
     suppliers_status,
     years_as_supplier_gold,
 )
+from .html_to_disk import json_parser_to_dict
 
 # logger.remove(4)
 # logger.add(sys.stderr,level="DEBUG",colorize=True)
@@ -53,9 +61,22 @@ class PageParser:
             html_content = fs.read()
         logger.info("Html content has been retrieved.")
         return html_content
+    
+    def _retrieve_json_content_as_dict(self, json_file: Path):
+        logger.info(f"Retrieving json content from file : {json_file.resolve()}")
 
-    logger.catch(FileNotFoundError)
 
+        if not isinstance(json_file, Path):
+            raise TypeError(
+                f"json_file argument must be a Path object but got : {type(json_file)}"
+            )
+
+        with open(json_file, "r", encoding="utf-8") as fs:
+            json_content_as_dict = json.load(fs,)
+        logger.info("Html content has been retrieved.")
+        return json_content_as_dict['props']['offerResultData']['offers']
+
+    @logger.catch(FileNotFoundError)
     def _html_files_explorer(self):
         targeted_folder = Path(self.targeted_folder).resolve()
         if not targeted_folder.exists():
@@ -64,74 +85,113 @@ class PageParser:
         html_files = [html_file for html_file in targeted_folder.glob("*.html")]
         logger.info("Html files list has been returned.")
         return html_files
+    
+    def _json_files_explorer(self):
+        targeted_folder = Path(self.targeted_folder).resolve()
+        if not targeted_folder.exists():
+            raise FileNotFoundError()
+        logger.info(f"getting html files from {targeted_folder} ... ")
+        json_files = [html_file for html_file in targeted_folder.glob("*.json")]
+        logger.info("json files list has been returned.")
+        return json_files
 
-    def _looking_for_divs(self, selector: str = ".fy23-search-card"):
+    def _divs_and_dict(self, selector: str = ".fy23-search-card"):
+        """
+        Retrieve div tags with a specified selector class from HTML files, parse them, and return a list of tuples containing the parsed div tags and corresponding JSON data as dictionaries.
+        
+        :param selector: The CSS selector for the div tags to retrieve. Defaults to ".fy23-search-card".
+        :return: A list of tuples where each tuple contains the parsed div tags and the corresponding JSON data as dictionaries.
+        :rtype: List[Tuple[Node, Dict]]
+        """
         logger.info(f"Retrieving  div tags with class='{selector}' ...")
-        html_contents = [
-            self._retrieve_html_content_as_string(html_file)
-            for html_file in self._html_files_explorer()
-        ]
-        selected_div_tags = [
-            HTMLParser(html_content).css(selector) for html_content in html_contents
-        ]
-        logger.info("All expected div has been retrived ...")
-        return selected_div_tags
-
-    def detected_suppliers(self):
-        suppliers: list[dict[str, Node | str | int | None]] = list()
-        selected_div_tags_from_all_pages = self._looking_for_divs()
-        for page_number, page_divs in enumerate(
-            selected_div_tags_from_all_pages, start=1
-        ):
-            logger.info(
-                f"Building suppliers dictionary for all suppliers in page {page_number} ..."
-            )
-            for div in page_divs:
-                suppliers.append(
-                    {
-                        "name": div.css_first(".search-card-e-company").text().lower(),
-                        "verified_type": suppliers_status(tag=div),
-                        "sopi_level": sopi_level(tag=div),
-                        "country_name": country_name(tag=div),
-                        "gold_supplier_year": years_as_supplier_gold(tag=div),
-                    }
+        divs_and_dict = [
+            (
+            HTMLParser(self._retrieve_html_content_as_string(html_file)).css(selector),
+            json_parser_to_dict(self._retrieve_html_content_as_string(html_file), css_selector="body > div.container > script[type='text/javascript'] + script"),
                 )
+            for html_file in self._html_files_explorer() 
+        ]
+        logger.info("All expected divs and dict has been retrived ...")
+        _ = [divs_and_dict.pop(divs_and_dict.index(item)) for item in divs_and_dict if item[0] is not None and item[1] is None] # remove none tuple from list
+        # divs_and_dict = [(item[0],json.loads(item[1]),)  for item in divs_and_dict]  # type: ignore
+        new_divs_and_dict = []
+        for item in divs_and_dict:
+            # print("hello")
+            # print(item[1])
+            # print(type(item[1]))
+            new_divs_and_dict.append((item[0],json.loads(item[1]))) # type: ignore
+
+        return new_divs_and_dict
+
+
+    def _offers_builder(self,):
+        offers_dict: list[dict[str, str]] = [self._retrieve_json_content_as_dict(json_file) for json_file in self._json_files_explorer()]
+        return offers_dict
+    def detected_suppliers(self):
+        """
+        Retrieves the detected suppliers from the divs and offers data.
+        Returns a list of unique suppliers with their relevant information.
+        """
+        suppliers: Sequence[SupplierDict] = list()
+        for divs, offers in self._divs_and_dict():
+                if offers['props']['offerResultData']['totalCount'] == 0:
+                    continue 
+                for offer in offers['props']['offerResultData']['offers']: 
+                    suppliers.append(
+                            {
+                            "name": offer['companyName'].lower(),   
+                            "verified_type": suppliers_status(tags=divs, offer=offer),
+                            "sopi_level": offer['displayStarLevel'],
+                            "country_name": country_name(country_min=offer['countryCode']), 
+                            "gold_supplier_year": offer['goldSupplierYears'].split(" ")[0], 
+                            "supplier_service_score": float(offer["supplierService"])  
+                        }
+ 
+                    )
         # removing supliers present twice in supliers dict
         unique_suppliers_tuple = list(
             OrderedDict((str(d), d) for d in suppliers).items()
         )
+        # print(unique_suppliers_tuple)
         unique_suppliers = [
             supplier_tuple[1] for supplier_tuple in unique_suppliers_tuple
         ]
         return unique_suppliers
 
     def detected_products(self):
-        products: list[dict[str, Node | str | int | None | float]] = []
-        selected_div_tags_from_all_pages = self._looking_for_divs()
-        for page_number, page_divs in enumerate(
-            selected_div_tags_from_all_pages, start=1
-        ):
-            logger.info(
-                f"Building products dictionary for all products in page {page_number} ..."
-            )
-            for div in page_divs:
+        """
+        Returns a list of unique products with their relevant information.
+        """
+        products: Sequence[ProductDict] = list()
+        for divs, offers in self._divs_and_dict():
+            if offers['props']['offerResultData']['totalCount'] == 0:
+                continue 
+            # print(f"total count : {offers['props']['offerResultData']['totalCount']}")
+            for offer in offers['props']['offerResultData']['offers']: 
                 products.append(
-                    {
-                        "name": div.css_first(".search-card-e-title").text().lower(),
-                        "max_price": get_product_price(tag=div, which="max"),
-                        "min_price": get_product_price(tag=div, which="min"),
-                        "guaranteed_by_alibaba": is_alibaba_guaranteed(tag=div),
-                        "certifications": get_product_certification(tag=div),
-                        "minimum_to_order": minimum_to_order(tag=div),
-                        "ordered_or_sold": ordered_or_sold(tag=div),
-                        "supplied_by": div.css_first(".search-card-e-company")
-                        .text()
-                        .lower(),
-                    }
-                )
+                        {
+                            "name": offer['enPureTitle'].lower(),
+                            "max_price": get_product_price(all_price_text=offer['price'], which="max"),
+                            "min_price": get_product_price(all_price_text=offer['price'], which="min"),
+                            "guaranteed_by_alibaba": is_alibaba_guaranteed(str_status=offer['halfTrust']),
+                            "certifications": get_product_certification(offer=offer),
+                            "minimum_to_order": int(offer['halfTrustMoq'].lower()),
+                            "ordered_or_sold": ordered_or_sold(offer=offer),
+                            "supplied_by": offer['companyName'].lower(),
+                            "product_score": float(offer["productScore"]),
+                            "review_count": float(offer["reviewCount"]),
+                            "review_score": float(offer["reviewScore"]),
+                            "shipping_time_score":float(offer["shippingTime"]),
+                            "is_full_promotion": is_full_promotion(str_status=offer["isFullPromotion"]),
+                            "customizable" : is_customizable(str_status=offer["customizable"]),
+                            "instant_order": is_instant_order(str_status=offer["halfTrustInstantOrder"]),
+                            "trade_product": is_trade_product(str_status=offer['tradeProduct'])
+                            
+                        }
+                    )
         unique_products_tuple = list(
-            OrderedDict((str(d), d) for d in products).items()
-        )  # removing supliers present twice in supliers dict
+            OrderedDict((str(d), d) for d in products).items()) 
+        # removing supliers present twice in supliers dict
         unique_products = [product_tuple[1] for product_tuple in unique_products_tuple]
         return unique_products
 

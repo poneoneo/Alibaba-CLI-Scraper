@@ -47,7 +47,7 @@ This project provides a user-friendly command-line interface (CLI) built with `t
 
 ### Available Commands:
 
-**Need Help?**  run  any commands followed by `--help` for detailed informations about its usage and options. For example: `python -m aba_cli_scrapper run-scrapper --help`
+**Need Help?**  run  any commands followed by `--help` for detailed informations about its usage and options. For example: `aba scraper --help`
 
 <div align="center">
   <p>
@@ -60,14 +60,14 @@ This project provides a user-friendly command-line interface (CLI) built with `t
 The best way to learn is by practice isn't ? So let's get started with a use case example. 
 Let's suppose that you want to scrape data about electric bikes from Alibaba.com.
 
-*   **`run-scrapper`:**  Initiates scraping of Alibaba.com based on the provided keywords.
+*   **`scraper`:**  Initiates scraping of Alibaba.com based on the provided keywords.
 this command takes one required argument and one optional argument:
     *   **`key_words` (required):** The search term(s) for finding products on Alibaba. Enclose multiple keywords in quotes.
     *   **`--html-folder` (optional):** Specifies the directory to store the raw HTML files. If omitted, a folder with sanitized keywords as name will be automatically created.
 
     **Example**:
     ```bash
-    python -m aba_cli_scrapper run-scrapper "electric bikes" --html-folder bike_results
+    aba scraper "electric bikes" --html-folder bike_results
     ```
 if `--html-folder` option is not provided, a folder with sanitized keywords as name will be automatically created and should result to `electric_bikes` as a results folder name.
 after that  `bike_results` directory has been created and should contains all html files from alibaba.com matching your keywords.
@@ -75,26 +75,26 @@ after that  `bike_results` directory has been created and should contains all ht
 Then you must initialize a database. Mysql and sqlite are supported.
 *   **`db-init`:** Creates a new database mysql/sqlite.
 this command takes one required arguments and six optional arguments(depends on engine you choose):
-    *   **`--engine` (required):** Choose either `sqlite` or `mysql`.
+    *   **`engine` (required):** Choose either `sqlite` or `mysql`.
     *   **`--sqlite-file` (optional, SQLite only):**  The name for your SQLite database file (without the extension).
     *   **`--host`, `--port`, `--user`, `--password`, `--db-name` (required for MySQL):**  Your MySQL database connection details.
     *   **`--only-with` (optional Mysql):**  If you just want to update some details of your credentials in `db_credentials.json` file but not all before to initialize  an brand new database.
   
     **MySQL Example:**
     ```bash
-    python -m aba_cli_scrapper db-init mysql --user "mysql_username" --password "mysql_password" --db-name "alibaba_products" 
+    aba db-init mysql --user "mysql_username" --password "mysql_password" --db-name "alibaba_products" 
     ```
 Assuming that you have already initialized your database,and you want to created a new one without updating all your credentials, simply run :
 
   ```bash
-  python -m aba_cli_scrapper db-init mysql --db-name "alibaba_products" --only-with 
+  aba db-init mysql --db-name "alibaba_products" --only-with 
   ```
 
-**NB: This commands will save your credentials in `db_credentials.json` file, so when you will need to update your database, simply run `python src/app.py db-update  mysql --kw-results bike_results\` to automatically update your database and using your saved credentials**
+**NB: This commands will save your credentials in `db_credentials.json` file, so when you will need to update your database, simply run `aba db-update  mysql --kw-results bike_results\` to automatically update your database and using your saved credentials**
    
   **SQLite Example:**
   ```bash
-  python -m aba_cli_scrapper db-init sqlite --sqlite-file alibaba_data
+  aba db-init sqlite --sqlite-file alibaba_data
   ```
 
 As soons as your database is initialized, you can update it with the scraped data.
@@ -105,17 +105,17 @@ this command takes two required arguments and two optional arguments:
     *   **`--filename` (required for SQLite):** If you're using SQLite, provide the desired filename for your database. whitout any extension.
     *   **`--db-name` (optional for MySQL):** If you're using MySQL,and want to push the data to a different database, provide the desired database name.
 
-**NB:What if you want to change something while you updating the database? Assuming that you have run another scraping command and you want to save this data in another database name whitout update credential file or rewriting all theses parameter just to change your database name then, simply run `python src/app.py db-update  mysql --kw-results another_keyword_folder_result\ --db-name "another_database_name"`.**
+**NB:What if you want to change something while you updating the database? Assuming that you have run another scraping command and you want to save this data in another database name whitout update credential file or rewriting all theses parameter just to change your database name then, simply run `aba db-update  mysql --kw-results another_keyword_folder_result\ --db-name "another_database_name"`.**
  
 
   **MySQL Example:**
   ```bash
-  python -m aba_cli_scrapper db-update  mysql --kw-results bike_results\ 
+  aba db-update  mysql --kw-results bike_results\ 
   ```
 
   **SQLite Example:**
   ```bash
-  python -m ali2b-cli-scrapper db-update  sqlite --kw-results bike_results\ --filename alibaba_data
+  aba db-update  sqlite --kw-results bike_results\ --filename alibaba_data
   ```
 
 **NB: If for any reason you encounter an issue with async api which is set by default, you can use instead sync api by specifying `--sync-api` flag cause is more stable than the other.**
