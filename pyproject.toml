@@ -30,7 +30,7 @@ include = [
 pytest = "^3.0"
 
 [tool.poetry.scripts]
-aba = "aba_cli_scrapper.__main__:app"
+aba-run = "aba_cli_scrapper.__main__:app"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
