@@ -1,8 +1,10 @@
 import sqlite3
-from typing import Any
+from typing import Any, Sequence
 
 from click import UsageError
 from loguru import logger
+
+from aba_cli_scrapper.typed_datas import ProductDict, SupplierDict
 from .models import Product, Supplier  # noqa: F401
 from MySQLdb import OperationalError as MySQLdbOperationalError
 from sqlalchemy.engine import Engine
@@ -39,7 +41,7 @@ def save_all_changes(
 
 
 
-def add_suppliers_to_db(suppliers: list[dict[str, Any]], engine_db: Engine):
+def add_suppliers_to_db(suppliers: Sequence[SupplierDict], engine_db: Engine):
     """
     Adds a list of suppliers to the database.
 
@@ -79,7 +81,7 @@ def add_suppliers_to_db(suppliers: list[dict[str, Any]], engine_db: Engine):
             raise UsageError(f"Something went wrong an unexpected error has occured:{e}") from e
 
 
-def add_products_to_db(products: list[dict[str, Any]], engine_db: Engine):
+def add_products_to_db(products: Sequence[ProductDict], engine_db: Engine):
     """
     Adds a list of products to the database.
 
