@@ -71,7 +71,7 @@ this command takes two required arguments and one optional argument:
 
     **Example**:
     ```bash
-    aba-run scraper "electric bikes" --html-folder bike_results --pages-results 15
+    aba-run scraper "electric bikes" --html-folder bike_results --page-results 15
     ```
 
 if `--html-folder` option is not provided, a folder with sanitized keywords as name will be automatically created and should result to `electric_bikes` as a results folder name.
