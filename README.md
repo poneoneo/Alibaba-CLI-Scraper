@@ -73,6 +73,11 @@ this command takes two required arguments and one optional argument:
     ```bash
     aba-run scraper "electric bikes" --html-folder bike_results --page-results 15
     ```
+by default `scrapper` will use async which is as explained unstable. the if you want to use sync api run:
+    ```bash
+    aba-run scraper "electric bikes" --html-folder bike_results --page-results 15  --sync-api
+    ```
+    and voila! 
 
 if `--html-folder` option is not provided, a folder with sanitized keywords as name will be automatically created and should result to `electric_bikes` as a results folder name.
 after that  `bike_results` (since you already provided name you wish to have) directory has been created and should contains all html files from alibaba.com matching your keywords.
