@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aba_cli_scrapper"
-version = "1.2.0"
+version = "0.1.1"
 description = "Scrappe all products and theirs related suppliers existing on Alibaba based on keywords provided by user and save results into a database (Mysql/Sqlite)."
 authors = ["poneoneo <onealzero@gmail.com>"]
 readme = "README.md"
@@ -27,7 +27,7 @@ include = [
 ]
 
 [tool.poetry.dev-dependencies]
-pytest = "^3.0"
+pytest = "3.0"
 
 [tool.poetry.scripts]
 aba-run = "aba_cli_scrapper.__main__:app"
@@ -82,9 +82,6 @@ tenacity = "^8.5.0"
 
 
 
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.2.2"
 
 [build-system]
 requires = ["poetry-core"]
