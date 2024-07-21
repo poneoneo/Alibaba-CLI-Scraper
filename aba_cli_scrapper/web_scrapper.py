@@ -19,7 +19,7 @@ from tkinter import Place
 import requests
 import playwright
 import selectolax
-from dotenv import load_dotenv
+from dotenv import dotenv_values
 from .html_to_disk import write_to_disk
 from .info_message import run_scrapper_with_success
 from loguru import logger
@@ -32,9 +32,9 @@ from rich.console import Console
 import os
 from tenacity import AsyncRetrying, RetryError, retry, stop_after_attempt
 
-load_dotenv()
+SECRETS_KEYS = dotenv_values("../.env")
 HTML_PAGE_RESULT = []
-SBR_WS_CDP_LIST: str = os.environ["SBR_WS_CDP_LIST"]
+SBR_WS_CDP_LIST: str |None = SECRETS_KEYS["SBR_WS_CDP_LIST"]
 
 
 def _browser_parser(html_content: str | bytes, curr_url: str):
@@ -157,7 +157,7 @@ def sync_scrapper(*, save_in: str, key_words: str,page_results:int) -> None:
     playwright = sync_playwright().start()
     try:    
         browser = playwright.chromium.launch(headless=True)
-    except playwright._impl._errors.Error:
+    except playwright._impl._errors.Error:  # type: ignore
         rprint("[white] Seems like playwright is not installed. lets aba install it for you... [/white]")
         os.system("playwright install")
     context = browser.new_context()
