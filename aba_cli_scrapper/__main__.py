@@ -700,9 +700,8 @@ from typing_extensions import Annotated
 from .web_scrapper import async_scrapper, sync_scrapper
 
 load_dotenv()
-SECRETS_K = dotenv_values(dotenv_path=".env")
 logger.remove(0)
-logger.add(sys.stderr, colorize=True, level=SECRETS_K['LOGURU_LEVEL'])  # type: ignore
+logger.add(sys.stderr, colorize=True, level=os.getenv('LOGURU_LEVEL'))  # type: ignore
 
 app = typer.Typer(pretty_exceptions_enable=False)
 
