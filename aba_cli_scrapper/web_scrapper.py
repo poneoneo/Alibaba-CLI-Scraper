@@ -37,7 +37,7 @@ from rich.console import Console
 import os
 from tenacity import AsyncRetrying, RetryError, retry, stop_after_attempt
 
-SECRETS_KEYS = dotenv_values()
+SECRETS_KEYS = dotenv_values(".env")
 HTML_PAGE_RESULT = []
 SBR_WS_CDP_LIST: str |None = SECRETS_KEYS["SBR_WS_CDP_LIST"]
 
