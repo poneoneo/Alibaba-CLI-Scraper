@@ -680,10 +680,11 @@ import sys
 from pathlib import Path
 from typing import Optional
 
+import dotenv
 import sqlalchemy
 import typer
 from click import MissingParameter
-from dotenv import load_dotenv
+from dotenv import dotenv_values, load_dotenv
 from .engine_and_database import (
     add_products_to_db,
     add_suppliers_to_db,
@@ -699,9 +700,9 @@ from typing_extensions import Annotated
 from .web_scrapper import async_scrapper, sync_scrapper
 
 load_dotenv()
-
+SECRETS_K = dotenv_values(dotenv_path=".env")
 logger.remove(0)
-logger.add(sys.stderr, colorize=True, level=os.environ.get("LOGURU_LEVEL", ""))
+logger.add(sys.stderr, colorize=True, level=SECRETS_K['LOGURU_LEVEL'])  # type: ignore
 
 app = typer.Typer(pretty_exceptions_enable=False)
 
@@ -762,7 +763,7 @@ def scraper(
         Optional[bool], typer.Option(help="wether to sync or not")
     ] = False,
     page_results: Annotated[
-        int, typer.Option(help="Number of results per page to scrape from alibaba")
+        int, typer.Option(help="Number of results per page to scrape from alibaba 10 by defaults")
     ] = 10,
 ) -> None:
     """

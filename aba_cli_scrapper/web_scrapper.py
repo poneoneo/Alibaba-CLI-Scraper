@@ -16,10 +16,15 @@ from tkinter import Place
 
 
 
+from click import UsageError
+import playwright.sync_api
 import requests
 import playwright
 import selectolax
+from playwright.sync_api import Error as PError
+from playwright.async_api import Error as APError
 from dotenv import dotenv_values
+import urllib3
 from .html_to_disk import write_to_disk
 from .info_message import run_scrapper_with_success
 from loguru import logger
@@ -32,7 +37,7 @@ from rich.console import Console
 import os
 from tenacity import AsyncRetrying, RetryError, retry, stop_after_attempt
 
-SECRETS_KEYS = dotenv_values("../.env")
+SECRETS_KEYS = dotenv_values()
 HTML_PAGE_RESULT = []
 SBR_WS_CDP_LIST: str |None = SECRETS_KEYS["SBR_WS_CDP_LIST"]
 
@@ -77,7 +82,8 @@ async def goto_task(
     progress: Progress,
     semaphore: asyncio.Semaphore,
     tg_instance:asyncio.TaskGroup,
-    page:AsyncPage
+    page:AsyncPage,
+    page_results:int
 ) -> str | None:
     """Return the entire HTML content from each page only the divs with class `.organic-list.viewtype-list`
 
@@ -98,7 +104,7 @@ async def goto_task(
             logger.info(f"get response text from web page {url.split('page=')[1]} ... ")
             html_body = await response.text()
             progress.start_task(task)
-            progress.update(task, advance=20)
+            progress.update(task, advance=100/page_results)
             global HTML_PAGE_RESULT
             HTML_PAGE_RESULT.append(html_body)
             logger.info(f"Closing page {url.split('page=')[1]} ... ")
@@ -120,14 +126,19 @@ async def async_scrapper(*, save_in: str, key_words: str,page_results:int) -> No
     async with async_playwright() as p:
         logger.info("Connecting to CDP and creating the browser... ")
         try:
-            country_name = requests.get("http://geo.brdtest.com/mygeo.json").json()['country']
+            response = requests.get("http://geo.brdtest.com/mygeo.json")
+            print(response.raise_for_status())
+            country_name = response.json()['country']
             api_key = SBR_WS_CDP_LIST.replace("country-us", f"country-{country_name.lower()}")
             browser = await p.chromium.connect_over_cdp(api_key)
+        except urllib3.exceptions.NameResolutionError :
+            raise UsageError("check your internet connection")
+        
         except playwright._impl._errors.Error as e:  # type: ignore
             if "Account is suspended" in str(e):
-                print(str(e))
+                # print(str(e))
                 rprint(
-                    "[red] Bright data account has been suspended by system. contact me by email: [magenta]onealzero@gmail.com [/magenta] to fix this as soon as possible [/red]"
+                    "[red] Bright data account has been suspended by system. contact me by email: [magenta]onealzero@gmail.com [/magenta] to fix this as soon as possible. You can use `--sync-api` flag after your last command to enable sync scrapping instead while i'm fixing bug.  [/red]"
                 )
                 return
             elif "exists" in str(e):
@@ -136,9 +147,10 @@ async def async_scrapper(*, save_in: str, key_words: str,page_results:int) -> No
                 os.system("playwright install")
             else:
                 print(str(e))
+
         context_browser = await browser.new_context()
         with Progress(console=Console(record=True),) as progress:
-            task = progress.add_task("[green blink] async Scraping...", start=False)
+            task = progress.add_task("[green blink] async Scraping...", start=True)
             s_one = asyncio.Semaphore(value=10)
             logger.info("Loading pages results ... ")
             async with asyncio.Lock() :
@@ -146,7 +158,7 @@ async def async_scrapper(*, save_in: str, key_words: str,page_results:int) -> No
                     for url in urls_pusher(words=key_words,stop_at=page_results):
                         async with asyncio.Lock():
                             page = await context_browser.new_page()
-                        tg.create_task(goto_task(url=url, semaphore=s_one, progress=progress, task=task,tg_instance=tg,context_browser=context_browser,page=page))   
+                        tg.create_task(goto_task(url=url, semaphore=s_one, progress=progress, task=task,tg_instance=tg,context_browser=context_browser,page=page,page_results=page_results))   
                         
         write_to_disk(save_in,HTML_PAGE_RESULT)
         run_scrapper_with_success(folder_name=save_in)
@@ -154,28 +166,31 @@ async def async_scrapper(*, save_in: str, key_words: str,page_results:int) -> No
 
 def sync_scrapper(*, save_in: str, key_words: str,page_results:int) -> None:
 
-    playwright = sync_playwright().start()
-    try:    
-        browser = playwright.chromium.launch(headless=True)
-    except playwright._impl._errors.Error:  # type: ignore
-        rprint("[white] Seems like playwright is not installed. lets aba install it for you... [/white]")
-        os.system("playwright install")
-    context = browser.new_context()
     # pages_urls = _looking_for_urls(keywords=key_words)
     with Progress(console=Console(record=True), transient=True) as progress:
-        task = progress.add_task("[green blink] Sync Scraping...", start=False)
+        task = progress.add_task("[green blink] Sync Scraping...", start=True,)
+        playwright = sync_playwright().start()
+        try:    
+            browser = playwright.chromium.launch(headless=True)
+        except playwright._impl._errors.Error:  # type: ignore
+            rprint("[white] Seems like playwright is not installed. lets aba install it for you... [/white]")
+            os.system("playwright install")
+        context = browser.new_context()
         for url in urls_pusher(words=key_words,stop_at=page_results):
             page = context.new_page()
             logger.info(f"Loading page {url.split('page=')[1]} ... ")
-            response = page.goto(url, wait_until="domcontentloaded", timeout=0)
-            if response is None:
-                return None
-            logger.info(
-                f"Returns the text representation of response body from page {url.split('page=')[1]} ... "
-            )
+            try:
+                response = page.goto(url, wait_until="domcontentloaded", timeout=0)
+                if response is None:
+                    return None
+                logger.info(
+                    f"Returns the text representation of response body from page {url.split('page=')[1]} ... "
+                )
+            except PError as e: 
+                if "ERR_INTERNET_DISCONNECTED" in e.message:
+                    raise UsageError("Check your internet connection ... ")
             html_content = response.text()
-            progress.start_task(task)
-            progress.update(task, advance=2.381)
+            progress.update(task, advance=100/page_results)
             global HTML_PAGE_RESULT
             HTML_PAGE_RESULT.append(html_content)
             logger.info(f"Closing the page {url.split('page=')[1]} ... ")
