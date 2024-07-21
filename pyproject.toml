@@ -27,7 +27,7 @@ include = [
 ]
 
 [tool.poetry.dev-dependencies]
-pytest = "3.0"
+pytest = "8.2.2"
 
 [tool.poetry.scripts]
 aba-run = "aba_cli_scrapper.__main__:app"
