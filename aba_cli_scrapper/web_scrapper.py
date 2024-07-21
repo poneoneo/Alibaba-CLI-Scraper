@@ -23,7 +23,7 @@ import playwright
 import selectolax
 from playwright.sync_api import Error as PError
 from playwright.async_api import Error as APError
-from dotenv import dotenv_values
+from dotenv import dotenv_values, load_dotenv
 import urllib3
 from .html_to_disk import write_to_disk
 from .info_message import run_scrapper_with_success
@@ -36,10 +36,10 @@ from rich.progress import Progress, TaskID
 from rich.console import Console
 import os
 from tenacity import AsyncRetrying, RetryError, retry, stop_after_attempt
-
-SECRETS_KEYS = dotenv_values(".env")
+load_dotenv()
+# SECRETS_KEYS = dotenv_values(".env")
 HTML_PAGE_RESULT = []
-SBR_WS_CDP_LIST: str |None = SECRETS_KEYS["SBR_WS_CDP_LIST"]
+SBR_WS_CDP_LIST: str |None = os.getenv("SBR_WS_CDP_LIST")
 
 
 def _browser_parser(html_content: str | bytes, curr_url: str):
@@ -127,7 +127,7 @@ async def async_scrapper(*, save_in: str, key_words: str,page_results:int) -> No
         logger.info("Connecting to CDP and creating the browser... ")
         try:
             response = requests.get("http://geo.brdtest.com/mygeo.json")
-            print(response.raise_for_status())
+            # print(response.raise_for_status())
             country_name = response.json()['country']
             api_key = SBR_WS_CDP_LIST.replace("country-us", f"country-{country_name.lower()}")
             browser = await p.chromium.connect_over_cdp(api_key)
@@ -142,7 +142,7 @@ async def async_scrapper(*, save_in: str, key_words: str,page_results:int) -> No
                 )
                 return
             elif "exists" in str(e):
-                print(str(e))
+                # print(str(e))
                 rprint("[white] Seems like playwright is not installed. lets aba install it for you... [/white]")
                 os.system("playwright install")
             else:
