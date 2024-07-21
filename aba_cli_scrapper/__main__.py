@@ -701,7 +701,7 @@ from .web_scrapper import async_scrapper, sync_scrapper
 
 load_dotenv()
 logger.remove(0)
-logger.add(sys.stderr, colorize=True, level=os.getenv('LOGURU_LEVEL'))  # type: ignore
+logger.add(sys.stderr, colorize=True, level="CRITICAL")  # type: ignore
 
 app = typer.Typer(pretty_exceptions_enable=False)
 
