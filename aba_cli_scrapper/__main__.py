@@ -934,6 +934,9 @@ def db_init(
     else:
         sqlite_engine = create_db_engine(db_name=sqlite_file)  # type: ignore
         save_all_changes(engine_db=sqlite_engine, sql_model=SQLModel)
+        rprint(
+            f"[bold white]Database [magenta bold] {sqlite_file}.sqlite [/magenta bold] has been created succesfully :white_heavy_check_mark-emoji: ![/bold white]"
+        )
 
 
 
