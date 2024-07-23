@@ -135,7 +135,7 @@ class PageParser:
 
         suppliers: Sequence[SupplierDict] = list()
         console = rich.console.Console()
-        with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"), *Progress.get_default_columns(),console=console,transient=False) as progress:
+        with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"), *Progress.get_default_columns(),console=console,transient=True) as progress:
             all_pages_task = progress.add_task(description="[blank]Parsing suppliers ...[/blank]")
             # single_page_task = progress.add_task(description="Retrieving suppliers ...", total=1)
             for divs, offers in self._divs_and_dict():
@@ -170,7 +170,7 @@ class PageParser:
         """
         products: Sequence[ProductDict] = list()
         console = rich.console.Console()
-        with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),*Progress.get_default_columns(),console=console,transient=False) as progress:
+        with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),*Progress.get_default_columns(),console=console,transient=True) as progress:
             all_pages_task = progress.add_task(description="[blank]Parsing products ...[/blank]") 
             for divs, offers in self._divs_and_dict():
                 if offers['props']['offerResultData']['totalCount'] == 0:
