@@ -1,9 +1,10 @@
-__main__
-__pycache__/*
-httpx_*
-A*/
 *.html
 *I/
 *.sqlite
 todo.txt
-.gitignore
+aba_cli_scrapper/__pycache__/*
+dist/
+.mypy_cache
+.pytest_cache
+.vscode
+*.sqlite
