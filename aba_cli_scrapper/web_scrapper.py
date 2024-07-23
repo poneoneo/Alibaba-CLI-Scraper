@@ -150,12 +150,12 @@ async def async_scrapper(*, save_in: str, key_words: str,page_results:int) -> No
                 print(str(e))
 
         context_browser = await browser.new_context()
-        with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),*Progress.get_default_columns(),transient=True) as progress:
-            task = progress.add_task("[green blink] async Scraping...", start=False)
-            s_one = asyncio.Semaphore(value=10)
-            logger.info("Loading pages results ... ")
-            async with asyncio.Lock() :
-                async with asyncio.TaskGroup() as tg:
+        s_one = asyncio.Semaphore(value=10)
+        logger.info("Loading pages results ... ")
+        async with asyncio.Lock() :
+            async with asyncio.TaskGroup() as tg:
+                with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),*Progress.get_default_columns(),transient=True) as progress:
+                    task = progress.add_task("[green blink] async Scraping...", start=False)
                     for url in urls_pusher(words=key_words,stop_at=page_results):
                         async with asyncio.Lock():
                             page = await context_browser.new_page()
@@ -187,15 +187,16 @@ def sync_scrapper(*, save_in: str, key_words: str,page_results:int) -> None:
                 logger.info(
                     f"Returns the text representation of response body from page {url.split('page=')[1]} ... "
                 )
+                progress.start_task(task)
+                html_content = response.text()
+                progress.update(task, advance=100/page_results)
+                global HTML_PAGE_RESULT
+                HTML_PAGE_RESULT.append(html_content)
+                logger.info(f"Closing the page {url.split('page=')[1]} ... ")
+                page.close()
             except PError as e: 
                 if "ERR_INTERNET_DISCONNECTED" in e.message:
                     raise UsageError("Check your internet connection ... ")
-            html_content = response.text()
-            progress.update(task, advance=100/page_results)
-            global HTML_PAGE_RESULT
-            HTML_PAGE_RESULT.append(html_content)
-            logger.info(f"Closing the page {url.split('page=')[1]} ... ")
-            page.close()
     write_to_disk(save_in, HTML_PAGE_RESULT)
     run_scrapper_with_success(folder_name=save_in)
 

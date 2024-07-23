@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aba-cli-scrapper"
-version = "1.5.2"
+version = "0.1.9"
 description = "Scrappe all products and theirs related suppliers existing on Alibaba based on keywords provided by user and save results into a database (Mysql/Sqlite)."
 authors = ["poneoneo <onealzero@gmail.com>"]
 readme = "README.md"
@@ -79,6 +79,7 @@ urllib3 = {version = "2.2.2", markers = "python_version >= \"3.8\""}
 win32-setctime = {version = "1.1.0", markers = "sys_platform == \"win32\""}
 yarl = {version = "1.9.4", markers = "python_version >= \"3.7\""}
 tenacity = "^8.5.0"
+loguru = "^0.7.2"
 
 [build-system]
 requires = ["poetry-core"]
