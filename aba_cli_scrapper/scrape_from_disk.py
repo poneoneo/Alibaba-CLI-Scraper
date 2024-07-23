@@ -10,8 +10,11 @@ from pathlib import Path
 from pprint import pprint
 from typing import Sequence, Union
 
+import rich
+from rich.progress import Progress, TextColumn, BarColumn, TaskProgressColumn, TimeElapsedColumn,SpinnerColumn
+from rich.text import Text
 from loguru import logger
-from selectolax.parser import HTMLParser, Node
+from selectolax.parser import HTMLParser
 
 from aba_cli_scrapper.typed_datas import ProductDict, SupplierDict
 from .utils_scrapping import (
@@ -23,11 +26,8 @@ from .utils_scrapping import (
     is_full_promotion,
     is_instant_order,
     is_trade_product,
-    minimum_to_order,
     ordered_or_sold,
-    sopi_level,
     suppliers_status,
-    years_as_supplier_gold,
 )
 from .html_to_disk import json_parser_to_dict
 
@@ -112,8 +112,8 @@ class PageParser:
             for html_file in self._html_files_explorer() 
         ]
         logger.info("All expected divs and dict has been retrived ...")
+        # TODO: add good items directly in a new list instead of removing them
         _ = [divs_and_dict.pop(divs_and_dict.index(item)) for item in divs_and_dict if item[0] is not None and item[1] is None] # remove none tuple from list
-        # divs_and_dict = [(item[0],json.loads(item[1]),)  for item in divs_and_dict]  # type: ignore
         new_divs_and_dict = []
         for item in divs_and_dict:
             # print("hello")
@@ -132,22 +132,28 @@ class PageParser:
         Retrieves the detected suppliers from the divs and offers data.
         Returns a list of unique suppliers with their relevant information.
         """
+
         suppliers: Sequence[SupplierDict] = list()
-        for divs, offers in self._divs_and_dict():
-                if offers['props']['offerResultData']['totalCount'] == 0:
-                    continue 
-                for offer in offers['props']['offerResultData']['offers']: 
-                    suppliers.append(
-                            {
-                            "name": offer['companyName'].lower(),   
-                            "verified_type": suppliers_status(tags=divs, offer=offer),
-                            "sopi_level": offer['displayStarLevel'],
-                            "country_name": country_name(country_min=offer['countryCode']), 
-                            "gold_supplier_year": offer['goldSupplierYears'].split(" ")[0], 
-                            "supplier_service_score": float(offer["supplierService"])  
-                        }
- 
-                    )
+        console = rich.console.Console()
+        with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"), *Progress.get_default_columns(),console=console,transient=False) as progress:
+            all_pages_task = progress.add_task(description="[blank]Parsing suppliers ...[/blank]")
+            # single_page_task = progress.add_task(description="Retrieving suppliers ...", total=1)
+            for divs, offers in self._divs_and_dict():
+                    if offers['props']['offerResultData']['totalCount'] == 0:
+                        continue 
+                    for offer in offers['props']['offerResultData']['offers']: 
+                        suppliers.append(
+                                {
+                                "name": offer['companyName'].lower(),   
+                                "verified_type": suppliers_status(tags=divs, offer=offer),
+                                "sopi_level": offer['displayStarLevel'],
+                                "country_name": country_name(country_min=offer['countryCode']), 
+                                "gold_supplier_year": offer['goldSupplierYears'].split(" ")[0], 
+                                "supplier_service_score": float(offer["supplierService"])  
+                            }
+    
+                        )
+                    progress.update(all_pages_task, advance=100/len(self._divs_and_dict()))
         # removing supliers present twice in supliers dict
         unique_suppliers_tuple = list(
             OrderedDict((str(d), d) for d in suppliers).items()
@@ -163,32 +169,36 @@ class PageParser:
         Returns a list of unique products with their relevant information.
         """
         products: Sequence[ProductDict] = list()
-        for divs, offers in self._divs_and_dict():
-            if offers['props']['offerResultData']['totalCount'] == 0:
-                continue 
-            # print(f"total count : {offers['props']['offerResultData']['totalCount']}")
-            for offer in offers['props']['offerResultData']['offers']: 
-                products.append(
-                        {
-                            "name": offer['enPureTitle'].lower(),
-                            "max_price": get_product_price(all_price_text=offer['price'], which="max"),
-                            "min_price": get_product_price(all_price_text=offer['price'], which="min"),
-                            "guaranteed_by_alibaba": is_alibaba_guaranteed(str_status=offer['halfTrust']),
-                            "certifications": get_product_certification(offer=offer),
-                            "minimum_to_order": int(offer['halfTrustMoq'].lower()),
-                            "ordered_or_sold": ordered_or_sold(offer=offer),
-                            "supplied_by": offer['companyName'].lower(),
-                            "product_score": float(offer["productScore"]),
-                            "review_count": float(offer["reviewCount"]),
-                            "review_score": float(offer["reviewScore"]),
-                            "shipping_time_score":float(offer["shippingTime"]),
-                            "is_full_promotion": is_full_promotion(str_status=offer["isFullPromotion"]),
-                            "customizable" : is_customizable(str_status=offer["customizable"]),
-                            "instant_order": is_instant_order(str_status=offer["halfTrustInstantOrder"]),
-                            "trade_product": is_trade_product(str_status=offer['tradeProduct'])
-                            
-                        }
-                    )
+        console = rich.console.Console()
+        with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),*Progress.get_default_columns(),console=console,transient=False) as progress:
+            all_pages_task = progress.add_task(description="[blank]Parsing products ...[/blank]") 
+            for divs, offers in self._divs_and_dict():
+                if offers['props']['offerResultData']['totalCount'] == 0:
+                    continue 
+                # print(f"total count : {offers['props']['offerResultData']['totalCount']}")
+                for offer in offers['props']['offerResultData']['offers']: 
+                    products.append(
+                            {
+                                "name": offer['enPureTitle'].lower(),
+                                "max_price": get_product_price(all_price_text=offer['price'], which="max"),
+                                "min_price": get_product_price(all_price_text=offer['price'], which="min"),
+                                "guaranteed_by_alibaba": is_alibaba_guaranteed(str_status=offer['halfTrust']),
+                                "certifications": get_product_certification(offer=offer),
+                                "minimum_to_order": int(offer['halfTrustMoq'].lower()),
+                                "ordered_or_sold": ordered_or_sold(offer=offer),
+                                "supplied_by": offer['companyName'].lower(),
+                                "product_score": float(offer["productScore"]),
+                                "review_count": float(offer["reviewCount"]),
+                                "review_score": float(offer["reviewScore"]),
+                                "shipping_time_score":float(offer["shippingTime"]),
+                                "is_full_promotion": is_full_promotion(str_status=offer["isFullPromotion"]),
+                                "customizable" : is_customizable(str_status=offer["customizable"]),
+                                "instant_order": is_instant_order(str_status=offer["halfTrustInstantOrder"]),
+                                "trade_product": is_trade_product(str_status=offer['tradeProduct'])
+                                
+                            }
+                        )
+                progress.update(all_pages_task, advance=100/len(self._divs_and_dict()))
         unique_products_tuple = list(
             OrderedDict((str(d), d) for d in products).items()) 
         # removing supliers present twice in supliers dict

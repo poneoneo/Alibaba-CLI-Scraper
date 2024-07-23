@@ -1,7 +1,10 @@
 import json
+import pathlib
+from pprint import pprint
 import unicodedata
 from typing import Literal
 
+from click import Path
 from loguru import logger
 from selectolax.parser import Node
 
@@ -160,7 +163,8 @@ def ordered_or_sold(offer:dict):
 
 
 def _from_abr_to_full_name(country_abr: str):
-    with open("pays_data.json", encoding="utf-8") as f:
+    p = (pathlib.Path(__file__).parent / "pays_data.json").resolve()
+    with open(f"{p}", encoding="utf-8") as f:
         countries = json.load(
             f,
         )

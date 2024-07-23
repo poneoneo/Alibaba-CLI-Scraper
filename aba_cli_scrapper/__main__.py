@@ -683,7 +683,7 @@ from typing import Optional
 import dotenv
 import sqlalchemy
 import typer
-from click import MissingParameter
+from click import MissingParameter, UsageError
 from dotenv import dotenv_values, load_dotenv
 from .engine_and_database import (
     add_products_to_db,
@@ -698,10 +698,11 @@ from .scrape_from_disk import PageParser
 from sqlmodel import SQLModel
 from typing_extensions import Annotated
 from .web_scrapper import async_scrapper, sync_scrapper
+from . import LOGURU_LEVEL
 
 load_dotenv()
 logger.remove(0)
-logger.add(sys.stderr, colorize=True, level="CRITICAL")  # type: ignore
+logger.add(sys.stderr, colorize=True, level=f"{LOGURU_LEVEL}")  # type: ignore
 
 app = typer.Typer(pretty_exceptions_enable=False)
 
@@ -781,12 +782,10 @@ def scraper(
 
 @app.command()
 def db_update(
+    kw_results:Annotated[Path, typer.Option(help="Folder where the html results are stored")],
     db_engine: Annotated[
         Optional[str], typer.Argument(help="Name of database engine to use")
     ] = "sqlite",
-    kw_results=typer.Option(
-        default=..., help="Folder where the html results are stored"
-    ),
     filename: Annotated[
         Optional[str],
         typer.Option(
@@ -836,7 +835,7 @@ def db_update(
     if db_engine == "mysql":
         db_url = _db_url(credentials=locals(), auto_fill=True)
         mysql_engine = create_db_engine(db_url=db_url)
-        page_parser = PageParser(targeted_folder=kw_results)
+        page_parser = PageParser(targeted_folder=kw_results.resolve())
         suppliers = page_parser.detected_suppliers()
         products = page_parser.detected_products()
         add_suppliers_to_db(suppliers=suppliers, engine_db=mysql_engine)
@@ -844,6 +843,8 @@ def db_update(
         save_all_changes(engine_db=mysql_engine, sql_model=SQLModel)
         update_db_with_success()
 
+    if not kw_results.exists():
+        raise UsageError(f"Folder {kw_results} does not exist")        
     else:
         page_parser = PageParser(targeted_folder=kw_results)
         suppliers = page_parser.detected_suppliers()

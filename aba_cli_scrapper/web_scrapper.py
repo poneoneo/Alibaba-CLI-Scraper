@@ -34,12 +34,13 @@ from playwright.sync_api import sync_playwright
 from rich import print as rprint
 from rich.progress import Progress, TaskID
 from rich.console import Console
+from rich.progress import Progress, TextColumn, BarColumn, TaskProgressColumn, TimeElapsedColumn,SpinnerColumn
 import os
 from tenacity import AsyncRetrying, RetryError, retry, stop_after_attempt
-load_dotenv()
+from . import SBR_WS_CDP_LIST
 # SECRETS_KEYS = dotenv_values(".env")
 HTML_PAGE_RESULT = []
-SBR_WS_CDP_LIST: str |None = os.getenv("SBR_WS_CDP_LIST")
+
 
 
 def _browser_parser(html_content: str | bytes, curr_url: str):
@@ -149,8 +150,8 @@ async def async_scrapper(*, save_in: str, key_words: str,page_results:int) -> No
                 print(str(e))
 
         context_browser = await browser.new_context()
-        with Progress(console=Console(record=True),) as progress:
-            task = progress.add_task("[green blink] async Scraping...", start=True)
+        with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),*Progress.get_default_columns(),transient=True) as progress:
+            task = progress.add_task("[green blink] async Scraping...", start=False)
             s_one = asyncio.Semaphore(value=10)
             logger.info("Loading pages results ... ")
             async with asyncio.Lock() :
@@ -167,8 +168,8 @@ async def async_scrapper(*, save_in: str, key_words: str,page_results:int) -> No
 def sync_scrapper(*, save_in: str, key_words: str,page_results:int) -> None:
 
     # pages_urls = _looking_for_urls(keywords=key_words)
-    with Progress(console=Console(record=True), transient=True) as progress:
-        task = progress.add_task("[green blink] Sync Scraping...", start=True,)
+    with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),*Progress.get_default_columns(),transient=True) as progress:
+        task = progress.add_task("[green blink] Sync Scraping...", start=False,)
         playwright = sync_playwright().start()
         try:    
             browser = playwright.chromium.launch(headless=True)
