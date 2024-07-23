@@ -757,13 +757,13 @@ def _db_url(credentials: dict = dict(), auto_fill: bool = False):
 def scraper(
     key_words: Annotated[str, typer.Argument(help="Keywords to search for on alibaba")] = "",
     html_folder: Annotated[
-        Optional[str], typer.Option(help="Folder to save the results")
+        Optional[str], typer.Option("--html-folder","-hf",help="Folder to save the results")
     ] = None,
     sync_api: Annotated[
-        Optional[bool], typer.Option(help="wether to sync or not")
+        Optional[bool], typer.Option("--sync-api","-sa",help="wether to sync or not")
     ] = False,
     page_results: Annotated[
-        int, typer.Option(help="Number of results per page to scrape from alibaba 10 by defaults")
+        int, typer.Option("--page-results","-pr",help="Number of results per page to scrape from alibaba 10 by defaults")
     ] = 10,
 ) -> None:
     """
@@ -782,36 +782,36 @@ def scraper(
 
 @app.command()
 def db_update(
-    kw_results:Annotated[Path, typer.Option(help="Folder where the html results are stored")],
+    kw_results:Annotated[Path, typer.Option("--kw-results","-kr",help="Folder where the html results are stored")],
     db_engine: Annotated[
         Optional[str], typer.Argument(help="Name of database engine to use")
     ] = "sqlite",
     filename: Annotated[
         Optional[str],
         typer.Option(
-            help="Name of the sqlite file(without any extensions) to update with news data",
+            "--filename","-f",help="Name of the sqlite file(without any extensions) to update with news data",
         ),
     ] = None,
     host: Annotated[
         Optional[str],
         typer.Option(
-            help="Host of the database engine",
+            "--host","-h",help="Host of the database engine",
         ),
     ] = "localhost",
     port: Annotated[
-        Optional[int], typer.Option(help="Port of the database engine")
+        Optional[int], typer.Option("--port","-p",help="Port of the database engine")
     ] = 3306,
     user: Annotated[
         Optional[str],
-        typer.Option(help="User of the database engine", show_default=False),
+        typer.Option("--user","-u",help="User of the database engine", show_default=False),
     ] = None,
     password: Annotated[
         Optional[str],
-        typer.Option(help="Password of the database engine", show_default=False),
+        typer.Option("--password","-pw",help="Password of the database engine", show_default=False),
     ] = None,
     db_name: Annotated[
         Optional[str],
-        typer.Option(help="Database of the database engine", show_default=False),
+        typer.Option("--db-name","-db",help="Database of the database engine", show_default=False),
     ] = None,
 ):
     """
@@ -863,7 +863,7 @@ def db_init(
     ] = "sqlite",
     sqlite_file: Annotated[
         Optional[str],
-        typer.Option(
+        typer.Option("--sqlite-file","-f",
             help="Name of the sqlite file to use (without any extensions)",
             show_default=False,
         ),
@@ -871,28 +871,28 @@ def db_init(
     host: Annotated[
         Optional[str],
         typer.Option(
-            help="Host of the database engine",
+            "--host","-h",help="Host of the database engine",
         ),
     ] = "localhost",
     port: Annotated[
-        Optional[int], typer.Option(help="Port of the database engine")
+        Optional[int], typer.Option("--port","-p",help="Port of the database engine")
     ] = 3306,
     user: Annotated[
         Optional[str],
-        typer.Option(help="User of the database engine"),
+        typer.Option("--user","-u",help="User of the database engine"),
     ] = None,
     password: Annotated[
         Optional[str],
-        typer.Option(help="Password of the database engine"),
+        typer.Option("--password","-pw",help="Password of the database engine"),
     ] = None,
     db_name: Annotated[
         Optional[str],
-        typer.Option(help="Database of the database engine", ),
+        typer.Option("--db-name","-db",help="Database of the database engine", ),
     ] = None,
     only_with: Annotated[
         Optional[bool],
         typer.Option(
-            help="set it to true if you just want to update some database crendentials but not all",
+            "--only-with","-ow",help="set it to true if you just want to update some database crendentials but not all",
         ),
     ] = False
 ):
