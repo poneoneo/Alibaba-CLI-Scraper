@@ -842,7 +842,7 @@ def db_update(
         add_products_to_db(products=products, engine_db=mysql_engine)
         save_all_changes(engine_db=mysql_engine, sql_model=SQLModel)
         update_db_with_success()
-
+        return None
     if not kw_results.exists():
         raise UsageError(f"Folder {kw_results} does not exist")        
     else:
