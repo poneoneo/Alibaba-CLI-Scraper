@@ -84,7 +84,7 @@ def add_suppliers_to_db(suppliers: Sequence[SupplierDict], engine_db: Engine):
                         raise UsageError("Your database must be initialized before if you want to update it. instead run :  `aba-run db-init sqlite sqlite-file <your_sqlite_db_file_name>`") from e
                     raise UsageError(f"Something went wrong an unexpected error has occured:{e}") from e
                 except IntegrityError as e:
-                    raise UsageError("Seems like you are trying to update a database which has already been updated ! Instead initialize a new one and update it with: ~aba-run db-update sqlite sqlite-file <new_sqlite_db_file_name>~") from e
+                    raise UsageError("Seems like you are trying to update a database which has already been updated ! Instead initialize a new one and update it with: `aba-run db-update sqlite --sqlite-file <new_sqlite_db_file_name>` ") from e
 
 
 def add_products_to_db(products: Sequence[ProductDict], engine_db: Engine):
