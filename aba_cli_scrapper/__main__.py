@@ -967,6 +967,13 @@ def export_as_csv(sqlite_file: Annotated[str,typer.Argument(help="take name of t
             csv_writer.writerow(row)
             progress.update(task, advance=100/len(rows))
 
+@app.command()
+def set_api_key(api_key: Annotated[str,typer.Argument(help="take bright data api key you want to use",)]) -> None:
+    dotenv_file = dotenv.find_dotenv()
+    dotenv.load_dotenv(dotenv_file)
+    os.environ["SBR_WS_CDP_LIST"] = api_key
+    dotenv.set_key(dotenv_file, "SBR_WS_CDP_LIST", os.environ["SBR_WS_CDP_LIST"])
+    rprint("[bold white]API key has been with success :white_heavy_check_mark-emoji: ![/bold white]")
 
 
 
