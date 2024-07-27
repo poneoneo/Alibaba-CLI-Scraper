@@ -302,7 +302,7 @@ doubtful cases shall be resolved in favor of coverage.  For a particular
 product received by a particular user, "normally used" refers to a
 typical or common use of that class of product, regardless of the status
 of the particular user or of the way in which the particular user
-actually uses, or expects or is expected to use, the product.  A product
+actually uses, or expects or is expected to use, the product. A product
 is a consumer product regardless of whether the product has substantial
 commercial, industrial or non-consumer uses, unless such uses represent
 the only significant mode of use of the product.
@@ -674,11 +674,13 @@ Public License instead of this License.  But first, please read
 <https://www.gnu.org/licenses/why-not-lgpl.html>.****
 """
 import asyncio
+import csv
 import json
 import os
 import sys
 from pathlib import Path
 from typing import Optional
+import sqlite3 
 
 import dotenv
 import sqlalchemy
@@ -699,6 +701,7 @@ from sqlmodel import SQLModel
 from typing_extensions import Annotated
 from .web_scrapper import async_scrapper, sync_scrapper
 from . import LOGURU_LEVEL
+from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn, BarColumn
 
 load_dotenv()
 logger.remove(0)
@@ -938,6 +941,32 @@ def db_init(
         rprint(
             f"[bold white]Database [magenta bold] {sqlite_file}.sqlite [/magenta bold] has been created succesfully :white_heavy_check_mark-emoji: ![/bold white]"
         )
+@app.command()
+def export_as_csv(sqlite_file: Annotated[str,typer.Argument(help="take name of the sqlite file",),],to: Annotated[str,typer.Option("--to","-t",help="take name of the csv file",),]):
+    """
+      This command exports a sqlite database as a csv file. A `FULL OUTER JOIN` operation will be used to join the two tables.
+    """
+    try:
+      connector  = sqlite3.connect(f"{sqlite_file}")
+      cursor = connector.cursor()
+      cursor.execute("""
+      SELECT Product.id, Product.name, Product.alibaba_guranteed, Product.minimum_to_order, Product.supplier_id, Product.alibaba_guranteed, Product.certifications, Product.ordered_or_sold, Product.product_score, Product.review_count, Product.review_score, Product.shipping_time_score, Product.is_full_promotion, Product.is_customizable, Product.is_instant_order, Product.trade_product, Product.min_price, Product.max_price, supplier.name, supplier.verification_mode , supplier.sopi_level, supplier.country_name, supplier.years_as_gold_supplier, supplier.supplier_service_score
+      FROM Product
+      FULL OUTER JOIN Supplier ON Product.id = Supplier.id""")
+      rows = cursor.fetchall()
+    except sqlite3.OperationalError as e:
+       raise UsageError(f"<{sqlite_file}> has not been initialized: {e}" ) 
+    
+    with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),*Progress.get_default_columns(),transient=True,) as progress:
+      task = progress.add_task(f"[green]Exporting [blue]{sqlite_file}[/blue] :arrow_right: [blue]{to}[/blue] ...",start=False)
+      with open(f"{to}", "w") as csv_file:
+        csv_writer = csv.writer(csv_file, delimiter="\t")
+        progress.start_task(task)
+        csv_writer.writerow([i[0] for i in cursor.description])
+        for row in rows:
+            csv_writer.writerow(row)
+            progress.update(task, advance=100/len(rows))
+
 
 
 
