@@ -150,9 +150,7 @@ class PageParser:
                                 "country_name": country_name(country_min=offer['countryCode']), 
                                 "gold_supplier_year": offer['goldSupplierYears'].split(" ")[0], 
                                 "supplier_service_score": float(offer["supplierService"])  
-                            }
-    
-                        )
+                            })
                     progress.update(all_pages_task, advance=100/len(self._divs_and_dict()))
         # removing supliers present twice in supliers dict
         unique_suppliers_tuple = list(
@@ -184,7 +182,7 @@ class PageParser:
                                 "min_price": get_product_price(all_price_text=offer['price'], which="min"),
                                 "guaranteed_by_alibaba": is_alibaba_guaranteed(str_status=offer['halfTrust']),
                                 "certifications": get_product_certification(offer=offer),
-                                "minimum_to_order": int(offer['halfTrustMoq'].lower()),
+                                "minimum_to_order": int(float(offer['halfTrustMoq'].lower())),
                                 "ordered_or_sold": ordered_or_sold(offer=offer),
                                 "supplied_by": offer['companyName'].lower(),
                                 "product_score": float(offer["productScore"]),
