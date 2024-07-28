@@ -974,7 +974,8 @@ def set_api_key(api_key: Annotated[str,typer.Argument(help="take bright data api
     dotenv.load_dotenv(dotenv_file)
     os.environ["SBR_WS_CDP_LIST"] = api_key
     dotenv.set_key(dotenv_file, "SBR_WS_CDP_LIST", os.environ["SBR_WS_CDP_LIST"])
-    rprint("[bold white]API key has been with success :white_heavy_check_mark-emoji: ![/bold white]")
+    rprint("[bold white]API key has been saved with success now you can use `scraper` subcommand with async mode with success :white_heavy_check_mark-emoji: ![/bold white]")
+    rprint("[bold white]You can now use `<scraper>` subcommand with async mode with success :white_heavy_check_mark-emoji: ![/bold white]")
 
 
 
