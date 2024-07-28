@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aba-cli-scrapper"
-version = "0.1.11"
+version = "0.2.0"
 description = "Scrappe all products and theirs related suppliers existing on Alibaba based on keywords provided by user and save results into a database (Mysql/Sqlite)."
 authors = ["poneoneo <onealzero@gmail.com>"]
 readme = "README.md"
@@ -55,7 +55,6 @@ markdown-it-py = {version = "3.0.0", markers = "python_version >= \"3.8\""}
 mdurl = {version = "0.1.2", markers = "python_version >= \"3.7\""}
 multidict = {version = "6.0.5", markers = "python_version >= \"3.7\""}
 mypy-extensions = {version = "1.0.0", markers = "python_version >= \"3.5\""}
-mysqlclient = {version = "2.2.4", markers = "python_version >= \"3.8\""}
 nodeenv = {version = "1.9.1", markers = "python_version >= \"2.7\" and python_version not in \"3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6\""}
 packaging = {version = "24.1", markers = "python_version >= \"3.8\""}
 pathspec = {version = "0.12.1", markers = "python_version >= \"3.8\""}
@@ -80,7 +79,20 @@ win32-setctime = {version = "1.1.0", markers = "sys_platform == \"win32\""}
 yarl = {version = "1.9.4", markers = "python_version >= \"3.7\""}
 tenacity = "^8.5.0"
 loguru = "^0.7.2"
+mysqlclient = "^2.2.4"
+
+[tool.poetry.group.dev.dependencies]
+python-semantic-release = "^9.8.6"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.semantic_release]
+version_variable = "pyproject.toml:version"
+branch = "dev"
+
+[tool.semantic_release.branches.dev]
+match = "dev"
+prerelease_token = "rc"
+prerelease = false
