@@ -970,12 +970,15 @@ def export_as_csv(sqlite_file: Annotated[str,typer.Argument(help="take name of t
 
 @app.command()
 def set_api_key(api_key: Annotated[str,typer.Argument(help="take bright data api key you want to use",)]) -> None:
-    dotenv_file = dotenv.find_dotenv()
-    dotenv.load_dotenv(dotenv_file)
-    os.environ["SBR_WS_CDP_LIST"] = api_key
-    dotenv.set_key(dotenv_file, "SBR_WS_CDP_LIST", os.environ["SBR_WS_CDP_LIST"])
-    rprint("[bold white]API key has been saved with success now you can use `scraper` subcommand with async mode with success :white_heavy_check_mark-emoji: ![/bold white]")
-    rprint("[bold white]You can now use `<scraper>` subcommand with async mode with success :white_heavy_check_mark-emoji: ![/bold white]")
+  """
+    This command sets your bright data api key.
+  """
+  dotenv_file = dotenv.find_dotenv()
+  dotenv.load_dotenv(dotenv_file)
+  os.environ["SBR_WS_CDP_LIST"] = api_key
+  dotenv.set_key(dotenv_file, "SBR_WS_CDP_LIST", os.environ["SBR_WS_CDP_LIST"])
+  rprint("[bold white]API key has been saved with success now you can use [magenta bold] `scraper` [/magenta bold] subcommand with async mode  :white_heavy_check_mark-emoji: ![/bold white]")
+  rprint("[bold white]You can now use [magenta bold] `scraper` [/magenta bold]  subcommand with async mode with success :white_heavy_check_mark-emoji: ![/bold white]")
 
 
 
