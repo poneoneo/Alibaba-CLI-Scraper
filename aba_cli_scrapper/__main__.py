@@ -966,6 +966,7 @@ def export_as_csv(sqlite_file: Annotated[str,typer.Argument(help="take name of t
         for row in rows:
             csv_writer.writerow(row)
             progress.update(task, advance=100/len(rows))
+    rprint(f"[bold white] {to} file has been created with success :white_heavy_check_mark-emoji: ![/bold white]")
 
 @app.command()
 def set_api_key(api_key: Annotated[str,typer.Argument(help="take bright data api key you want to use",)]) -> None:
