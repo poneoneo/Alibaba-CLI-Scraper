@@ -26,7 +26,7 @@ It's recommended to use [pipx](https://pypa.github.io/pipx/) instead of pip for 
 
 <div align="center">
   <p>
-    <a href="#"><img src="images\use-help.png" width="900" height="340" alt="command result 1" /></a>
+    <a href="#"><img src="images\help-cli.png" width="900" height="340" alt="command result 1" /></a>
   </p>
   <p align="center">
   </p>
