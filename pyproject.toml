@@ -90,7 +90,9 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.semantic_release]
 version_variable = "pyproject.toml:version"
-env = "aba-cli-scrapper-MFoFlQ40-py3.12"
+branch = "dev"
 
-[tool.semantic_release.branches.main]
+[tool.semantic_release.branches.dev]
 match = "dev"
+prerelease_token = "rc"
+prerelease = false
