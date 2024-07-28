@@ -770,7 +770,7 @@ def scraper(
     ] = 10,
 ) -> None:
     """
-    Runs the web scrapper and loking for products and related suppliers infos based on provided keywords, then save the results in a specified folder by default this folder is named with the keywords that was provided and could attached with '_' if there are spaces in the keywords'.
+    Runs scraper subcommand and loking for products and related suppliers infos based on provided keywords, then save the results in a specified folder by default this folder is named with the keywords that was provided and could attached with '_' if there are spaces in the keywords'.
     """
     save_in_folder = (
         key_words.strip().replace(" ", "_")
