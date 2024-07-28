@@ -20,6 +20,10 @@
 
 * feat(cli_api): add export-as-csv and set-api-key commands ([`070425b`](https://github.com/poneoneo/Alibaba-Scrapper/commit/070425b645b79a3f1ce4ffd8fcdbad1459936d3a))
 
+### Fix
+
+* fix: fix release v0.2.2 to remove unwanted htmlfiles and update readme ([`51b8f41`](https://github.com/poneoneo/Alibaba-Scrapper/commit/51b8f41e8b2de5e9b529bdd62e0252d903fd85fb))
+
 ### Style
 
 * style(cli_api): print pretty message after setting api key ([`c4ffac7`](https://github.com/poneoneo/Alibaba-Scrapper/commit/c4ffac7cb4eb95e5555450758a1c034d2341611f))
