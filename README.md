@@ -4,11 +4,21 @@
   </p>
 </div>
 
-# Alibaba-CLI-Scraper
 
+<h1 style="text-align:center;">  Alibaba-CLI-Scraper </h1>
+<h2 style="text-align:center;"> 🛒 💻 🕸 </h2>
+
+
+---
 Is a python package that provides a dedicated CLI interface for scraping data from Alibaba.com.
 The purpose of this project is to extract products and theirs related suppliers informations from Alibaba.com and store it in a local database (SQLite or MySQL). The project utilizes asynchronous requests for efficient handling of numerous requests and allows users to easily run the scraper and manage the database using a user-friendly command-line interface (CLI).
 
+### Features:
+
+* **Asynchronous API:** Utilizes asynchronous API of Playwright and Brightdata Proxies for efficient handling of numerous pages results.
+* **Database Integration:**  Stores scraped data in a database (SQLite or MySQL) for structured persistence.
+* **User-Friendly CLI:** Provides easy-to-use commands for running the scraper and managing the database.
+  
 
 ### Installation
 It's recommended to use [pipx](https://pypa.github.io/pipx/) instead of pip for end-user applications written in Python. `pipx` installs the package, exposes his CLI entrypoints in an isolated environment and makes it available everywhere this guarantees no dependency conflicts and clean uninstall. If you'd like to use `pip` instead, just replace `pipx` with `pip`  but obviously  as usual you'll need to  create a virtual environment and activate it before to use `aba-cli-scrapper` to avoid any dependency conflicts issues. let's install `aba-cli-scrapper` using pipx:
@@ -21,7 +31,6 @@ It's recommended to use [pipx](https://pypa.github.io/pipx/) instead of pip for 
 ## Using the CLI Interface
  
 
-### Available Commands:
 **Need Help?**  run  any commands followed by `--help` for detailed informations about its usage and options. For example: `aba-run --help` will show you all subcommands available and how to use them.
 
 <div align="center">
@@ -32,16 +41,15 @@ It's recommended to use [pipx](https://pypa.github.io/pipx/) instead of pip for 
   </p>
 </div>
 
+#### Available Commands:
+
 **Warnings:** 
 - `aba-run` is the base command means all other commands that will be introduce bellow are sub-commands and should always be preceded by  `aba-run`.
-  
-- asynchronous requests are used by default, but is not available for moment  cause bright-data api has been exhausted. Instead you can use sync api by specifying `--sync-api` or `-sa` flag parameter with **`scraper`** sub-command is works perfecly fine. So let's jump to the tutorial.
-
 Practice make perfect isn't ? So let's get started with a use case example. 
 Let's assume  that you want to scrape data about `electric bikes` from Alibaba.com.
 
 
-
+---
 <details>
 <summary>Scraper Demo</summary>
 
@@ -60,13 +68,20 @@ this command takes two required arguments and one optional argument:
     ```shell
     aba-run scraper "electric bikes" -hf "bike_results" -pr 15
     ```
-by default `scrapper` will use async which is as explained unstable. then if you want to use sync api run:
+by default `scrapper` will use async mode which supported by brightdata api which means if you want to use it you will need to provide your api key. set it by using :
+   ```bash
+   aba-run set-api-key your_api_key
+   ```
+   and now run `scraper` sub-command without `--sync-api` flag to use async mode.
+   However if you want to use sync mode you can use :
    ```bash
    aba-run scraper "electric bikes" -hf "bike_results" -pr 15  --sync-api
    ```
     and voila! 
 
 Now `bike_results` (since you already provided name you wish to have) directory has been created and should contains all html files from alibaba.com matching your keywords.
+
+---
 
 <details>
 <summary>db-init Demo with sqlite</summary>
@@ -111,6 +126,8 @@ db-init subcommand will try to use sqlite engine by default  so if you are plann
 
 As soons as your database has been initialized, you can update it with the scraped data.
 
+---
+
 <details>
 <summary>db-update Demo</summary>
 
@@ -136,19 +153,21 @@ this command takes two required arguments and two optional arguments:
    ```shell
    aba-run db-update  sqlite --kw-results bike_results\ --filename alibaba_data
    ```
+---
+*  **`export-as-csv` sub-command:** Exports scraped data from your sqlitedatabase to a CSV file. This csv file will contain a `FULL OUTER JOIN` with the `products` and `suppliers` tables.
 
-**Features:**
+this command takes one required argument and one optional argument:
+   * -  **`--sqlite_file` (required):** The name for your SQLite database file with his extension.
+   * -  **`--to` or `-t` (required):**  The name for your CSV file with his extension.
 
-* **Asynchronous Scraping:** Utilizes asynchronous API of Playwright for efficient handling of numerous pages results.
-* **Database Integration:**  Stores scraped data in a database (SQLite or MySQL) for structured persistence.
-* **User-Friendly CLI:** Provides easy-to-use commands for running the scraper and managing the database.
+
 
 ## Future Enhancements
 
 This project has a lot of potential for growth! Here are some exciting features I'm considering for the future:
 
-*   **Data Export:** Add functionality to export scraped data to various formats like CSV and Excel spreadsheets for easier analysis and sharing.
-*   **Retrieval Augmented Generation (RAG):** Integrate a RAG system that allows users to ask natural language questions about the scraped data, making it even more powerful for insights.
+
+-  **Retrieval Augmented Generation (RAG):** Integrate a RAG system that allows users to ask natural language questions about the scraped data, making it even more powerful for insights.
 
 ## Contributions Welcome!
 
