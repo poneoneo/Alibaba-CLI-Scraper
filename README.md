@@ -22,7 +22,7 @@ The purpose of this project is to extract products and theirs related suppliers 
 ### Sample of CSV output
  id,	name,	alibaba_guranteed,	minimum_to_order,	supplier_id,	alibaba_guranteed	certifications,	ordered_or_sold,	product_score,	review_count,	review_score,	shipping_time_score,	is_full_promotion,	is_customizable,	is_instant_order,	trade_product,	min_price,	max_price,	name,	verification_mode,	sopi_level,	country_name,	years_as_gold_supplier,	supplier_service_score
 
-1,	mesh knitting weaving machine produce sunscreen net agricultural shade net anti, net,	1	1	1	1,		0,	5.0,	1.0,	5.0,	5.0,	1,	1,	1,	1,	9997.0,	18979.0,	qingdao, shanzhong imp and exp ltd.,	unverified,	0,	chine,	9,	5.0
+1,	mesh knitting weaving machine produce sunscreen net agricultural shade net anti, net,	1,	1,	1,	1,		0,	5.0,	1.0,	5.0,	5.0,	1,	1,	1,	1,	9997.0,	18979.0,	qingdao, shanzhong imp and exp ltd.,	unverified,	0,	chine,	9,	5.0
 
 
 
