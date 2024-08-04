@@ -18,8 +18,41 @@ The purpose of this project is to extract products and theirs related suppliers 
 * **Asynchronous API:** Utilizes asynchronous API of Playwright and Brightdata Proxies for efficient handling of numerous pages results.
 * **Database Integration:**  Stores scraped data in a database (SQLite or MySQL) for structured persistence.
 * **User-Friendly CLI:** Provides easy-to-use commands for running the scraper and managing the database.
+
+### Which important informations will be retrieved from the Alibaba website ?
+
+Fields related to `Suppliers`:
+    `id`: int
+    `name`: str 
+    `verification_mode`: str
+    `sopi_level`: int
+    `country_name`: str
+    `years_as_gold_supplier`: int
+    `supplier_service_score`: float
+
+Fields related to `Products`:
+    `id`: int
+    `name`: str 
+    `alibaba_guranteed`: bool
+    `certifications`: str
+    `minimum_to_order`: int
+    `ordered_or_sold`: int
+    `supplier_id`: int
+    `min_price`: float
+    `max_price`: float
+    `product_score`: float
+    `review_count` : float
+    `review_score` : float
+    `shipping_time_score` : float
+    `is_full_promotion`: bool
+    `is_customizable`: bool
+    `is_instant_order`: bool
+    `trade_product`:bool
   
 ### Sample of CSV output
+
+When you will run command to export your sqlite file as a csv a `OUTER FULL JOIN` operation will be made to join all the fields of the both tables. Bellow you have a sample results maching `agricultural machinery` keywords.
+
 |id  |name                                                                                                                            |alibaba_guranteed|minimum_to_order|supplier_id|alibaba_guranteed|certifications|ordered_or_sold|product_score|review_count|review_score|shipping_time_score|is_full_promotion|is_customizable|is_instant_order|trade_product|min_price|max_price|name                                                                                         |verification_mode|sopi_level|country_name  |years_as_gold_supplier|supplier_service_score|
 |----|--------------------------------------------------------------------------------------------------------------------------------|-----------------|----------------|-----------|-----------------|--------------|---------------|-------------|------------|------------|-------------------|-----------------|---------------|----------------|-------------|---------|---------|---------------------------------------------------------------------------------------------|-----------------|----------|--------------|----------------------|----------------------|
 |1   |mesh knitting weaving machine produce sunscreen net agricultural shade net anti net                                             |1                |1               |1          |1                |              |0              |5.0          |1.0         |5.0         |5.0                |1                |1              |1               |1            |9997.0   |18979.0  |qingdao shanzhong imp and exp ltd.                                                           |unverified       |0         |chine         |9                     |5.0                   |
@@ -27,13 +60,6 @@ The purpose of this project is to extract products and theirs related suppliers 
 |3   |small multifunctional flexible 130l orchard remote control garden crawler agriculture robot sprayer                             |1                |1               |3          |1                |              |0              |0.0          |0.0         |0.0         |0.0                |1                |1              |1               |1            |2350.0   |4620.0   |shandong my agricultural facilities co., ltd.                                                |unverified       |0         |chine         |1                     |0.0                   |
 |4   |5hp/7hp/12hp rotary electric start agricultural farming walking tractor power tiller weeder cultivators                         |1                |1               |4          |1                |              |2              |0.0          |0.0         |0.0         |0.0                |1                |1              |1               |1            |244.0    |371.0    |shandong jinlong lutai international trade co., ltd.                                         |verified         |0         |chine         |1                     |0.0                   |
 |5   |free shipping 3.5 ton mini excavator 1 ton 2 ton kubota engine digger excavator mini pelle chinese cheap small excavator machine|1                |1               |5          |1                |CE            |95             |4.6          |25.0        |4.6         |4.6                |1                |1              |1               |1            |988.0    |1235.0   |shandong qilu industrial co., ltd.                                                           |unverified       |5         |chine         |4                     |4.6                   |
-
-
-
-
-
-				
-
 
 
 ### Installation
