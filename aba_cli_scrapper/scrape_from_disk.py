@@ -113,12 +113,14 @@ class PageParser:
         ]
         logger.info("All expected divs and dict has been retrived ...")
         # TODO: add good items directly in a new list instead of removing them
-        _ = [divs_and_dict.pop(divs_and_dict.index(item)) for item in divs_and_dict if item[0] is not None and item[1] is None] # remove none tuple from list
+        _ = [divs_and_dict.pop(divs_and_dict.index(item)) for item in divs_and_dict if( item[0] is  None or item[1] is  None)] # remove none tuple from list
         new_divs_and_dict = []
         for item in divs_and_dict:
             # print("hello")
-            # print(item[1])
+            # print(item[0])
             # print(type(item[1]))
+            if item[1] is None:
+                continue
             new_divs_and_dict.append((item[0],json.loads(item[1]))) # type: ignore
 
         return new_divs_and_dict
