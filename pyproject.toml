@@ -7,7 +7,7 @@ readme = "README.md"
 license = "GNU GENERAL PUBLIC LICENSEVersion 3, 29 June 2007"
 homepage = "https://github.com/poneoneo/Alibaba-CLI-Scrapper"
 repository = "https://github.com/poneoneo/Alibaba-CLI-Scrapper"
-keywords = ["cli", "scrapping", "alibaba", "scraper", "alibaba-cli-scrapper"]
+keywords = ["cli", "scrapping", "alibaba", "scraper", "alibaba-cli-scrapper","dataset"]
 classifiers = [
     "Development Status :: 1 - Planning",
     "Environment :: Console",

@@ -112,8 +112,7 @@ class PageParser:
             for html_file in self._html_files_explorer() 
         ]
         logger.info("All expected divs and dict has been retrived ...")
-        # TODO: add good items directly in a new list instead of removing them
-        _ = [divs_and_dict.pop(divs_and_dict.index(item)) for item in divs_and_dict if( item[0] is  None or item[1] is  None)] # remove none tuple from list
+
         new_divs_and_dict = []
         for item in divs_and_dict:
             # print("hello")
