@@ -1,7 +1,4 @@
-from asyncio import Task
-import html
 from pathlib import Path
-import json 
 
 import selectolax
 from loguru import logger
@@ -13,7 +10,7 @@ def _create_folder(folder_name: str):
     return Path(folder_name)
 
 
-def json_parser_to_dict(html_content: str | bytes,css_selector: str = ""):
+def json_parser_to_dict(html_content: str | bytes, css_selector: str = ""):
     """Parse the HTML content of the page to get the divs with class `.organic-list.viewtype-list`
 
     :param html_content: The HTML content of the page
@@ -31,15 +28,23 @@ def json_parser_to_dict(html_content: str | bytes,css_selector: str = ""):
             "any HTML content  match the selector 'body > div.container > script:nth-child(9)', None will be returned and you may not have enough data as expected"
         )
         return None
-    json_result = script_div.text().replace("window.__page__data__config =","").replace("window.__page__data = window.__page__data__config.props","").strip("\n \t \b ")
+    json_result = (
+        script_div.text()
+        .replace("window.__page__data__config =", "")
+        .replace("window.__page__data = window.__page__data__config.props", "")
+        .strip("\n \t \b ")
+    )
     if json_result is None:
         logger.warning(
             "any HTML content  match the selector '.organic-list', None value has been returned"
         )
         raise ValueError("None value has been returned")
-    
+
     elif "window.__icbusearch_layout_i18n_kv__" in json_result:
-        json_result = json_parser_to_dict(html_content=html_content, css_selector="body > div.container > script:nth-child(9)")
+        json_result = json_parser_to_dict(
+            html_content=html_content,
+            css_selector="body > div.container > script:nth-child(9)",
+        )
         return json_result
     else:
         # print(json_result)

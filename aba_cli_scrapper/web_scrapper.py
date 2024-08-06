@@ -16,7 +16,6 @@ from typing import Optional
 
 import playwright
 import playwright.sync_api
-import requests
 import selectolax
 import urllib3
 from click import UsageError
@@ -132,9 +131,13 @@ async def async_scrapper(*, save_in: str, key_words: str, page_results: int) -> 
             # print(response.raise_for_status())
             # country_name = response.json()["country"]
             api_key = SBR_WS_CDP_LIST
+            if api_key == "":
+                rprint("[red]You need to set your SCRAPING BROWSER API key from BrightData to Enable Async Scraping")
+                return
             browser = await p.chromium.connect_over_cdp(api_key)
         except urllib3.exceptions.NameResolutionError:
-            raise UsageError("check your internet connection")
+            rprint("[red]check your internet connection")
+            return 
 
         except playwright._impl._errors.Error as e:  # type: ignore
             if "Account is suspended" in str(e):
