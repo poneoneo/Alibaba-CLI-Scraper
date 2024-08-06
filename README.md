@@ -106,6 +106,8 @@ When you will run command to export your sqlite file as a csv a `OUTER FULL JOIN
 
 - Scraping Browser API KEY from [BrightData](https://brightdata.fr/)  
 
+- Windows or Linux as OS 
+
 if you want to know how to set your api key look at here 
   - [Available Commands:](#available-commands)
 
@@ -253,6 +255,20 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
   aba-run db-update  sqlite --kw-results bike_results\ --filename alibaba_data
   ```
   ---
+  <details>
+  <summary> export-as-csv Demo</summary>
+
+<div align="center">
+  <p>
+    <a href="#"><img src="images\export-as-csv-demo.gif" width="900" height="340" alt="command result 1" /></a>
+  </p>
+  <p align="center">
+  </p>
+</div>
+  </details>
+
+  NB: This command is not available on Linux or Ubuntu OS
+
   *  **`export-as-csv` sub-command:** Exports scraped data from your sqlitedatabase to a CSV file. This csv file will contain a `FULL OUTER JOIN` with the `products` and `suppliers` tables.
 
   this command takes one required argument and one optional argument:
