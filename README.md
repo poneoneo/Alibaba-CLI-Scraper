@@ -104,7 +104,7 @@ When you will run command to export your sqlite file as a csv a `OUTER FULL JOIN
 
 - Python 3.11 or Higher
 
-- Scraping Browser API KEY from [BrightData](https://brightdata.fr/)  
+- Scraping Browser API KEY from [BrightData](https://get.brightdata.com/fdrqnme1smdc)  
 
 - Windows or Linux as OS 
 
