@@ -12,6 +12,7 @@ import asyncio
 import os
 import time
 from asyncio import TaskGroup
+from typing import Optional
 
 import playwright
 import playwright.sync_api
@@ -83,7 +84,7 @@ async def goto_task(
     tg_instance: TaskGroup,
     page: AsyncPage,
     page_results: int,
-) -> str | None:
+) -> Optional[str]:
     """Return the entire HTML content from each page only the divs with class `.organic-list.viewtype-list`
 
     :param url: URL of page range 1 to 42 include

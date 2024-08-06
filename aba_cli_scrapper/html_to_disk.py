@@ -9,8 +9,8 @@ from loguru import logger
 
 def _create_folder(folder_name: str):
     logger.info(f"Create folder with {folder_name} as name if not exists yet ...")
-    Path(f"{folder_name}").mkdir(exist_ok=True)
-    return Path(f"{folder_name}")
+    Path(folder_name).mkdir(exist_ok=True)
+    return Path(folder_name)
 
 
 def json_parser_to_dict(html_content: str | bytes,css_selector: str = ""):

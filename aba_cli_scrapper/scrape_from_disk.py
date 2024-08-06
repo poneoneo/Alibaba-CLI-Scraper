@@ -49,13 +49,16 @@ class PageParser:
         str, Path
     ]  # folder path that contains all html files to be scraped
 
-    def _retrieve_html_content_as_string(self, html_file: Path):
-        logger.info(f"Retrieving html content from file : {html_file}")
+    def _retrieve_html_content_as_string(self, html_file: str ):
+        """
+        Retrieve html content from a html file and return it as a string.
 
-        if not isinstance(html_file, Path):
-            raise TypeError(
-                f"html_file must be a Path object but got : {type(html_file)}"
-            )
+        :param html_file: The path of the html file to be read.
+        :type html_file: str
+        :return: The html content as a string.
+        :rtype: str
+        """
+        logger.info(f"Retrieving html content from file : {html_file}")
 
         with open(html_file, "r", encoding="utf-8") as fs:
             html_content = fs.read()
@@ -63,15 +66,17 @@ class PageParser:
         return html_content
     
     def _retrieve_json_content_as_dict(self, json_file: Path):
+        """
+        Retrieve json content from a json file and return it as a dictionary.
+
+        :param json_file: The path of the json file to be read.
+        :type json_file: pathlib.Path
+        :return: The json content as a dictionary.
+        :rtype: dict
+        """
         logger.info(f"Retrieving json content from file : {json_file.resolve()}")
 
-
-        if not isinstance(json_file, Path):
-            raise TypeError(
-                f"json_file argument must be a Path object but got : {type(json_file)}"
-            )
-
-        with open(json_file, "r", encoding="utf-8") as fs:
+        with json_file.open('r', encoding='utf-8') as fs:
             json_content_as_dict = json.load(fs,)
         logger.info("Html content has been retrieved.")
         return json_content_as_dict['props']['offerResultData']['offers']

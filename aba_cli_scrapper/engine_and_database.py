@@ -13,12 +13,9 @@ from sqlmodel import Session, SQLModel, create_engine, select  # noqa: F401
 from sqlalchemy.exc import IntegrityError, OperationalError
 
 
-def create_db_engine(db_name: str = "", db_url: str = ""):
-    if db_url == "":
-        engine = create_engine(f"sqlite:///{db_name}.sqlite")
-    if db_url != "":
-        engine = create_engine(db_url)
-    return engine
+def create_db_engine(db_name: str = "", db_url: str = ""): 
+     db_url = db_url if db_url else f"sqlite:///{db_name}.sqlite"
+     return create_engine(db_url) 
 
 
 # engine = create_engine("sqlite:///iphones_xs.sqlite")
