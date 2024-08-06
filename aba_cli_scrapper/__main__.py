@@ -954,7 +954,7 @@ def export_as_csv(sqlite_file: Annotated[str,typer.Argument(help="take name of t
       FULL OUTER JOIN Supplier ON Product.id = Supplier.id""")
       rows = cursor.fetchall()
     except sqlite3.OperationalError as e:
-       raise UsageError(f"<{sqlite_file}> has not been initialized: {e}" ) 
+       raise UsageError(f"An error has occured with <{sqlite_file}>:  {e}" ) 
     
     with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),*Progress.get_default_columns(),transient=True,) as progress:
       task = progress.add_task(f"[green]Exporting [blue]{sqlite_file}[/blue] :arrow_right: [blue]{to}[/blue] ...",start=False)
