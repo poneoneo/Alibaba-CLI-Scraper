@@ -116,7 +116,7 @@ class PageParser:
                 ),
                 json_parser_to_dict(
                     self._retrieve_html_content_as_string(html_file),
-                    css_selector="body > div.container > script[type='text/javascript'] + script",
+                    css_selector="div[class='container']",
                 ),
             )
             for html_file in self._html_files_explorer()
@@ -128,8 +128,11 @@ class PageParser:
             # print("hello")
             # print(item[0])
             # print(type(item[1]))
-            if item[1] is None:
+            # print(item[1])
+            if item[1] is None or item[1] == "":
+                # print("this item is none or an empty string {}".format(item[1]))
                 continue
+            # print("this item is not none or an empty string {}".format(item[1]))
             new_divs_and_dict.append((item[0], json.loads(item[1])))  # type: ignore
 
         return new_divs_and_dict
@@ -158,27 +161,41 @@ class PageParser:
             transient=True,
         ) as progress:
             all_pages_task = progress.add_task(
-                description="[blank]Parsing suppliers ...[/blank]"
+                description="[blank]Parsing suppliers ...[/blank]",
             )
             # single_page_task = progress.add_task(description="Retrieving suppliers ...", total=1)
             for divs, offers in self._divs_and_dict():
-                if offers["props"]["offerResultData"]["totalCount"] == 0:
-                    continue
-                for offer in offers["props"]["offerResultData"]["offers"]:
-                    suppliers.append(
-                        {
-                            "name": offer["companyName"].lower(),
-                            "verified_type": suppliers_status(tags=divs, offer=offer),
-                            "sopi_level": offer["displayStarLevel"],
-                            "country_name": country_name(
-                                country_min=offer["countryCode"]
-                            ),
-                            "gold_supplier_year": offer["goldSupplierYears"].split(" ")[
-                                0
-                            ],
-                            "supplier_service_score": float(offer["supplierService"]),
-                        }
-                    )
+                # print(offers)
+                # print(type(offers))
+                # with open("offers.json", "w") as f:
+                #     json.dump(offers, f,indent=4)
+                try:
+                    if offers["offerTotalCount"] == 0:
+                        continue
+                except KeyError:
+                    if offers['props']['offerTotalCount'] == 0:
+                        continue
+                try:
+                    offers_values = offers["offerResultData"]["offers"]
+                except KeyError:
+                    offers_values = offers["props"]["offerResultData"]["offers"]
+                    pass
+                    for offer in offers_values:
+                        suppliers.append(
+                            {
+                                "name": offer["companyName"].lower(),
+                                "verified_type": suppliers_status(tags=divs, offer=offer),
+                                "sopi_level": offer["displayStarLevel"],
+                                "country_name": country_name(
+                                    country_min=offer["countryCode"]
+                                ),
+                                "gold_supplier_year": offer["goldSupplierYears"].split(" ")[
+                                    0
+                                ],
+                                "supplier_service_score": float(offer["supplierService"]),
+                            }
+                        )
+                # all_pages_task.  
                 progress.update(
                     all_pages_task, advance=100 / len(self._divs_and_dict())
                 )
@@ -208,46 +225,54 @@ class PageParser:
                 description="[blank]Parsing products ...[/blank]"
             )
             for divs, offers in self._divs_and_dict():
-                if offers["props"]["offerResultData"]["totalCount"] == 0:
-                    continue
-                # print(f"total count : {offers['props']['offerResultData']['totalCount']}")
-                for offer in offers["props"]["offerResultData"]["offers"]:
-                    products.append(
-                        {
-                            "name": offer["enPureTitle"].lower(),
-                            "max_price": get_product_price(
-                                all_price_text=offer["price"], which="max"
-                            ),
-                            "min_price": get_product_price(
-                                all_price_text=offer["price"], which="min"
-                            ),
-                            "guaranteed_by_alibaba": is_alibaba_guaranteed(
-                                str_status=offer["halfTrust"]
-                            ),
-                            "certifications": get_product_certification(offer=offer),
-                            "minimum_to_order": int(
-                                float(offer["halfTrustMoq"].lower())
-                            ),
-                            "ordered_or_sold": ordered_or_sold(offer=offer),
-                            "supplied_by": offer["companyName"].lower(),
-                            "product_score": float(offer["productScore"]),
-                            "review_count": float(offer["reviewCount"]),
-                            "review_score": float(offer["reviewScore"]),
-                            "shipping_time_score": float(offer["shippingTime"]),
-                            "is_full_promotion": is_full_promotion(
-                                str_status=offer["isFullPromotion"]
-                            ),
-                            "customizable": is_customizable(
-                                str_status=offer["customizable"]
-                            ),
-                            "instant_order": is_instant_order(
-                                str_status=offer["halfTrustInstantOrder"]
-                            ),
-                            "trade_product": is_trade_product(
-                                str_status=offer["tradeProduct"]
-                            ),
-                        }
-                    )
+                try:
+                    if offers["offerTotalCount"] == 0:
+                        continue
+                except KeyError:
+                    if offers['props']['offerTotalCount'] == 0:
+                        continue
+                try:
+                    offers_values = offers["offerResultData"]["offers"]
+                except KeyError:
+                    offers_values = offers["props"]["offerResultData"]["offers"]
+                    pass
+                    for offer in offers_values:
+                        products.append(
+                            {
+                                "name": offer["enPureTitle"].lower(),
+                                "max_price": get_product_price(
+                                    all_price_text=offer["price"], which="max"
+                                ),
+                                "min_price": get_product_price(
+                                    all_price_text=offer["price"], which="min"
+                                ),
+                                "guaranteed_by_alibaba": is_alibaba_guaranteed(
+                                    str_status=offer["halfTrust"]
+                                ),
+                                "certifications": get_product_certification(offer=offer),
+                                "minimum_to_order": int(
+                                    float(offer["halfTrustMoq"].lower())
+                                ),
+                                "ordered_or_sold": ordered_or_sold(offer=offer),
+                                "supplied_by": offer["companyName"].lower(),
+                                "product_score": float(offer["productScore"]),
+                                "review_count": float(offer["reviewCount"]),
+                                "review_score": float(offer["reviewScore"]),
+                                "shipping_time_score": float(offer["shippingTime"]),
+                                "is_full_promotion": is_full_promotion(
+                                    str_status=offer["isFullPromotion"]
+                                ),
+                                "customizable": is_customizable(
+                                    str_status=offer["customizable"]
+                                ),
+                                "instant_order": is_instant_order(
+                                    str_status=offer["halfTrustInstantOrder"]
+                                ),
+                                "trade_product": is_trade_product(
+                                    str_status=offer["tradeProduct"]
+                                ),
+                            }
+                        )
                 progress.update(
                     all_pages_task, advance=100 / len(self._divs_and_dict())
                 )

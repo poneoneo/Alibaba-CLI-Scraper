@@ -22,33 +22,28 @@ def json_parser_to_dict(html_content: str | bytes, css_selector: str = ""):
     # dont parse anything at this stage as we are going to parse later
     # print(html_content)
     body_parser = selectolax.parser.HTMLParser(html_content)
-    script_div = body_parser.css_first(css_selector)
-    if script_div is None:
+    div_with_class_container = body_parser.css_first(css_selector)
+    if div_with_class_container is None:
         logger.warning(
-            "any HTML content  match the selector 'body > div.container > script:nth-child(9)', None will be returned and you may not have enough data as expected"
+            "Something went wrong with the parsing, an empty none value has been returned "
         )
         return None
-    json_result = (
-        script_div.text()
-        .replace("window.__page__data__config =", "")
-        .replace("window.__page__data = window.__page__data__config.props", "")
-        .strip("\n \t \b ")
-    )
-    if json_result is None:
-        logger.warning(
-            "any HTML content  match the selector '.organic-list', None value has been returned"
-        )
-        raise ValueError("None value has been returned")
-
-    elif "window.__icbusearch_layout_i18n_kv__" in json_result:
-        json_result = json_parser_to_dict(
-            html_content=html_content,
-            css_selector="body > div.container > script:nth-child(9)",
-        )
-        return json_result
-    else:
-        # print(json_result)
-        return json_result.strip()
+    list_scripts = div_with_class_container.css("script")
+    # print(list_scripts)
+    json_result = ""
+    for script in list_scripts:
+        script_content = script.text()
+        # print(script_content)
+        if  "window.__page__data =" in script_content:
+            # print(script_content)
+            json_result = (
+                script.text().replace("window.__page__data__config =", "").replace("window.__page__data = window.__page__data__config.props", "").replace("window.__page__data =", "").strip("\n \t \b ")
+            )
+            break
+    # print(json_result)
+    # with open("result.json", "w") as f:
+    #     f.write(json_result)
+    return json_result.strip()
 
 
 @logger.catch()

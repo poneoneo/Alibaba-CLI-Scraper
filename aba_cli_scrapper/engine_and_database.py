@@ -2,7 +2,7 @@ from typing import Sequence
 
 from click import UsageError
 from loguru import logger
-from MySQLdb import OperationalError as MySQLdbOperationalError
+from pymysql import OperationalError as MySQLdbOperationalError
 from rich.progress import (
     BarColumn,
     Progress,

@@ -743,7 +743,7 @@ def _db_url(credentials: dict = dict(), auto_fill: bool = False):
                     cred.update({"password": item[1]})
                 else:
                     continue
-        return f"mysql+mysqldb://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"
+        return f"mysql+pymysql://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"
 
     else:
         cred = {
