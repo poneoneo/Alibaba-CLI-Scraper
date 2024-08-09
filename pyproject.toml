@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aba-cli-scrapper"
-version = "1.6.36"
+version = "0.2.5"
 description = "Scrappe all products and theirs related suppliers existing on Alibaba based on keywords provided by user and save results into a database (Mysql/Sqlite)."
 authors = ["poneoneo <onealzero@gmail.com>"]
 readme = "README.md"
@@ -38,9 +38,9 @@ pyright = "1.1.370"
 aba-run = "aba_cli_scrapper.__main__:app"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<4.0"
+python = ">=3.11,<4.0"
 
-# aba-cli-scrapper = "^1.6.28"
+
 python-dotenv = "^1.0.1"
 sqlalchemy = "^2.0.32"
 typer = "^0.12.3"
@@ -49,6 +49,40 @@ selectolax = "^0.3.21"
 playwright = "^1.45.0"
 tenacity = "^9.0.0"
 pymysql = "^1.1.1"
+loguru = "^0.7.2"
+aiosignal = {version = "1.3.1", markers = "python_version >= \"3.7\""}
+annotated-types = {version = "0.7.0", markers = "python_version >= \"3.8\""}
+attrs = {version = "23.2.0", markers = "python_version >= \"3.7\""}
+certifi = {version = "2024.7.4", markers = "python_version >= \"3.6\""}
+cffi = {version = "1.16.0", markers = "platform_python_implementation != \"PyPy\""}
+charset-normalizer = {version = "3.3.2", markers = "python_full_version >= \"3.7.0\""}
+click = {version = "8.1.7", markers = "python_version >= \"3.7\""}
+colorama = {version = "0.4.6", markers = "sys_platform == \"win32\""}
+cryptography = {version = "42.0.8", markers = "python_version >= \"3.7\""}
+frozenlist = {version = "1.4.1", markers = "python_version >= \"3.8\""}
+greenlet = {version = "3.0.3", markers = "python_version >= \"3.7\""}
+idna = {version = "3.7", markers = "python_version >= \"3.5\""}
+markdown-it-py = {version = "3.0.0", markers = "python_version >= \"3.8\""}
+mdurl = {version = "0.1.2", markers = "python_version >= \"3.7\""}
+multidict = {version = "6.0.5", markers = "python_version >= \"3.7\""}
+mypy-extensions = {version = "1.0.0", markers = "python_version >= \"3.5\""}
+nodeenv = {version = "1.9.1", markers = "python_version >= \"2.7\" and python_version not in \"3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6\""}
+packaging = {version = "24.1", markers = "python_version >= \"3.8\""}
+pathspec = {version = "0.12.1", markers = "python_version >= \"3.8\""}
+platformdirs = {version = "4.2.2", markers = "python_version >= \"3.8\""}
+pycparser = {version = "2.22", markers = "python_version >= \"3.8\""}
+pydantic = {version = "2.8.2", markers = "python_version >= \"3.8\""}
+pydantic-core = {version = "2.20.1", markers = "python_version >= \"3.8\""}
+pyee = {version = "11.1.0", markers = "python_version >= \"3.8\""}
+pygments = {version = "2.18.0", markers = "python_version >= \"3.8\""}
+requests = {version = "2.32.3", markers = "python_version >= \"3.8\""}
+rich = {version = "13.7.1", markers = "python_full_version >= \"3.7.0\""}
+shellingham = {version = "1.5.4", markers = "python_version >= \"3.7\""}
+typing-extensions = {version = "4.12.2", markers = "python_version >= \"3.8\""}
+urllib3 = {version = "2.2.2", markers = "python_version >= \"3.8\""}
+win32-setctime = {version = "1.1.0", markers = "sys_platform == \"win32\""}
+yarl = {version = "1.9.4", markers = "python_version >= \"3.7\""}
+
 
 
 
