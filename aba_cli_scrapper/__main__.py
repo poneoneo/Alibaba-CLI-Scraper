@@ -1,10 +1,9 @@
-"""                    GNU GENERAL PUBLIC LICENSE
+"""GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  Everyone is permitted to copy and distribute verbatim copies
  of this license document, but changing it is not allowed.
-
                             Preamble
 
   The GNU General Public License is a free, copyleft license for
@@ -677,16 +676,27 @@ import asyncio
 import csv
 import json
 import os
+import platform as pf
+import sqlite3
 import sys
 from pathlib import Path
 from typing import Optional
-import sqlite3 
 
 import dotenv
 import sqlalchemy
 import typer
 from click import MissingParameter, UsageError
-from dotenv import dotenv_values, load_dotenv
+from dotenv import load_dotenv
+from loguru import logger
+from rich import print as rprint
+from rich.progress import (
+    Progress,
+    SpinnerColumn,
+)
+from sqlmodel import SQLModel
+from typing_extensions import Annotated
+
+from . import LOGURU_LEVEL
 from .engine_and_database import (
     add_products_to_db,
     add_suppliers_to_db,
@@ -694,14 +704,8 @@ from .engine_and_database import (
     save_all_changes,
 )
 from .info_message import update_db_success_sqlite, update_db_with_success
-from loguru import logger
-from rich import print as rprint
 from .scrape_from_disk import PageParser
-from sqlmodel import SQLModel
-from typing_extensions import Annotated
 from .web_scrapper import async_scrapper, sync_scrapper
-from . import LOGURU_LEVEL
-from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn, BarColumn
 
 load_dotenv()
 logger.remove(0)
@@ -738,7 +742,7 @@ def _db_url(credentials: dict = dict(), auto_fill: bool = False):
                     cred.update({"password": item[1]})
                 else:
                     continue
-        return f"mysql+mysqldb://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"
+        return f"mysql+pymysql://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"
 
     else:
         cred = {
@@ -753,20 +757,28 @@ def _db_url(credentials: dict = dict(), auto_fill: bool = False):
                 raise MissingParameter(f"{key} is missing")
         with open("db_credentials.json", "w") as f:
             json.dump(cred, f)
-        return f"mysql+mysqldb://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"
+        return f"mysql+pymysql://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"
 
 
 @app.command()
 def scraper(
-    key_words: Annotated[str, typer.Argument(help="Keywords to search for on alibaba")] = "",
+    key_words: Annotated[
+        str, typer.Argument(help="Keywords to search for on alibaba")
+    ] = "",
     html_folder: Annotated[
-        Optional[str], typer.Option("--html-folder","-hf",help="Folder to save the results")
+        Optional[str],
+        typer.Option("--html-folder", "-hf", help="Folder to save the results"),
     ] = None,
     sync_api: Annotated[
-        Optional[bool], typer.Option("--sync-api","-sa",help="wether to sync or not")
+        Optional[bool], typer.Option("--sync-api", "-sa", help="wether to sync or not")
     ] = False,
     page_results: Annotated[
-        int, typer.Option("--page-results","-pr",help="Number of results per page to scrape from alibaba 10 by defaults")
+        int,
+        typer.Option(
+            "--page-results",
+            "-pr",
+            help="Number of results per page to scrape from alibaba 10 by defaults",
+        ),
     ] = 10,
 ) -> None:
     """
@@ -778,49 +790,76 @@ def scraper(
         else html_folder
     )
     if sync_api:
-        sync_scrapper(save_in=save_in_folder, key_words=key_words, page_results=page_results)
+        sync_scrapper(
+            save_in=save_in_folder, key_words=key_words, page_results=page_results
+        )
     else:
-        asyncio.run(async_scrapper(save_in=save_in_folder, key_words=key_words, page_results=page_results))
+        asyncio.run(
+            async_scrapper(
+                save_in=save_in_folder, key_words=key_words, page_results=page_results
+            )
+        )
 
 
 @app.command()
 def db_update(
-    kw_results:Annotated[Path, typer.Option("--kw-results","-kr",help="Folder where the html results are stored")],
+    kw_results: Annotated[
+        Path,
+        typer.Option(
+            "--kw-results", "-kr", help="Folder where the html results are stored"
+        ),
+    ],
     db_engine: Annotated[
         Optional[str], typer.Argument(help="Name of database engine to use")
     ] = "sqlite",
     filename: Annotated[
         Optional[str],
         typer.Option(
-            "--filename","-f",help="Name of the sqlite file(without any extensions) to update with news data",
+            "--filename",
+            "-f",
+            help="Name of the sqlite file(without any extensions) to update with news data",
         ),
     ] = None,
     host: Annotated[
         Optional[str],
         typer.Option(
-            "--host","-h",help="Host of the database engine",
+            "--host",
+            "-h",
+            help="Host of the database engine",
         ),
     ] = "localhost",
     port: Annotated[
-        Optional[int], typer.Option("--port","-p",help="Port of the database engine")
+        Optional[int], typer.Option("--port", "-p", help="Port of the database engine")
     ] = 3306,
     user: Annotated[
         Optional[str],
-        typer.Option("--user","-u",help="User of the database engine", show_default=False),
+        typer.Option(
+            "--user", "-u", help="User of the database engine", show_default=False
+        ),
     ] = None,
     password: Annotated[
         Optional[str],
-        typer.Option("--password","-pw",help="Password of the database engine", show_default=False),
+        typer.Option(
+            "--password",
+            "-pw",
+            help="Password of the database engine",
+            show_default=False,
+        ),
     ] = None,
     db_name: Annotated[
         Optional[str],
-        typer.Option("--db-name","-db",help="Database of the database engine", show_default=False),
+        typer.Option(
+            "--db-name",
+            "-db",
+            help="Database of the database engine",
+            show_default=False,
+        ),
     ] = None,
 ):
     """
     Updates the database with new products and their related suppliers. \n
     Example: \n
-    \b \b aba db-update sqlite/mysql --kw-results keyword_folder_result --db-name your_database_name \n 
+    \b \b aba db-update sqlite/mysql --kw-results keyword_folder_result --db-name your_database_name \n
     Raises: \n
     \b \b \b MissingParameter: If the engine is not 'sqlite' or 'mysql', or if the filename is required for sqlite engine, or if the filename is specified for non-sqlite engine.
 
@@ -847,7 +886,7 @@ def db_update(
         update_db_with_success()
         return None
     if not kw_results.exists():
-        raise UsageError(f"Folder {kw_results} does not exist")        
+        raise UsageError(f"Folder {kw_results} does not exist")
     else:
         page_parser = PageParser(targeted_folder=kw_results)
         suppliers = page_parser.detected_suppliers()
@@ -866,7 +905,9 @@ def db_init(
     ] = "sqlite",
     sqlite_file: Annotated[
         Optional[str],
-        typer.Option("--sqlite-file","-f",
+        typer.Option(
+            "--sqlite-file",
+            "-f",
             help="Name of the sqlite file to use (without any extensions)",
             show_default=False,
         ),
@@ -874,30 +915,38 @@ def db_init(
     host: Annotated[
         Optional[str],
         typer.Option(
-            "--host","-h",help="Host of the database engine",
+            "--host",
+            "-h",
+            help="Host of the database engine",
         ),
     ] = "localhost",
     port: Annotated[
-        Optional[int], typer.Option("--port","-p",help="Port of the database engine")
+        Optional[int], typer.Option("--port", "-p", help="Port of the database engine")
     ] = 3306,
     user: Annotated[
         Optional[str],
-        typer.Option("--user","-u",help="User of the database engine"),
+        typer.Option("--user", "-u", help="User of the database engine"),
     ] = None,
     password: Annotated[
         Optional[str],
-        typer.Option("--password","-pw",help="Password of the database engine"),
+        typer.Option("--password", "-pw", help="Password of the database engine"),
     ] = None,
     db_name: Annotated[
         Optional[str],
-        typer.Option("--db-name","-db",help="Database of the database engine", ),
+        typer.Option(
+            "--db-name",
+            "-db",
+            help="Database of the database engine",
+        ),
     ] = None,
     only_with: Annotated[
         Optional[bool],
         typer.Option(
-            "--only-with","-ow",help="set it to true if you just want to update some database crendentials but not all",
+            "--only-with",
+            "-ow",
+            help="set it to true if you just want to update some database crendentials but not all",
         ),
-    ] = False
+    ] = False,
 ):
     """
     This command initializes a database using the specified engine. It checks the validity of the engine and the
@@ -941,44 +990,83 @@ def db_init(
         rprint(
             f"[bold white]Database [magenta bold] {sqlite_file}.sqlite [/magenta bold] has been created succesfully :white_heavy_check_mark-emoji: ![/bold white]"
         )
+
+
 @app.command()
-def export_as_csv(sqlite_file: Annotated[str,typer.Argument(help="take name of the sqlite file",),],to: Annotated[str,typer.Option("--to","-t",help="take name of the csv file",),]):
+def export_as_csv(
+    sqlite_file: Annotated[
+        str,
+        typer.Argument(
+            help="take name of the sqlite file",
+        ),
+    ],
+    to: Annotated[
+        str,
+        typer.Option(
+            "--to",
+            "-t",
+            help="take name of the csv file",
+        ),
+    ],
+):
     """
-      This command exports a sqlite database as a csv file. A `FULL OUTER JOIN` operation will be used to join the two tables.
+    This command exports a sqlite database as a csv file. A `FULL OUTER JOIN` operation will be used to join the two tables.
     """
     try:
-      connector  = sqlite3.connect(f"{sqlite_file}")
-      cursor = connector.cursor()
-      cursor.execute("""
+        connector = sqlite3.connect(f"{sqlite_file}")
+        cursor = connector.cursor()
+        cursor.execute("""
       SELECT Product.id, Product.name, Product.alibaba_guranteed, Product.minimum_to_order, Product.supplier_id, Product.alibaba_guranteed, Product.certifications, Product.ordered_or_sold, Product.product_score, Product.review_count, Product.review_score, Product.shipping_time_score, Product.is_full_promotion, Product.is_customizable, Product.is_instant_order, Product.trade_product, Product.min_price, Product.max_price, supplier.name, supplier.verification_mode , supplier.sopi_level, supplier.country_name, supplier.years_as_gold_supplier, supplier.supplier_service_score
       FROM Product
       FULL OUTER JOIN Supplier ON Product.id = Supplier.id""")
-      rows = cursor.fetchall()
+        rows = cursor.fetchall()
     except sqlite3.OperationalError as e:
-       raise UsageError(f"<{sqlite_file}> has not been initialized: {e}" ) 
-    
-    with Progress(SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),*Progress.get_default_columns(),transient=True,) as progress:
-      task = progress.add_task(f"[green]Exporting [blue]{sqlite_file}[/blue] :arrow_right: [blue]{to}[/blue] ...",start=False)
-      with open(f"{to}", "w") as csv_file:
-        csv_writer = csv.writer(csv_file, delimiter="\t")
-        progress.start_task(task)
-        csv_writer.writerow([i[0] for i in cursor.description])
-        for row in rows:
-            csv_writer.writerow(row)
-            progress.update(task, advance=100/len(rows))
-    rprint(f"[bold white] {to} file has been created with success :white_heavy_check_mark-emoji: ![/bold white]")
+        if pf.system() != "Windows":
+            raise UsageError(
+                f"{pf.system()} does not support <export-as-csv> command cause: {e}"
+            )
+        raise UsageError(f"An error has occured with <{sqlite_file}>:  {e}")
+
+    with Progress(
+        SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),
+        *Progress.get_default_columns(),
+        transient=True,
+    ) as progress:
+        task = progress.add_task(
+            f"[green]Exporting [blue]{sqlite_file}[/blue] :arrow_right: [blue]{to}[/blue] ...",
+            start=False,
+        )
+        with open(f"{to}", "w") as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter="\t")
+            progress.start_task(task)
+            csv_writer.writerow([i[0] for i in cursor.description])
+            for row in rows:
+                csv_writer.writerow(row)
+                progress.update(task, advance=100 / len(rows))
+    rprint(
+        f"[bold white] {to} file has been created with success :white_heavy_check_mark-emoji: ![/bold white]"
+    )
+
 
 @app.command()
-def set_api_key(api_key: Annotated[str,typer.Argument(help="take bright data api key you want to use",)]) -> None:
-  """
+def set_api_key(
+    api_key: Annotated[
+        str,
+        typer.Argument(
+            help="take bright data api key you want to use",
+        ),
+    ],
+) -> None:
+    """
     This command sets your bright data api key.
-  """
-  dotenv_file = dotenv.find_dotenv()
-  dotenv.load_dotenv(dotenv_file)
-  os.environ["SBR_WS_CDP_LIST"] = api_key
-  dotenv.set_key(dotenv_file, "SBR_WS_CDP_LIST", os.environ["SBR_WS_CDP_LIST"])
-  rprint("[bold white]API key has been saved with success now you can use [magenta bold] `scraper` [/magenta bold] subcommand with async mode  :white_heavy_check_mark-emoji: ![/bold white]")
-  rprint("[bold white]You can now use [magenta bold] `scraper` [/magenta bold]  subcommand with async mode with success :white_heavy_check_mark-emoji: ![/bold white]")
-
-
-
+    """
+    dotenv_file = dotenv.find_dotenv()
+    dotenv.load_dotenv(dotenv_file)
+    os.environ["SBR_WS_CDP_LIST"] = api_key
+    dotenv.set_key(dotenv_file, "SBR_WS_CDP_LIST", os.environ["SBR_WS_CDP_LIST"])
+    rprint(
+        "[bold white]API key has been saved with success now you can use [magenta bold] `scraper` [/magenta bold] subcommand with async mode  :white_heavy_check_mark-emoji: ![/bold white]"
+    )
+    rprint(
+        "[bold white]You can now use [magenta bold] `scraper` [/magenta bold]  subcommand with async mode with success :white_heavy_check_mark-emoji: ![/bold white]"
+    )

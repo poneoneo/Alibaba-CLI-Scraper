@@ -1,10 +1,8 @@
 import json
 import pathlib
-from pprint import pprint
 import unicodedata
 from typing import Literal
 
-from click import Path
 from loguru import logger
 from selectolax.parser import Node
 
@@ -55,44 +53,51 @@ def is_alibaba_guaranteed(str_status: str):
 
 
 @logger.catch(TypeError)
-def get_product_certification(offer:dict):
+def get_product_certification(offer: dict):
     certifications_name = []
-    for info in offer['productCertificates']:
+    for info in offer["productCertificates"]:
         certifications_name.append(info["name"])
-    
+
     return ",".join(certifications_name)
 
-def is_full_promotion(str_status:str):
-    if str_status == "false":
-        return False
-    else:
-        return True
-    
-def is_customizable(str_status:str):
-    if str_status == "false":
-        return False
-    else:
-        return True
-    
-def is_instant_order(str_status:str):
+
+def is_full_promotion(str_status: str):
     if str_status == "false":
         return False
     else:
         return True
 
-def is_trade_product(str_status:str):
+
+def is_customizable(str_status: str):
     if str_status == "false":
         return False
     else:
         return True
+
+
+def is_instant_order(str_status: str):
+    if str_status == "false":
+        return False
+    else:
+        return True
+
+
+def is_trade_product(str_status: str):
+    if str_status == "false":
+        return False
+    else:
+        return True
+
 
 @logger.catch(TypeError)
-def suppliers_status(tags: list[Node],offer:dict):
-    for tag in tags :
+def suppliers_status(tags: list[Node], offer: dict):
+    for tag in tags:
         # print(tag.attributes)
-        company_name = tag.css_first("a[data-spm='d_companyName']").text().strip().lower()
+        company_name = (
+            tag.css_first("a[data-spm='d_companyName']").text().strip().lower()
+        )
         # print(company_name+ "1")
-        if company_name == offer['companyName'].lower().strip():
+        if company_name == offer["companyName"].lower().strip():
             # print(offer['companyName'].lower().strip()+"2")
             node_a = tag.css_first(".auth-info-group-normal.J_no_jump")
             if node_a is None:
@@ -110,9 +115,8 @@ def suppliers_status(tags: list[Node],offer:dict):
                 # print(mode)
                 mode = mode.split("=")[2]
                 return mode
-            return "unverified" 
+            return "unverified"
     return "unverified"
-           
 
 
 @logger.catch(TypeError)
@@ -154,10 +158,10 @@ def minimum_to_order(tag: Node):
 
 
 @logger.catch(TypeError)
-def ordered_or_sold(offer:dict):
+def ordered_or_sold(offer: dict):
     power_common_info = offer.get("marketingPowerCommon")
     if power_common_info is not None:
-        return int( power_common_info['count'])
+        return int(power_common_info["count"])
     else:
         return 0
 
