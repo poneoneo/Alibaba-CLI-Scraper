@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.3.1 (2024-08-10)
+
+### Fix
+
+* fix(*): fixing release v0.3.0 with plawright instalation ([`833bfe3`](https://github.com/poneoneo/Alibaba-Scrapper/commit/833bfe33235803c17d8967e5b17a56aa5d18a7c5))
+
+* fix(poetry.lock): update poetry.lock and pyproject.toml to fix depencies bugs while instalation of playwright ([`40af7fa`](https://github.com/poneoneo/Alibaba-Scrapper/commit/40af7fafc9e454633f5870db533f62ddeb954765))
+
 ## v0.3.0 (2024-08-09)
 
 ### Breaking
