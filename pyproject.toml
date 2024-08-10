@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aba-cli-scrapper"
-version = "0.3.0"
+version = "0.3.1"
 description = "Scrappe all products and theirs related suppliers existing on Alibaba based on keywords provided by user and save results into a database (Mysql/Sqlite)."
 authors = ["poneoneo <onealzero@gmail.com>"]
 readme = "README.md"
@@ -95,9 +95,9 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.semantic_release]
 version_variable = "pyproject.toml:version"
-branch = "dev"
+branch = "main"
 
 [tool.semantic_release.branches.dev]
-match = "dev"
+match = "main"
 prerelease_token = "rc"
 prerelease = false
