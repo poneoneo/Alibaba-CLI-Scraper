@@ -21,12 +21,13 @@ from .utils_scrapping import (
     get_product_certification,
     get_product_price,
     is_alibaba_guaranteed,
+    suppliers_status,
+    custom_minium_to_oder,
     is_customizable,
-    is_full_promotion,
     is_instant_order,
+    is_full_promotion,
     is_trade_product,
     ordered_or_sold,
-    suppliers_status,
 )
 
 # logger.remove(4)
@@ -248,10 +249,8 @@ class PageParser:
                                     str_status=offer["halfTrust"]
                                 ),
                                 "certifications": get_product_certification(offer=offer),
-                                "minimum_to_order": int(
-                                    float(offer["halfTrustMoq"].lower())
-                                ),
-                                "ordered_or_sold": ordered_or_sold(offer=offer),
+                                "minimum_to_order": custom_minium_to_oder(offer["halfTrustMoq"].lower()),
+                                "ordered_or_sold": ordered_or_sold(offer=offer), 
                                 "supplied_by": offer["companyName"].lower(),
                                 "product_score": float(offer["productScore"]),
                                 "review_count": float(offer["reviewCount"]),

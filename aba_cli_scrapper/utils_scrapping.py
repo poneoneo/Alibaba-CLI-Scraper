@@ -156,6 +156,12 @@ def minimum_to_order(tag: Node):
     else:
         return 0
 
+def custom_minium_to_oder(scraped_str:str):
+    try :
+        float(scraped_str)
+    except ValueError:
+        return 0
+    return float(scraped_str)
 
 @logger.catch(TypeError)
 def ordered_or_sold(offer: dict):
