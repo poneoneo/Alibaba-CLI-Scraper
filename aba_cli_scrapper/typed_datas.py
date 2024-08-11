@@ -5,7 +5,7 @@ class ProductDict(TypedDict):
     name: str
     guaranteed_by_alibaba: bool
     certifications: str
-    minimum_to_order: int
+    minimum_to_order: float
     ordered_or_sold: int
     min_price: float
     max_price: float
