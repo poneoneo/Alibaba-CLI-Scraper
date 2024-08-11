@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.3.2 (2024-08-11)
+
+### Chore
+
+* chore(typed_datas): change type of minimum_to_order from int to float ([`248ca3e`](https://github.com/poneoneo/Alibaba-Scrapper/commit/248ca3eceb02653878b5defc99bc522ae69fb0b0))
+
+### Fix
+
+* fix(aba_cli_scrapper): fix ValueError: could not convert string to float: &#39;&#39; while parsing minimum_to_order ([`c7a9655`](https://github.com/poneoneo/Alibaba-Scrapper/commit/c7a965534417d0941224e9a077e3ea2ed6c720f7))
+
 ## v0.3.1 (2024-08-10)
 
 ### Fix
