@@ -717,8 +717,8 @@ app = typer.Typer(pretty_exceptions_enable=False)
 def _db_url(credentials: dict = dict(), auto_fill: bool = False):
     if auto_fill is True:
         if Path("db_credentials.json").exists() is False:
-            raise FileNotFoundError(
-                "db_credentials.json is missing YOU NEED TO RUN `db-init` COMMAND FIRST !!"
+            raise UsageError(
+                "db_credentials.json is missing if you want to auto fill your mysql credentials you need to run `db-init` subcommand at least once with `--user`, `--password` and `--db-name` arguments."
             )
         with open("db_credentials.json", "r") as f:
             cred: dict = json.load(f)
