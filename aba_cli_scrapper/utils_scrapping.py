@@ -160,7 +160,7 @@ def custom_minium_to_oder(scraped_str:str):
     try :
         float(scraped_str)
     except ValueError:
-        return 0
+        return 0.0
     return float(scraped_str)
 
 @logger.catch(TypeError)
