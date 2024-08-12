@@ -1,12 +1,12 @@
 <div align="center">
   <p>
-    <a href="#"><img src="images\d.jpeg" width="600" height="300" alt="overview image" /></a>
+    <a href="#"><img src="images\inroduce_scraper.jpg" width="300" height="300" alt="overview image" /></a>
   </p>
 </div>
 
 
 <h1 style="text-align:center;">  Alibaba-CLI-Scraper </h1>
-<h2 style="position:relative;text-align:center;"> 🛒 💻 🕸 </h2>
+<h2 style="text-align:center;"> 🛒-💻- 🕸 </h2>
 
 
 ---
@@ -23,6 +23,7 @@ The purpose of this project is to extract products and theirs related suppliers 
   - [Installation](#installation)
   - [Using the CLI Interface](#using-the-cli-interface)
     - [Available Commands:](#available-commands)
+      - [Important Informations:](#important-informations)
       - [How to set My API KEY ?](#how-to-set-my-api-key-)
 - [Future Enhancements](#future-enhancements)
 - [Contributions Welcome!](#contributions-welcome)
@@ -31,9 +32,11 @@ The purpose of this project is to extract products and theirs related suppliers 
 ### Features:
 
 * **Asynchronous API:** Utilizes asynchronous API of Playwright and Brightdata Proxies for efficient handling of numerous pages results.
-* **Database Integration:**  Stores scraped data in a database (SQLite or MySQL) for structured persistence.
+
+
 * **User-Friendly CLI:** Provides easy-to-use commands for running the scraper and managing the database.
 
+* **Export-As-Csv:** Export your generated sqlite file to csv file.
 ### Which important informations will be retrieved from the Alibaba website ?
 
 Fields related to `Suppliers`:
@@ -108,8 +111,8 @@ When you will run command to export your sqlite file as a csv a `OUTER FULL JOIN
 
 - Windows or Linux as OS 
 
-if you want to know how to set your api key look at here 
-  - [Available Commands:](#available-commands)
+if you want to know how to set your api key look at [here](#available-commands) 
+
 
 
 ### Installation
@@ -130,7 +133,7 @@ If you'd like to use `pip` instead, just replace `pipx` with `pip`  but obviousl
 
 <div align="center">
   <p>
-    <a href="#"><img src="images\help-cli.png" width="900" height="340" alt="command result 1" /></a>
+    <a href="#"><img src="images\help-cli-2.png" width="900" height="340" alt="command result 1" /></a>
   </p>
   <p align="center">
   </p>
@@ -144,7 +147,10 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
 ---
 #### Available Commands:
 
+  ##### Important Informations:
 
+  * **`initialize` :**  Means create a new Mysql or SQLite database with products and suppliers table in it. Which will be used to store your scraped data. Especially for mysql engine, you will need to create an empty database in your mysql server before.
+  * **`update` :** Means add your scraped data to a newly initialized Mysql or SQLite database. this action cannot be performed twice on the same database. 
 
   <details>
   <summary>Scraper Demo</summary>
@@ -155,7 +161,8 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
 
 
   ##### How to set My API KEY ?
-  by default `scrapper` will use async mode which is supported by brightdata api which means if you want to use it you will need to provide your api key. set it by using command bellow:
+  by default `scrapper` will use async mode which is supported by brightdata api, means if you want to use it you will need to provide your api key. set it by using command bellow:
+
   ```bash
   aba-run set-api-key your_api_key
   ```
@@ -166,6 +173,7 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
       * -  **`key_words` (required):** The search term(s) for finding products on Alibaba. Enclose multiple keywords in quotes.
       * - **`--page-results` or `-pr` (required):** Usually keys words will results to many pages macthing them. Then you must to indicate how many of them you want to pull out.If any value is not provided `10` will be used by default.
       * -  **`--html-folder` or `-hf` (optional):** Specifies the directory to store the raw HTML files. If omitted, a folder with sanitized keywords as name will be automatically created. In this case `electric_bikes` will be used as a results folder name.
+      * -  **`--sync-api` or `-sa` (optional):** flag indicates that you want to use sync mode. By default `async` mode is used.
 
       **Example**:
       ```shell
@@ -174,7 +182,7 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
   However if you want to use sync mode you can use :
 
   ```bash
-  aba-run scraper "electric bikes" -hf "bike_results" -pr 15  --sync-api
+  aba-run scraper "electric bikes" -hf "bike_results" -pr 15  --sync-api/-sa
   ```
   and voila! 
 
@@ -188,29 +196,23 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
   [https://user-images.githubusercontent.com/49741340/238535232-459847af-a15c-4d9b-91ac-fab9958bc74f.mp4](https://private-user-images.githubusercontent.com/52409392/351970999-0f9491e5-69f0-470b-8a8e-9e436f0a0d0b.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjE4ODQ0MjksIm5iZiI6MTcyMTg4NDEyOSwicGF0aCI6Ii81MjQwOTM5Mi8zNTE5NzA5OTktMGY5NDkxZTUtNjlmMC00NzBiLThhOGUtOWU0MzZmMGEwZDBiLm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA3MjUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNzI1VDA1MDg0OVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWRiMmJiZTg3MDE3NTAwZWRhMzE2MTM5NDhjNmZkZTAwZWYxOTUxN2RlMzA1NGM4MzgyNWJkZTJmNTNkNzFhNDAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.gjlDs3VMK_MIg1Ne3cEqrO__LsZdyOgjy-SlZuXvd_s)
 
   </details>
-  Then you must initialize a database. Mysql and sqlite are supported.
 
-  *   **`db-init` sub-command:** Creates a new database mysql/sqlite.
+  *   **`db-init` sub-command:** Creates a new database mysql/sqlite with products and suppliers as tables in it.
   this command takes one required arguments and six optional arguments(depends on engine you choose):
-      * -   **`engine` (required):** Choose either `sqlite` or `mysql`.
+      * -   **`engine` (required):** Choose either `sqlite` or `mysql`. Is set to `sqlite` by default.
       *  - **`--sqlite-file` or `-f`(optional, SQLite only):**  The name for your SQLite database file (without any extension).
       *   - **`--host` or `-h`, `--port` or `-p`, `--user` or `-u`, `--password` or `-pw`, `--db-name`or `-db` (required for MySQL):**  Your MySQL database connection details.
     
-      *   **`--only-with` or `-ow`(optional Mysql):**  If you just want to update some details of your credentials in `db_credentials.json` file but not all before to initialize a brand new database.
-  * **NB:** `--host` and `--port` are respectively set to `localhost` and `3306` by default. 
+      *   **`--only-with` or `-ow`(optional Mysql):**  If you just want to update some details of your credentials in `db_credentials.json` file but not all, use this flag.
+  
+  * **NB:** `--host` and `--port` are respectively set to `localhost` and `3306` by default. Also When you initialize your database with Mysql Engine for the first time, you must to set `--user`, `--password` and `--db-name` arguments. this will create a `db_credentials.json` file in your current directory with your credentials. Prevent you to set it again next time. Thus you will be able to set just import field when the time will come to [update](#important-informations) your database.
 
   **MySQL Use case:**
 
   ```shell
   aba-run db-init mysql -u "mysql_username" -pw "mysql_password" -db "alibaba_products" 
   ```
-  Assuming that you have already initialized your database,and you want to created a new one with a new database name without to set password and username again , simply run :
 
-  ```shell
-  aba-run db-init mysql --only-with -db "alibaba_products" 
-  ```
-
-  **NB: When you initialize your mysql as engine, the `db-init` sub-command will save your credentials in `db_credentials.json` file, so when you will need to update your database, simply run `aba-run db-update  mysql --kw-results bike_results\` to automatically update your database by using your saved credentials**
 
 
   **SQLite Use case :**
@@ -235,15 +237,17 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
 
   </details>
 
-  *  **`db-update` sub-command:** add scraped data from html files to your database (you can't use this command twice with same database credentals to avoid UNIQUE CONSTRAINT ERROR).
+  *  **`db-update` sub-command:** add scraped data from html files to your database (you can't use this command twice with same database name to avoid UNIQUE CONSTRAINT ERROR).
 
   this command takes two required arguments and two optional arguments:
-    * - **`--db-engine` (required):** Select your database engine: `sqlite` or `mysql`.
-    * -  **`--kw-results` (required):**  The path to the folder containing the HTML files generated by the `scraper` sub command.
-    * - **`--filename` (required for SQLite):** If you're using SQLite, provide the desired filename for your database. whitout any extension.
-    * - **`--db-name` (optional for MySQL):** If you're using MySQL,and want to push the data to a different database, provide the desired database name.
+    * - **`--db-engine` (required):** Select your database engine: `sqlite` or `mysql`. Is set to `sqlite` by default.
+    * -  **`--kw-results`/`-kr` (required):**  The path to the folder containing the HTML files generated by the `scraper` sub command.
+    * - **`--filename`/`-f` (required for SQLite):** If you're using SQLite, provide the desired filename for your database. whitout any extension.
+    * - **`--db-name`/`-db` (optional for MySQL):** If you're using MySQL engine, and want to push the data to a different database, provide the desired database name.
 
   **MySQL Use case:**
+   
+   command bellow assuming that you already have your database credentials in `db_credentials.json` file to autocomplete required parameter. if not this will raise an error.
 
   ```shell
     aba-run db-update  mysql --kw-results bike_results\ 
