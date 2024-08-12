@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## v0.3.3 (2024-08-12)
+
+### Build
+
+* build(poetry.lock, pyproject): update compatibility all patch python versions ([`45f9f7b`](https://github.com/poneoneo/Alibaba-Scrapper/commit/45f9f7b5824036e4042998be13dd1ab07af67b8d))
+
+### Chore
+
+* chore(aba_cli_scrapper): force custom utils function for minimum_to_order to return float ([`b8fda98`](https://github.com/poneoneo/Alibaba-Scrapper/commit/b8fda98d2169313f9dbf868db995be9d209247b5))
+
+* chore(images): add images for logo and help command ([`463f575`](https://github.com/poneoneo/Alibaba-Scrapper/commit/463f575b3c3178edf200d10e9726c43b68ad93bb))
+
+### Documentation
+
+* docs(pyproject): bump version to 0.3.2 ([`640610b`](https://github.com/poneoneo/Alibaba-Scrapper/commit/640610bd975ee67471d3313599b286a2287a5785))
+
+* docs(readme): improve readme with new informations about how to use commands and add some images ([`68bb223`](https://github.com/poneoneo/Alibaba-Scrapper/commit/68bb22352ce84168d87a1727a9512915d7ec3867))
+
+### Fix
+
+* fix(aba_cli_scrapper): catch FileNotFoundError into pretty panel message while initializing mysql db + change back type of minimum_to_order from int to float ([`17280a1`](https://github.com/poneoneo/Alibaba-Scrapper/commit/17280a1d40ac95e8e1a96712d17ee3d303de3345))
+
 ## v0.3.2 (2024-08-11)
 
 ### Chore
