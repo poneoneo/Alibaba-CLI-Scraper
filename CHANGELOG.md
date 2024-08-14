@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.3.3 (2024-08-12)
+## v0.3.3 (2024-08-13)
 
 ### Build
 
@@ -8,11 +8,15 @@
 
 ### Chore
 
+* chore(pyproject): bump version  to 0.3.3 ([`9247d2f`](https://github.com/poneoneo/Alibaba-Scrapper/commit/9247d2f24482e0f79d1959467d9d975bb87a8e44))
+
 * chore(aba_cli_scrapper): force custom utils function for minimum_to_order to return float ([`b8fda98`](https://github.com/poneoneo/Alibaba-Scrapper/commit/b8fda98d2169313f9dbf868db995be9d209247b5))
 
 * chore(images): add images for logo and help command ([`463f575`](https://github.com/poneoneo/Alibaba-Scrapper/commit/463f575b3c3178edf200d10e9726c43b68ad93bb))
 
 ### Documentation
+
+* docs(readme): add pretty tags and informations about the project ([`241bd14`](https://github.com/poneoneo/Alibaba-Scrapper/commit/241bd14ea5d0085b028ac3cb55ae90c63e46f13a))
 
 * docs(pyproject): bump version to 0.3.2 ([`640610b`](https://github.com/poneoneo/Alibaba-Scrapper/commit/640610bd975ee67471d3313599b286a2287a5785))
 
