@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.3.3 (2024-08-13)
+## v0.3.3 (2024-08-14)
 
 ### Build
 
@@ -15,6 +15,8 @@
 * chore(images): add images for logo and help command ([`463f575`](https://github.com/poneoneo/Alibaba-Scrapper/commit/463f575b3c3178edf200d10e9726c43b68ad93bb))
 
 ### Documentation
+
+* docs(readme): prettify README ([`a1ea908`](https://github.com/poneoneo/Alibaba-Scrapper/commit/a1ea9087e40ae335745e23e3b7512c017cb02deb))
 
 * docs(readme): add pretty tags and informations about the project ([`241bd14`](https://github.com/poneoneo/Alibaba-Scrapper/commit/241bd14ea5d0085b028ac3cb55ae90c63e46f13a))
 
