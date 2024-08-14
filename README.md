@@ -3,18 +3,24 @@
     <a href="#"><img src="images\inroduce_scraper.jpg" width="300" height="300" alt="overview image" /></a>
   </p>
 </div>
+<h1 align="center">  Alibaba-CLI-Scraper </h1>
+<p align="center"> 🛒-💻- 🕸 </p>
 
 
-<h1 style="text-align:center;">  Alibaba-CLI-Scraper </h1>
-<h2 style="text-align:center;"> 🛒-💻- 🕸 </h2>
+<p align="center"> <b>Create your own Alibaba dataset at lightning speed.</b> </p>
+
+![GitHub Release Date](https://img.shields.io/github/release-date/poneoneo/Alibaba-CLI-Scrapper) ![GitHub License](https://img.shields.io/github/license/poneoneo/Alibaba-CLI-Scrapper) ![PyPI - Downloads](https://img.shields.io/pypi/dw/aba-cli-scrapper?label=PyPI-Downloads)  ![PyPI - Version](https://img.shields.io/pypi/v/aba-cli-scrapper) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aba-cli-scrapper)  
+
 
 
 ---
-Is a python package that provides a dedicated CLI interface for scraping data from Alibaba.com.
-The purpose of this project is to extract products and theirs related suppliers informations from Alibaba.com and store it in a local database (SQLite or MySQL). The project utilizes asynchronous requests for efficient handling of numerous requests and allows users to easily run the scraper and manage the database using a user-friendly command-line interface (CLI).
+## About
+
+Alibaba-CLI-Scraper is a python package that provides a dedicated CLI interface for scraping data from Alibaba.com. The purpose of this project is to extract products and theirs related suppliers informations and store it in a local database (SQLite or MySQL). The project utilizes asynchronous requests for efficient handling of numerous requests and allows users to easily run the scraper and manage the database using a user-friendly command-line interface (CLI).
 
 ## Table of Contents
 
+- [About](#about)
 - [Table of Contents](#table-of-contents)
   - [Features:](#features)
   - [Which important informations will be retrieved from the Alibaba website ?](#which-important-informations-will-be-retrieved-from-the-alibaba-website-)
