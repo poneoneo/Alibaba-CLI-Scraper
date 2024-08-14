@@ -3,13 +3,16 @@
     <a href="#"><img src="images\inroduce_scraper.jpg" width="300" height="300" alt="overview image" /></a>
   </p>
 </div>
-<h1 align="center">  Alibaba-CLI-Scraper </h1>
+<p align="center">  <b>Alibaba-CLI-Scraper</b> </p>
 <p align="center"> 🛒-💻- 🕸 </p>
 
 
 <p align="center"> <b>Create your own Alibaba dataset at lightning speed.</b> </p>
+<div align="center">
 
 ![GitHub Release Date](https://img.shields.io/github/release-date/poneoneo/Alibaba-CLI-Scrapper) ![GitHub License](https://img.shields.io/github/license/poneoneo/Alibaba-CLI-Scrapper) ![PyPI - Downloads](https://img.shields.io/pypi/dw/aba-cli-scrapper?label=PyPI-Downloads)  ![PyPI - Version](https://img.shields.io/pypi/v/aba-cli-scrapper) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aba-cli-scrapper)  
+
+</div>
 
 
 
@@ -113,22 +116,42 @@ When you will run command to export your sqlite file as a csv a `OUTER FULL JOIN
 
 - Python 3.11 or Higher
 
-- Scraping Browser API KEY from [BrightData](https://get.brightdata.com/fdrqnme1smdc)  
+- Scraping Browser API KEY from [BrightData](https://get.brightdata.com/fdrqnme1smdc)  to know how to set your api key look at [here](#available-commands) 
 
 - Windows or Linux as OS 
 
-if you want to know how to set your api key look at [here](#available-commands) 
 
 
 
 ### Installation
 
-It's recommended to use [pipx](https://pypa.github.io/pipx/) instead of pip for end-user applications written in Python. `pipx` installs the package, exposes his CLI entrypoints in an isolated environment and makes it available everywhere this guarantees no dependency conflicts and clean uninstall.
+It's recommended to use [pipx](https://pypa.github.io/pipx/) instead of pip for end-user applications written in Python. `pipx` installs the package, exposes his CLI() entrypoints in an isolated environment and makes it available everywhere in your system. This guarantees no dependency conflicts and clean uninstall.
+let's install `aba-cli-scrapper` using pipx:
 
-If you'd like to use `pip` instead, just replace `pipx` with `pip`  but obviously  as usual you'll need to  create a virtual environment and activate it before to use `aba-cli-scrapper` to avoid any dependency conflicts issues. let's install `aba-cli-scrapper` using pipx:
+- Install pipx with a python 3.11 or higher version:
+   ```shell
+      python/python3 -m pip install --user pipx 
+   ```
+- add pipx to your PATH:
+  ```shell
+      pipx ensurepath
+  ```
+- Install `aba-cli-scrapper` using pipx:
 
    ```shell
       pipx install aba-cli-scrapper
+   ```
+and you're ready to use `aba-cli-scrapper`!
+
+If you'd like to use `pip` instead, just replace `pipx` with `pip`  but obviously  as usual you'll need to  create a virtual environment and activate it before to use `aba-cli-scrapper` to avoid any dependency conflicts issues. let's install `aba-cli-scrapper` using pip:
+
+- Create a virtual environment with Python 3.11 or higher:
+   ```shell
+      python/python3 -m venv your-virtual-environment-name
+   ```
+- activate the virtual environment:
+   ```shell
+      your-virtual-environment-name\\Scripts\\activate
    ```
 
   
@@ -139,10 +162,9 @@ If you'd like to use `pip` instead, just replace `pipx` with `pip`  but obviousl
 
 <div align="center">
   <p>
-    <a href="#"><img src="images\help-cli-2.png" width="900" height="340" alt="command result 1" /></a>
+    <a href="#"><img src="images\help-cli-2.png" width="900" height="340" alt="aba-run help image" /></a>
   </p>
-  <p align="center">
-  </p>
+
 </div>
 
 **Warnings:** 
@@ -167,10 +189,11 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
 
 
   ##### How to set My API KEY ?
+
   by default `scrapper` will use async mode which is supported by brightdata api, means if you want to use it you will need to provide your api key. set it by using command bellow:
 
-  ```bash
-  aba-run set-api-key your_api_key
+  ```shell
+      aba-run set-api-key your_api_key
   ```
   and now run `scraper` sub-command without `--sync-api` flag to use async mode.
 
@@ -183,7 +206,7 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
 
       **Example**:
       ```shell
-      aba-run scraper "electric bikes" -hf "bike_results" -pr 15
+          aba-run scraper "electric bikes" -hf "bike_results" -pr 15
       ```
   However if you want to use sync mode you can use :
 
@@ -222,6 +245,7 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
 
 
   **SQLite Use case :**
+  
   ```shell
   aba-run db-init sqlite --sqlite-file alibaba_data
   ```
