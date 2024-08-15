@@ -1,11 +1,12 @@
 <div align="center">
   <p>
-    <a href="#"><img src="images\inroduce_scraper.jpg" width="300" height="300" alt="overview image" /></a>
+    <a href="#"><img src="images\image.png" width="300" height="300" alt="overview image" /></a>
   </p>
 </div>
 <p align="center">  <b>Alibaba-CLI-Scraper</b> </p>
 <p align="center"> 🛒-💻- 🕸 </p>
 
+---
 
 <p align="center"> <b>Create your own Alibaba dataset at lightning speed.</b> </p>
 <div align="center">
@@ -15,8 +16,10 @@
 </div>
 
 
+<div align="center">
+  <video controls src="https://private-user-images.githubusercontent.com/52409392/358079417-c32f7958-cba6-40ca-880d-6365318df15e.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjM2ODk0MjUsIm5iZiI6MTcyMzY4OTEyNSwicGF0aCI6Ii81MjQwOTM5Mi8zNTgwNzk0MTctYzMyZjc5NTgtY2JhNi00MGNhLTg4MGQtNjM2NTMxOGRmMTVlLm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA4MTUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwODE1VDAyMzIwNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWUzYTIxMTgwMjk3YzdhZmE1MjBlOGM5ZWI5MmNkN2UxMzQyMDU5ZjZkZGJiMjM5OTM3NTMzMDA1MTRlNTUzOTcmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.1UHJwqrtgfhoOGuJXkGhmwXNo1E9THQ6meQnO4yGPZw" title="Title"></video>
+</div>
 
----
 ## About
 
 Alibaba-CLI-Scraper is a python package that provides a dedicated CLI interface for scraping data from Alibaba.com. The purpose of this project is to extract products and theirs related suppliers informations and store it in a local database (SQLite or MySQL). The project utilizes asynchronous requests for efficient handling of numerous requests and allows users to easily run the scraper and manage the database using a user-friendly command-line interface (CLI).
@@ -245,7 +248,7 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
 
 
   **SQLite Use case :**
-  
+
   ```shell
   aba-run db-init sqlite --sqlite-file alibaba_data
   ```
