@@ -16,6 +16,14 @@
 
 ### Documentation
 
+* docs(README): fix video again ([`0d1d1ab`](https://github.com/poneoneo/Alibaba-Scrapper/commit/0d1d1abe44afee779f903c15c648a8afd61ca726))
+
+* docs(README): fix video in docs ([`1b7eb51`](https://github.com/poneoneo/Alibaba-Scrapper/commit/1b7eb51b5212fd9e746f4ac6e593ef5dfaf14e7c))
+
+* docs(readme): add a short video of the whole workflow ([`8415482`](https://github.com/poneoneo/Alibaba-Scrapper/commit/8415482509b1c34ef225a067f32cbbebe55691c1))
+
+* docs(readme): add a short video of the whole workflow ([`434c6e8`](https://github.com/poneoneo/Alibaba-Scrapper/commit/434c6e8bed9866b49d2d64d8756d3ca842b75a4e))
+
 * docs(readme): prettify README ([`a1ea908`](https://github.com/poneoneo/Alibaba-Scrapper/commit/a1ea9087e40ae335745e23e3b7512c017cb02deb))
 
 * docs(readme): add pretty tags and informations about the project ([`241bd14`](https://github.com/poneoneo/Alibaba-Scrapper/commit/241bd14ea5d0085b028ac3cb55ae90c63e46f13a))
@@ -27,6 +35,18 @@
 ### Fix
 
 * fix(aba_cli_scrapper): catch FileNotFoundError into pretty panel message while initializing mysql db + change back type of minimum_to_order from int to float ([`17280a1`](https://github.com/poneoneo/Alibaba-Scrapper/commit/17280a1d40ac95e8e1a96712d17ee3d303de3345))
+
+### Unknown
+
+* Update README.md ([`bd73f9d`](https://github.com/poneoneo/Alibaba-Scrapper/commit/bd73f9de115ccf983defe35d28dad496b242b2fa))
+
+* Update README.md ([`bf24235`](https://github.com/poneoneo/Alibaba-Scrapper/commit/bf24235a5a671e6a9a0947623f8f6b359deb14bb))
+
+* Update README.md ([`fee5203`](https://github.com/poneoneo/Alibaba-Scrapper/commit/fee5203c3546934ae1952254da08b54128bbaef3))
+
+* Update README.md ([`0e0bcbe`](https://github.com/poneoneo/Alibaba-Scrapper/commit/0e0bcbe618ac7a4aec1c9dc761f7b93218533371))
+
+* Update README.md ([`64d68ad`](https://github.com/poneoneo/Alibaba-Scrapper/commit/64d68ad8ac6e8273cdad2ccc6cc235d345b294ed))
 
 ## v0.3.2 (2024-08-11)
 
@@ -124,22 +144,6 @@ v0.2.0 ([`a9834fc`](https://github.com/poneoneo/Alibaba-Scrapper/commit/a9834fc8
 * chore(project_config): bump version to 0.2.0 ([`99d91ba`](https://github.com/poneoneo/Alibaba-Scrapper/commit/99d91ba81a04b1b07e6095bfb64d5abd63129b6e))
 
 * chore(project_config): last settings for semantic version ([`7d0539a`](https://github.com/poneoneo/Alibaba-Scrapper/commit/7d0539a187bfbdc8d32dec9a00efdb403f93f6a2))
-
-* chore(dependencies): add dev as default branch ([`2101305`](https://github.com/poneoneo/Alibaba-Scrapper/commit/2101305fddc171e41b1ae78fd9e8c96563a3071f))
-
-* chore(semantic_config): add dev as default branch for semantic version sys ([`e920324`](https://github.com/poneoneo/Alibaba-Scrapper/commit/e9203240c07a9433645ab658a8987d51da9d6d11))
-
-* chore(semantic_config): add semantic verions system ([`7374420`](https://github.com/poneoneo/Alibaba-Scrapper/commit/73744206a2afca89c34c9669db3f978a131c42ea))
-
-* chore(dependencies): remove and reinstall mysqlclient ([`68bbfd2`](https://github.com/poneoneo/Alibaba-Scrapper/commit/68bbfd2ba4004d90dbc0875206207aa4a2d8bc11))
-
-* chore(package_structure): track *.html file ([`6dd754b`](https://github.com/poneoneo/Alibaba-Scrapper/commit/6dd754b07d5264c30060746043d2a09b940f9c56))
-
-* chore(package_structure): add htmlfile that will be used for test ([`e2350ff`](https://github.com/poneoneo/Alibaba-Scrapper/commit/e2350ff12c050d7b52a263c58fc28f69dbd2733e))
-
-* chore(package_structure): prepare html file to be tested ([`335da7c`](https://github.com/poneoneo/Alibaba-Scrapper/commit/335da7cf1ec1a890d038b7e68c5cbe9a13ae3aa9))
-
-* chore(package_structure): remove requirements.txt ([`1aa0354`](https://github.com/poneoneo/Alibaba-Scrapper/commit/1aa0354ed202567c6b043605538f012f24f746f6))
 
 ### Documentation
 
@@ -274,10 +278,6 @@ v0.2.0 ([`a9834fc`](https://github.com/poneoneo/Alibaba-Scrapper/commit/a9834fc8
 * feat(html_to_disk): save pages results into disk ([`0480185`](https://github.com/poneoneo/Alibaba-Scrapper/commit/0480185d2508cc82af77565154411807913864e9))
 
 * feat(cli_api): add export-as-csv and set-api-key commands ([`070425b`](https://github.com/poneoneo/Alibaba-Scrapper/commit/070425b645b79a3f1ce4ffd8fcdbad1459936d3a))
-
-* feat(cli_api): allow to set bright data api key to use async api ([`76613fc`](https://github.com/poneoneo/Alibaba-Scrapper/commit/76613fc257cd6204a71f4a8a22a995dce75c9f25))
-
-* feat(cli_api): add export from sqlite to csv command + fix `base 10 error` bug with minimum_to_order ([`582aa31`](https://github.com/poneoneo/Alibaba-Scrapper/commit/582aa315b509e6cf879a7f601a127cbd35846bde))
 
 ### Fix
 
@@ -429,10 +429,6 @@ html pages result should not be tracked ([`2b25bd9`](https://github.com/poneoneo
 
 * refactor(gitignore): add gitignore file ([`7ec42fd`](https://github.com/poneoneo/Alibaba-Scrapper/commit/7ec42fd1516c2469837cd624a12b115345db4a04))
 
-* refactor: remove .env file ([`0a72726`](https://github.com/poneoneo/Alibaba-Scrapper/commit/0a727260a37110c328033624f538d31d69a48f43))
-
-* refactor: remove src and txt file ([`3140d87`](https://github.com/poneoneo/Alibaba-Scrapper/commit/3140d8721616f7e8d33011c6ca008478e339c225))
-
 ### Style
 
 * style(__main__.py): update error message for export-as-csv subcommand ([`f691533`](https://github.com/poneoneo/Alibaba-Scrapper/commit/f691533b47038458a0242ae5983d36c0f7fdf9c3))
@@ -456,8 +452,6 @@ html pages result should not be tracked ([`2b25bd9`](https://github.com/poneoneo
 * style(src):  udpdate help message at the end of scrapper. ([`92bad37`](https://github.com/poneoneo/Alibaba-Scrapper/commit/92bad37af77ae0b4757f56fdae11210fe77a1291))
 
 * style(cli_api): print pretty message after setting api key ([`c4ffac7`](https://github.com/poneoneo/Alibaba-Scrapper/commit/c4ffac7cb4eb95e5555450758a1c034d2341611f))
-
-* style(commands): add message at the end of export-as-csv command ([`b720067`](https://github.com/poneoneo/Alibaba-Scrapper/commit/b720067f0a82fe26bf5560a9b6a35338223792ef))
 
 ### Test
 
@@ -493,6 +487,44 @@ BREAKING CHANGE:   first release aba-cli-scrapper==0.1.2 ([`8aca981`](https://gi
 
 V0.2.1
 remove unwanted htmlfiles ([`be10451`](https://github.com/poneoneo/Alibaba-Scrapper/commit/be104519a29913d3dd05969a23fc77e2b903a500))
+
+## v0.2.0-rc.1 (2024-07-27)
+
+### Chore
+
+* chore(dependencies): add dev as default branch ([`2101305`](https://github.com/poneoneo/Alibaba-Scrapper/commit/2101305fddc171e41b1ae78fd9e8c96563a3071f))
+
+* chore(semantic_config): add dev as default branch for semantic version sys ([`e920324`](https://github.com/poneoneo/Alibaba-Scrapper/commit/e9203240c07a9433645ab658a8987d51da9d6d11))
+
+* chore(semantic_config): add semantic verions system ([`7374420`](https://github.com/poneoneo/Alibaba-Scrapper/commit/73744206a2afca89c34c9669db3f978a131c42ea))
+
+* chore(dependencies): remove and reinstall mysqlclient ([`68bbfd2`](https://github.com/poneoneo/Alibaba-Scrapper/commit/68bbfd2ba4004d90dbc0875206207aa4a2d8bc11))
+
+* chore(package_structure): track *.html file ([`6dd754b`](https://github.com/poneoneo/Alibaba-Scrapper/commit/6dd754b07d5264c30060746043d2a09b940f9c56))
+
+* chore(package_structure): add htmlfile that will be used for test ([`e2350ff`](https://github.com/poneoneo/Alibaba-Scrapper/commit/e2350ff12c050d7b52a263c58fc28f69dbd2733e))
+
+* chore(package_structure): prepare html file to be tested ([`335da7c`](https://github.com/poneoneo/Alibaba-Scrapper/commit/335da7cf1ec1a890d038b7e68c5cbe9a13ae3aa9))
+
+* chore(package_structure): remove requirements.txt ([`1aa0354`](https://github.com/poneoneo/Alibaba-Scrapper/commit/1aa0354ed202567c6b043605538f012f24f746f6))
+
+### Feature
+
+* feat(cli_api): allow to set bright data api key to use async api ([`76613fc`](https://github.com/poneoneo/Alibaba-Scrapper/commit/76613fc257cd6204a71f4a8a22a995dce75c9f25))
+
+* feat(cli_api): add export from sqlite to csv command + fix `base 10 error` bug with minimum_to_order ([`582aa31`](https://github.com/poneoneo/Alibaba-Scrapper/commit/582aa315b509e6cf879a7f601a127cbd35846bde))
+
+### Refactor
+
+* refactor: remove .env file ([`0a72726`](https://github.com/poneoneo/Alibaba-Scrapper/commit/0a727260a37110c328033624f538d31d69a48f43))
+
+* refactor: remove src and txt file ([`3140d87`](https://github.com/poneoneo/Alibaba-Scrapper/commit/3140d8721616f7e8d33011c6ca008478e339c225))
+
+### Style
+
+* style(commands): add message at the end of export-as-csv command ([`b720067`](https://github.com/poneoneo/Alibaba-Scrapper/commit/b720067f0a82fe26bf5560a9b6a35338223792ef))
+
+### Unknown
 
 * docs:add image for readme ([`ba83e6b`](https://github.com/poneoneo/Alibaba-Scrapper/commit/ba83e6bb2e2465c5eeefb159d167750906e2efe0))
 
