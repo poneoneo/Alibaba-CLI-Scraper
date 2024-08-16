@@ -126,10 +126,10 @@ class PageParser:
 
         new_divs_and_dict = []
         for item in divs_and_dict:
-            print("hello")
-            print(item[0])
-            print(type(item[1]))
-            print(item[1])
+            # print("hello")
+            # print(item[0])
+            # print(type(item[1]))
+            # print(item[1])
             if item[1] is None or item[1] == "":
                 # print("this item is none or an empty string {}".format(item[1]))
                 continue
