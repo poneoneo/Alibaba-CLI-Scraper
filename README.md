@@ -22,11 +22,12 @@ https://github.com/user-attachments/assets/3b4f986d-add1-4624-a6d7-c2b64286ae26
 
 </div>
 
+Run commands in one click.
+No need to RTFM again, run the text-mode to know  the purspose of each commands and theirs related options and parameters. 
+
 <div align="center">
 
-
 https://github.com/user-attachments/assets/fbab45ff-b46c-4021-b481-5d74eadc1813
-
 
 </div>
 
@@ -56,7 +57,7 @@ Alibaba-CLI-Scraper is a python package that provides a dedicated CLI interface 
 * **Asynchronous API:** Utilizes asynchronous API of Playwright and Brightdata Proxies for efficient handling of numerous pages results.
 
 
-* **User-Friendly CLI:** Provides easy-to-use commands for running the scraper and managing the database.
+* **Text Mode:** Provides easy-to-use commands with text mode for those who are not comfortable with commands in the terminal.
 
 * **Export-As-Csv:** Export your generated sqlite file to csv file.
 ### Which important informations will be retrieved from the Alibaba website ?
