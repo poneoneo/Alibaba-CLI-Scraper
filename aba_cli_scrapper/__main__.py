@@ -682,6 +682,7 @@ import sys
 from pathlib import Path
 from typing import Optional
 
+import click
 import dotenv
 import sqlalchemy
 import typer
@@ -694,6 +695,7 @@ from rich.progress import (
     SpinnerColumn,
 )
 from sqlmodel import SQLModel
+from trogon import tui
 from typing_extensions import Annotated
 
 from . import LOGURU_LEVEL
@@ -711,8 +713,13 @@ load_dotenv()
 logger.remove(0)
 logger.add(sys.stderr, colorize=True, level=f"{LOGURU_LEVEL}")  # type: ignore
 
-app = typer.Typer(pretty_exceptions_enable=False)
 
+
+@tui(name='text-mode',command='aba-run')
+@click.group()
+def app():
+    pass
+    ...
 
 def _db_url(credentials: dict = dict(), auto_fill: bool = False):
     if auto_fill is True:
@@ -759,8 +766,8 @@ def _db_url(credentials: dict = dict(), auto_fill: bool = False):
             json.dump(cred, f)
         return f"mysql+pymysql://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"
 
-
-@app.command()
+app_t = typer.Typer(pretty_exceptions_enable=False,)
+@app_t.command()
 def scraper(
     key_words: Annotated[
         str, typer.Argument(help="Keywords to search for on alibaba")
@@ -801,7 +808,7 @@ def scraper(
         )
 
 
-@app.command()
+@app_t.command()
 def db_update(
     kw_results: Annotated[
         Path,
@@ -898,7 +905,7 @@ def db_update(
         update_db_success_sqlite(sqlite_file=filename)  # type: ignore
 
 # TODO : add message when database initialization end with succes or when sommething went wrong with throught this process
-@app.command()
+@app_t.command()
 def db_init(
     engine: Annotated[
         str, typer.Argument(help="Name of database engine to use")
@@ -992,7 +999,7 @@ def db_init(
         )
 
 
-@app.command()
+@app_t.command()
 def export_as_csv(
     sqlite_file: Annotated[
         str,
@@ -1048,7 +1055,7 @@ def export_as_csv(
     )
 
 
-@app.command()
+@app_t.command()
 def set_api_key(
     api_key: Annotated[
         str,
@@ -1070,3 +1077,11 @@ def set_api_key(
     rprint(
         "[bold white]You can now use [magenta bold] `scraper` [/magenta bold]  subcommand with async mode with success :white_heavy_check_mark-emoji: ![/bold white]"
     )
+
+typer_click_object = typer.main.get_command(app_t)
+
+app.add_command(typer_click_object, "text-mode")
+
+if __name__ == "__main__":
+    app()
+    app_t()

@@ -7,6 +7,7 @@ from typing import Any, Sequence, Union
 
 import rich
 from loguru import logger
+from rich import print as rprint
 from rich.progress import (
     Progress,
     SpinnerColumn,
@@ -18,16 +19,16 @@ from aba_cli_scrapper.typed_datas import ProductDict, SupplierDict
 from .html_to_disk import json_parser_to_dict
 from .utils_scrapping import (
     country_name,
+    custom_minium_to_oder,
     get_product_certification,
     get_product_price,
     is_alibaba_guaranteed,
-    suppliers_status,
-    custom_minium_to_oder,
     is_customizable,
-    is_instant_order,
     is_full_promotion,
+    is_instant_order,
     is_trade_product,
     ordered_or_sold,
+    suppliers_status,
 )
 
 # logger.remove(4)
@@ -91,6 +92,7 @@ class PageParser:
         html_files = [html_file for html_file in targeted_folder.glob("*.html")]
         logger.info("Html files list has been returned.")
         return html_files
+
     def _json_files_explorer(self):
         targeted_folder = Path(self.targeted_folder).resolve()
         if not targeted_folder.exists():
@@ -124,10 +126,10 @@ class PageParser:
 
         new_divs_and_dict = []
         for item in divs_and_dict:
-            # print("hello")
-            # print(item[0])
-            # print(type(item[1]))
-            # print(item[1])
+            print("hello")
+            print(item[0])
+            print(type(item[1]))
+            print(item[1])
             if item[1] is None or item[1] == "":
                 # print("this item is none or an empty string {}".format(item[1]))
                 continue
@@ -172,7 +174,7 @@ class PageParser:
                     if offers["offerTotalCount"] == 0:
                         continue
                 except KeyError:
-                    if offers['props']['offerTotalCount'] == 0:
+                    if offers["props"]["offerTotalCount"] == 0:
                         continue
                 try:
                     offers_values = offers["offerResultData"]["offers"]
@@ -183,18 +185,22 @@ class PageParser:
                         suppliers.append(
                             {
                                 "name": offer["companyName"].lower(),
-                                "verified_type": suppliers_status(tags=divs, offer=offer),
+                                "verified_type": suppliers_status(
+                                    tags=divs, offer=offer
+                                ),
                                 "sopi_level": offer["displayStarLevel"],
                                 "country_name": country_name(
                                     country_min=offer["countryCode"]
                                 ),
-                                "gold_supplier_year": offer["goldSupplierYears"].split(" ")[
-                                    0
-                                ],
-                                "supplier_service_score": float(offer["supplierService"]),
+                                "gold_supplier_year": offer["goldSupplierYears"].split(
+                                    " "
+                                )[0],
+                                "supplier_service_score": float(
+                                    offer["supplierService"]
+                                ),
                             }
                         )
-                # all_pages_task.  
+                # all_pages_task.
                 progress.update(
                     all_pages_task, advance=100 / len(self._divs_and_dict())
                 )
@@ -228,7 +234,7 @@ class PageParser:
                     if offers["offerTotalCount"] == 0:
                         continue
                 except KeyError:
-                    if offers['props']['offerTotalCount'] == 0:
+                    if offers["props"]["offerTotalCount"] == 0:
                         continue
                 try:
                     offers_values = offers["offerResultData"]["offers"]
@@ -248,9 +254,13 @@ class PageParser:
                                 "guaranteed_by_alibaba": is_alibaba_guaranteed(
                                     str_status=offer["halfTrust"]
                                 ),
-                                "certifications": get_product_certification(offer=offer),
-                                "minimum_to_order": custom_minium_to_oder(offer["halfTrustMoq"].lower()),
-                                "ordered_or_sold": ordered_or_sold(offer=offer), 
+                                "certifications": get_product_certification(
+                                    offer=offer
+                                ),
+                                "minimum_to_order": custom_minium_to_oder(
+                                    offer["halfTrustMoq"].lower()
+                                ),
+                                "ordered_or_sold": ordered_or_sold(offer=offer),
                                 "supplied_by": offer["companyName"].lower(),
                                 "product_score": float(offer["productScore"]),
                                 "review_count": float(offer["reviewCount"]),

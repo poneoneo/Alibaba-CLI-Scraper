@@ -35,7 +35,8 @@ black  = "^24.2.2"
 pyright = "1.1.370"
 
 [tool.poetry.scripts]
-aba-run = "aba_cli_scrapper.__main__:app"
+text-mode = "aba_cli_scrapper.__main__:app"
+aba-run = "aba_cli_scrapper.__main__:app_t"
 
 [tool.poetry.dependencies]
 python = ">=3.11.0,<4.0.0"
@@ -82,6 +83,7 @@ typing-extensions = {version = "4.12.2", markers = "python_version >= \"3.8\""}
 urllib3 = {version = "2.2.2", markers = "python_version >= \"3.8\""}
 win32-setctime = {version = "1.1.0", markers = "sys_platform == \"win32\""}
 yarl = {version = "1.9.4", markers = "python_version >= \"3.7\""}
+trogon = "^0.5.0"
 
 
 

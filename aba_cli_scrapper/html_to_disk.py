@@ -10,6 +10,32 @@ def _create_folder(folder_name: str):
     return Path(folder_name)
 
 
+def scripts_hunter(css_selector: str, parser_instance: selectolax.parser.HTMLParser):
+    div_with_class_container_or_id_root = parser_instance.css_first(css_selector)
+    if div_with_class_container_or_id_root is None:
+        logger.warning(
+            "Something went wrong with the parsing, an empty none value has been returned "
+        )
+        return None
+    list_scripts = div_with_class_container_or_id_root.css("script")
+    # print(list_scripts)
+    json_result = ""
+    for script in list_scripts:
+        script_content = script.text()
+        # print(script_content)
+        if "window.__page__data =" in script_content:
+            # print(script_content)
+            json_result = (
+                script.text()
+                .replace("window.__page__data__config =", "")
+                .replace("window.__page__data = window.__page__data__config.props", "")
+                .replace("window.__page__data =", "")
+                .strip("\n \t \b ")
+            )
+            break
+    return json_result
+
+
 def json_parser_to_dict(html_content: str | bytes, css_selector: str = ""):
     """Parse the HTML content of the page to get the divs with class `.organic-list.viewtype-list`
 
@@ -22,27 +48,15 @@ def json_parser_to_dict(html_content: str | bytes, css_selector: str = ""):
     # dont parse anything at this stage as we are going to parse later
     # print(html_content)
     body_parser = selectolax.parser.HTMLParser(html_content)
-    div_with_class_container = body_parser.css_first(css_selector)
-    if div_with_class_container is None:
-        logger.warning(
-            "Something went wrong with the parsing, an empty none value has been returned "
-        )
+    # div_with_class_container_or_id_root = body_parser.css_first(css_selector)
+    json_result = scripts_hunter(css_selector, body_parser)
+    if json_result == "":
+        json_result = scripts_hunter("div[id='root']", body_parser)
+        # print(json_result)
+        return json_result
+    if json_result is None:
         return None
-    list_scripts = div_with_class_container.css("script")
-    # print(list_scripts)
-    json_result = ""
-    for script in list_scripts:
-        script_content = script.text()
-        # print(script_content)
-        if  "window.__page__data =" in script_content:
-            # print(script_content)
-            json_result = (
-                script.text().replace("window.__page__data__config =", "").replace("window.__page__data = window.__page__data__config.props", "").replace("window.__page__data =", "").strip("\n \t \b ")
-            )
-            break
     # print(json_result)
-    # with open("result.json", "w") as f:
-    #     f.write(json_result)
     return json_result.strip()
 
 

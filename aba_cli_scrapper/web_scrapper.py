@@ -72,6 +72,7 @@ def _browser_parser(html_content: str | bytes, curr_url: str):
         )
         return html_result
 
+
 @retry(stop=stop_after_attempt(3))
 async def goto_task(
     url: str,
@@ -131,12 +132,14 @@ async def async_scrapper(*, save_in: str, key_words: str, page_results: int) -> 
             # country_name = response.json()["country"]
             api_key = SBR_WS_CDP_LIST
             if api_key == "":
-                rprint("[red]You need to set your SCRAPING BROWSER API key from BrightData to Enable Async Scraping")
+                rprint(
+                    "[red]You need to set your SCRAPING BROWSER API key from BrightData to Enable Async Scraping"
+                )
                 return
             browser = await p.chromium.connect_over_cdp(api_key)
         except urllib3.exceptions.NameResolutionError:
             rprint("[red]check your internet connection")
-            return 
+            return
 
         except playwright._impl._errors.Error as e:  # type: ignore
             if "Account is suspended" in str(e):
