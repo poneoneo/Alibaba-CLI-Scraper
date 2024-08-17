@@ -1,5 +1,35 @@
 # CHANGELOG
 
+## v0.3.4 (2024-08-17)
+
+### Chore
+
+* chore(pyproject.toml): bump version to 0.4.4 ([`a13ad61`](https://github.com/poneoneo/Alibaba-Scrapper/commit/a13ad61b8a248861ac0db9bf74a06ab30841045e))
+
+* chore(pyproject.toml): bump version in config file ([`0896a11`](https://github.com/poneoneo/Alibaba-Scrapper/commit/0896a11cd248082ae1b46148cd29b7e1513575f1))
+
+* chore(.env): remove api key ([`1a23bd1`](https://github.com/poneoneo/Alibaba-Scrapper/commit/1a23bd125a54d4ae018a4d8e1044c941ca31c0e4))
+
+### Documentation
+
+* docs(readme): add  s/o to trogon ([`4cda9fb`](https://github.com/poneoneo/Alibaba-Scrapper/commit/4cda9fb37352ffd3a27d3409413fbf0d614f5a4e))
+
+* docs(readme): workflow-demo video + hide my credentials ([`1d8b2b0`](https://github.com/poneoneo/Alibaba-Scrapper/commit/1d8b2b0fdab6ef68896d0e1a426f190edb6ea0d9))
+
+* docs(readme): add informations about new features ([`afb924c`](https://github.com/poneoneo/Alibaba-Scrapper/commit/afb924c3c129b6216e2c27c65a34f4a72b070a9c))
+
+* docs(readme):  text-mode-demo video ([`bc0b06b`](https://github.com/poneoneo/Alibaba-Scrapper/commit/bc0b06b45b1b73544228270f1ae0ce4f886748db))
+
+* docs(readme): workflow-demo video ([`f170d5b`](https://github.com/poneoneo/Alibaba-Scrapper/commit/f170d5b576c5bd7b7dbe7e8ce779587993b407e5))
+
+### Feature
+
+* feat(aba_cli_scrappe, *): add an amazing interactive interface to fill each commands and parameters ([`93b3dd9`](https://github.com/poneoneo/Alibaba-Scrapper/commit/93b3dd9bdbf2a5874bf1a90d07e710595b6c79b2))
+
+### Fix
+
+* fix(*): avoiding empty database when keywords is doesnt match language links ([`5f0d563`](https://github.com/poneoneo/Alibaba-Scrapper/commit/5f0d563d7a5bdcf849f11bcab06ec6d9b4fdcda6))
+
 ## v0.3.3 (2024-08-14)
 
 ### Build
