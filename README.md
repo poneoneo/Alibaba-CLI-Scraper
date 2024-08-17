@@ -27,7 +27,10 @@ https://github.com/user-attachments/assets/10f2ff2b-eef7-4b61-b317-89cf22252f1e
 </div>
 
 Run commands in one click.
-No need to RTFM again, run the text-mode to know  the purspose of each commands and theirs related options and parameters. 
+
+No need to RTFM (I means this Readme) again, run the text-mode to know  the purspose of each commands and theirs related options and parameters. 
+
+S/o [Trogon](https://github.com/Textualize/trogon). An amazing tool to easily turn your Click CLI into a powerful terminal application.
 
 <div align="center">
 
