@@ -7,7 +7,6 @@ from typing import Any, Sequence, Union
 
 import rich
 from loguru import logger
-from rich import print as rprint
 from rich.progress import (
     Progress,
     SpinnerColumn,

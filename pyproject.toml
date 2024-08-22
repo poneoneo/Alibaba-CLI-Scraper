@@ -7,7 +7,7 @@ readme = "README.md"
 license = "GNU GENERAL PUBLIC LICENSEVersion 3, 29 June 2007"
 homepage = "https://github.com/poneoneo/Alibaba-CLI-Scrapper"
 repository = "https://github.com/poneoneo/Alibaba-CLI-Scrapper"
-keywords = ["cli", "scrapping", "alibaba", "scraper", "alibaba-cli-scrapper","dataset"]
+keywords = ["cli", "scrapping", "alibaba", "scraper", "alibaba-cli-scrapper","dataset","ai-agent","RAG"]
 classifiers = [
     "Development Status :: 1 - Planning",
     "Environment :: Console",
@@ -84,6 +84,12 @@ urllib3 = {version = "2.2.2", markers = "python_version >= \"3.8\""}
 win32-setctime = {version = "1.1.0", markers = "sys_platform == \"win32\""}
 yarl = {version = "1.9.4", markers = "python_version >= \"3.7\""}
 trogon = "^0.5.0"
+seaborn = "^0.13.2"
+matplotlib = "^3.9.2"
+plotnine = "^0.13.6"
+datahorse = "^0.0.3"
+tabulate = "^0.9.0"
+prettytable = "^3.11.0"
 
 
 
