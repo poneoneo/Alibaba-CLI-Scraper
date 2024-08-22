@@ -445,7 +445,7 @@ def ai_agent(
     """
     This command let users interact with theirs scraped data in plain english.
     """
-    df = datahorse.read("dh5.csv")
+    df = datahorse.read(f"{csv_file}")
     if df is None:
         raise UsageError("An unexpected error has occured. May due to your csv file.")
 
