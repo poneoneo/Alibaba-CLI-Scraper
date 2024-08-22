@@ -3,11 +3,10 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from pathlib import Path
 from pprint import pprint
-from typing import Any, Sequence, Union
+from typing import Sequence, Union
 
 import rich
 from loguru import logger
-from rich import print as rprint
 from rich.progress import (
     Progress,
     SpinnerColumn,
@@ -49,7 +48,7 @@ class PageParser:
         str, Path
     ]  # folder path that contains all html files to be scraped
 
-    def _retrieve_html_content_as_string(self, html_file: str | Path | Any):
+    def _retrieve_html_content_as_string(self, html_file: Path):
         """
         Retrieve html content from a html file and return it as a string.
 
@@ -59,29 +58,11 @@ class PageParser:
         :rtype: str
         """
         logger.info(f"Retrieving html content from file : {html_file}")
-
-        with open(html_file, "r", encoding="utf-8") as fs:
-            html_content = fs.read()
+        html_content = html_file.read_text(
+            encoding="utf-8",
+        )
         logger.info("Html content has been retrieved.")
         return html_content
-
-    def _retrieve_json_content_as_dict(self, json_file: Path):
-        """
-        Retrieve json content from a json file and return it as a dictionary.
-
-        :param json_file: The path of the json file to be read.
-        :type json_file: pathlib.Path
-        :return: The json content as a dictionary.
-        :rtype: dict
-        """
-        logger.info(f"Retrieving json content from file : {json_file.resolve()}")
-
-        with json_file.open("r", encoding="utf-8") as fs:
-            json_content_as_dict = json.load(
-                fs,
-            )
-        logger.info("Html content has been retrieved.")
-        return json_content_as_dict["props"]["offerResultData"]["offers"]
 
     @logger.catch(FileNotFoundError)
     def _html_files_explorer(self):
@@ -137,15 +118,6 @@ class PageParser:
             new_divs_and_dict.append((item[0], json.loads(item[1])))  # type: ignore
 
         return new_divs_and_dict
-
-    def _offers_builder(
-        self,
-    ):
-        offers_dict: list[dict[str, str]] = [
-            self._retrieve_json_content_as_dict(json_file)
-            for json_file in self._json_files_explorer()
-        ]
-        return offers_dict
 
     def detected_suppliers(self):
         """
