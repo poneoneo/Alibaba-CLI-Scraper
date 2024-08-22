@@ -48,7 +48,7 @@ class PageParser:
         str, Path
     ]  # folder path that contains all html files to be scraped
 
-    def _retrieve_html_content_as_string(self, html_file: Path ):
+    def _retrieve_html_content_as_string(self, html_file: Path):
         """
         Retrieve html content from a html file and return it as a string.
 
@@ -58,7 +58,9 @@ class PageParser:
         :rtype: str
         """
         logger.info(f"Retrieving html content from file : {html_file}")
-        html_content = html_file.read_text(encoding="utf-8",)
+        html_content = html_file.read_text(
+            encoding="utf-8",
+        )
         logger.info("Html content has been retrieved.")
         return html_content
 
@@ -116,7 +118,6 @@ class PageParser:
             new_divs_and_dict.append((item[0], json.loads(item[1])))  # type: ignore
 
         return new_divs_and_dict
-
 
     def detected_suppliers(self):
         """

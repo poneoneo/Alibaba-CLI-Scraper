@@ -456,7 +456,7 @@ def ai_agent(
         df_result = None
         try:
             progress.start_task(task)
-            df_result = df.chat( # type: ignore
+            df_result = df.chat(  # type: ignore
                 f"{query}"
                 + "return the result as a dataframe with only columns that are explicitly or implicitly asked."
             )  # type: ignore

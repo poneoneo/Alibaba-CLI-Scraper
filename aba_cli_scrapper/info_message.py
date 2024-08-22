@@ -7,7 +7,6 @@ def run_scrapper_with_success(folder_name: str):
     )
 
 
-
 def update_db_with_success():
     rprint(
         "[bold white]Step :three:  is [bold green] done  :star: ! [/bold green] [/bold white]"
