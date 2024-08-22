@@ -6,9 +6,7 @@ import sqlite3
 import sys
 from pathlib import Path
 from typing import Optional
-from io import StringIO
 
-import prettytable
 import pandas as pd
 import click
 import dotenv
@@ -441,7 +439,7 @@ def ai_agent(
     """
     df = datahorse.read("dh5.csv")
     if df is None:
-        UsageError("An unexpected error has occured. May due to your csv file.")
+        raise UsageError("An unexpected error has occured. May due to your csv file.")
 
     with Progress(
         SpinnerColumn(
@@ -455,30 +453,27 @@ def ai_agent(
             start=False,
             total=100,
         )
+        df_result = None
         try:
             progress.start_task(task)
             df_result = df.chat(
                 f"{query}"
-                + "return the result as a dataframe with only columns that are explicitly asked."
+                + "return the result as a dataframe with only columns that are explicitly or implicitly asked."
             )  # type: ignore
-            progress.update(task, advance=100)
+
         except Exception as e:
-            UsageError(
+            raise UsageError(
                 f"ai-agent : << An unexpected error has occured: {e}. Maybe i miss understood your query.change it a bit, or try the same again.>>"
             )
-            return
-        if df_result is None:
-            return
-        output_buffer = StringIO()
-        df_result.to_csv(
-            output_buffer,
-        )
-        output_buffer.seek(0)
-        pt = prettytable.from_csv(
-            output_buffer,
-        )
-        output_buffer.close()
-        print(pt)
+        if type(df_result) is None:
+            raise UsageError("An unexpected error has occured. May due to your query.")
+
+        with open("buffer.csv", "w", encoding="utf-8") as output_file:
+            df_result.to_csv(output_file)
+        progress.advance(task, 100)
+        progress.stop()
+        os.system("rich buffer.csv")
+        os.system("rm buffer.csv")
 
 
 typer_click_object = typer.main.get_command(app_t)
