@@ -457,10 +457,10 @@ def ai_agent(
         )
         try:
             progress.start_task(task)
-            df_result = df.chat(
+            df_result = df.chat( # type: ignore
                 f"{query}"
                 + "return the result as a dataframe with only columns that are explicitly asked."
-            )  # type: ignore
+            )  
             progress.update(task, advance=100)
         except Exception as e:
             UsageError(
