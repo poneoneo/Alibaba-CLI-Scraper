@@ -433,6 +433,14 @@ def ai_agent(
             help="query that you want to ask to the ai agent",
         ),
     ],
+    csv_file: Annotated[
+        str,
+        typer.Option(
+            "--csv-file",
+            "-f",
+            help="take name of the csv file that you want to use to chat with the ai agent",
+        ),
+    ],
 ) -> None:
     """
     This command let users interact with theirs scraped data in plain english.
@@ -472,8 +480,16 @@ def ai_agent(
             df_result.to_csv(output_file)
         progress.advance(task, 100)
         progress.stop()
-        os.system("rich buffer.csv")
-        os.system("rm buffer.csv")
+        os.system("rich buffer.csv --center")
+        try:
+            if pf.system() != "Windows":
+                os.system("rm buffer.csv")
+            else: 
+                os.system("del buffer.csv")
+        except Exception as e:
+            raise UsageError(
+                f"ai-agent : << An unexpected error has occured: {e}. Remove the <buffer.csv> file manually. >>"
+            )
 
 
 typer_click_object = typer.main.get_command(app_t)
