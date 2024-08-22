@@ -3,7 +3,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from pathlib import Path
 from pprint import pprint
-from typing import Any, Sequence, Union
+from typing import Sequence, Union
 
 import rich
 from loguru import logger
