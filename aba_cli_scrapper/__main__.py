@@ -387,7 +387,7 @@ def export_as_csv(
             index=True,
             encoding="utf-8",
             header=True,
-            index_label="supplier_name",
+            index_label="supplier_id",
         )
     except sqlite3.OperationalError as e:
         if pf.system() != "Windows":
@@ -471,7 +471,7 @@ def ai_agent(
 
         except Exception as e:
             raise UsageError(
-                f"ai-agent : << An unexpected error has occured: {e}. Maybe i miss understood your query.change it a bit, or try the same again.>>"
+                f"ai-agent : < An unexpected error has occured: {e}. \n Maybe i miss understood your query.change it a bit, or try the same again.>"
             )
         if type(df_result) is None:
             raise UsageError("An unexpected error has occured. May due to your query.")
