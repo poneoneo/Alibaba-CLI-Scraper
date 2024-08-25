@@ -347,8 +347,8 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
   *  **`export-as-csv` sub-command:** Exports scraped data from your sqlitedatabase to a CSV file. This csv file will contain a `FULL OUTER JOIN` with the `products` and `suppliers` tables.
 
   this command takes one required argument and one optional argument:
-    * -  **`--sqlite_file` (required):** The name for your SQLite database file with his extension.
-    * -  **`--to` or `-t` (required):**  The name for your CSV file with his extension.
+  * -  **`--sqlite_file` (required):** The name for your SQLite database file with his extension.
+  * -  **`--to` or `-t` (required):**  The name for your CSV file with his extension.
 
 
   <details>
