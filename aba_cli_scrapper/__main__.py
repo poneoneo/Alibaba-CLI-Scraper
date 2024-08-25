@@ -484,7 +484,7 @@ def ai_agent(
         try:
             if pf.system() != "Windows":
                 os.system("rm buffer.csv")
-            else: 
+            else:
                 os.system("del buffer.csv")
         except Exception as e:
             raise UsageError(
