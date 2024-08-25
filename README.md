@@ -8,7 +8,7 @@
 
 ---
 
-<p align="center"> <b>Create your own Alibaba dataset at lightning speed.</b> </p>
+<p align="center"> <b> Create your own Alibaba dataset and interact with it in plain English. </b> </p>
 <div align="center">
 
 ![PyPI - Version](https://img.shields.io/pypi/v/aba-cli-scrapper) ![PyPI - Downloads](https://img.shields.io/pypi/dm/aba-cli-scrapper?label=PyPI-Downloads)  ![GitHub Release Date](https://img.shields.io/github/release-date/poneoneo/Alibaba-CLI-Scrapper) 
