@@ -83,10 +83,12 @@ Alibaba-CLI-Scraper is a python CLI tool designed to scrape, save and interact i
 
 * **Asynchronous API:** Utilizes asynchronous API of Playwright and Brightdata Proxies for efficient handling of numerous pages results.
 
-
 * **Text Mode:** Provides easy-to-use commands with text mode for those who are not comfortable with commands in the terminal.
 
 * **Export-As-Csv:** Export your generated sqlite file to csv file.
+  
+* **Ai-agent:** Interact with your scraped data in plain english to easily analyse an visualize what matter for you.
+
 ### Which important informations will be retrieved from the Alibaba website ?
 
 Fields related to `Suppliers`:
