@@ -11,7 +11,10 @@
 <p align="center"> <b>Create your own Alibaba dataset at lightning speed.</b> </p>
 <div align="center">
 
-![GitHub Release Date](https://img.shields.io/github/release-date/poneoneo/Alibaba-CLI-Scrapper) ![GitHub License](https://img.shields.io/github/license/poneoneo/Alibaba-CLI-Scrapper) ![PyPI - Downloads](https://img.shields.io/pypi/dw/aba-cli-scrapper?label=PyPI-Downloads)  ![PyPI - Version](https://img.shields.io/pypi/v/aba-cli-scrapper) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aba-cli-scrapper)  
+![PyPI - Version](https://img.shields.io/pypi/v/aba-cli-scrapper) ![PyPI - Downloads](https://img.shields.io/pypi/dm/aba-cli-scrapper?label=PyPI-Downloads)  ![GitHub Release Date](https://img.shields.io/github/release-date/poneoneo/Alibaba-CLI-Scrapper) 
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aba-cli-scrapper) ![GitHub License](https://img.shields.io/github/license/poneoneo/Alibaba-CLI-Scrapper) 
+![Codacy grade](https://img.shields.io/codacy/grade/bbecd0598d5e460ea87e3aa5f8db8798)
+
 
 </div>
 
@@ -30,13 +33,15 @@ Run commands in one click.
 
 No need to RTFM (I means this Readme) again, run the text-mode to know  the purspose of each commands and theirs related options and parameters. 
 
-S/o [Trogon](https://github.com/Textualize/trogon). An amazing tool to easily turn your Click CLI into a powerful terminal application.
+
 
 <div align="center">
 
 https://github.com/user-attachments/assets/fbab45ff-b46c-4021-b481-5d74eadc1813
 
 </div>
+
+S/o [Trogon](https://github.com/Textualize/trogon). An amazing tool to easily turn your Click CLI application into a powerful TUI application.
 
 ## About
 
@@ -55,7 +60,6 @@ Alibaba-CLI-Scraper is a python package that provides a dedicated CLI interface 
     - [Available Commands:](#available-commands)
       - [Important Informations:](#important-informations)
       - [How to set My API KEY ?](#how-to-set-my-api-key-)
-- [Future Enhancements](#future-enhancements)
 - [Contributions Welcome!](#contributions-welcome)
 - [License](#license)
 
@@ -322,7 +326,7 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
 </div>
   </details>
 
-  NB: This command is not available on Linux or Ubuntu OS
+  
 
   *  **`export-as-csv` sub-command:** Exports scraped data from your sqlitedatabase to a CSV file. This csv file will contain a `FULL OUTER JOIN` with the `products` and `suppliers` tables.
 
@@ -331,13 +335,25 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
     * -  **`--to` or `-t` (required):**  The name for your CSV file with his extension.
 
 
+  <details>
+  <summary> ai-agent Demo</summary>
 
-## Future Enhancements
-
-This project has a lot of potential for growth! Here are some exciting features I'm considering for the future:
+  <div align="center">
 
 
--  **Retrieval Augmented Generation (RAG):** Integrate a RAG system that allows users to ask natural language questions about the scraped data, making it even more powerful for insights.
+  </div>
+  </details>
+  The purpose of this command is to provide a way to interact with your scraped data in plain english.
+  - You will be able build a query i.e "list all suppliers in china". In this case the answer will be a pretty table with the name of the suppliers.
+  - or i.e "plot the price of all the products in china". In this case the answer will be a line chart with the price of all the products in china.
+
+ *  **`ai-agent` sub-command:** Calls an Ai agent to interact with your scraped data in plain english. 
+
+  this command takes one required argument and one optional argument:
+    * -  **`query` (required):** content of the query that you want to ask to the ai agent.
+    * -  **`--csv-file` or `-f` (required):**  The name for your CSV file with his extension.
+
+
 
 ## Contributions Welcome!
 
