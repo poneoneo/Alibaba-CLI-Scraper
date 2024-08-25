@@ -12,12 +12,16 @@
 <div align="center">
 
 ![PyPI - Version](https://img.shields.io/pypi/v/aba-cli-scrapper) ![PyPI - Downloads](https://img.shields.io/pypi/dm/aba-cli-scrapper?label=PyPI-Downloads)  ![GitHub Release Date](https://img.shields.io/github/release-date/poneoneo/Alibaba-CLI-Scrapper) 
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aba-cli-scrapper) ![GitHub License](https://img.shields.io/github/license/poneoneo/Alibaba-CLI-Scrapper) 
-![Codacy grade](https://img.shields.io/codacy/grade/bbecd0598d5e460ea87e3aa5f8db8798)
+</div>
+<div align="center">
 
-
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aba-cli-scrapper) ![GitHub License](https://img.shields.io/github/license/poneoneo/Alibaba-CLI-Scrapper)
 </div>
 
+<div align="center">
+
+![Codacy grade](https://img.shields.io/codacy/grade/bbecd0598d5e460ea87e3aa5f8db8798)
+</div>
 
 <div align="center">
 
