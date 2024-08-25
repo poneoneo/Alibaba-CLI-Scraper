@@ -38,7 +38,6 @@ Run commands in one click.
 No need to RTFM (I means this Readme) again, run the text-mode to know  the purspose of each commands and theirs related options and parameters. 
 
 
-
 <div align="center">
 
 https://github.com/user-attachments/assets/fbab45ff-b46c-4021-b481-5d74eadc1813
@@ -46,6 +45,19 @@ https://github.com/user-attachments/assets/fbab45ff-b46c-4021-b481-5d74eadc1813
 </div>
 
 S/o [Trogon](https://github.com/Textualize/trogon). An amazing tool to easily turn your Click CLI application into a powerful TUI application.
+
+<div align="center">
+
+
+
+
+
+https://github.com/user-attachments/assets/5beb4efb-f9b0-4dad-b0d6-a9771db6c61c
+
+
+
+
+</div>
 
 ## About
 
