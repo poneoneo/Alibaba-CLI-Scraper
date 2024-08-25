@@ -1,5 +1,69 @@
 # CHANGELOG
 
+## v0.5.0 (2024-08-25)
+
+### Chore
+
+* chore(commit): fix commit conflict ([`b916340`](https://github.com/poneoneo/Alibaba-Scrapper/commit/b916340006621d9f856a279ec4e9c70d24a315c3))
+
+* chore(*): remove unsed code ([`0c41ac0`](https://github.com/poneoneo/Alibaba-Scrapper/commit/0c41ac027ae1a9a145c2880ed016c69753dd2a08))
+
+* chore(*): add ignore type on chat method ([`8182fac`](https://github.com/poneoneo/Alibaba-Scrapper/commit/8182facb0669c35e522b40441e35cbbe5025bf8c))
+
+### Documentation
+
+* docs(readme): add informations about how to use ai-agent command ([`b62b6d0`](https://github.com/poneoneo/Alibaba-Scrapper/commit/b62b6d004e498823b7b4b3cd19175d6e3a5f6923))
+
+* docs(readme): add a more deep about text ([`d34f7bc`](https://github.com/poneoneo/Alibaba-Scrapper/commit/d34f7bcce80f8f5e39636230f3876a3e44d85526))
+
+* docs(*): add a short description ([`a180254`](https://github.com/poneoneo/Alibaba-Scrapper/commit/a18025430ccf7f74edd66f683ac83a2df267e8f2))
+
+* docs(readme): add informations about how to use ai-agent command ([`ce92625`](https://github.com/poneoneo/Alibaba-Scrapper/commit/ce9262556439fa9114ed958a58a89029fc9b7682))
+
+* docs(readme): add info about how to use ai-agent command ([`dbe5bc7`](https://github.com/poneoneo/Alibaba-Scrapper/commit/dbe5bc7fe4f89d83265db4182aba2be95d7a552a))
+
+* docs(readme):  add info above ai-agent video ([`bb6f205`](https://github.com/poneoneo/Alibaba-Scrapper/commit/bb6f20549f2dd44cc7b4058916660d28168cb31c))
+
+* docs(readme): add video about how to use ai-gent command ([`32f64c4`](https://github.com/poneoneo/Alibaba-Scrapper/commit/32f64c4403eafe55244abc9efb717d4cc7aaeea3))
+
+* docs(readme): update tags ([`393c229`](https://github.com/poneoneo/Alibaba-Scrapper/commit/393c2295d43dc7b40b49ebf67bf74f525b73cb3d))
+
+* docs(readme): add tutorial about ai-agent command ([`ece0214`](https://github.com/poneoneo/Alibaba-Scrapper/commit/ece02143751ad8938648a9d15efe044dbcb30222))
+
+### Feature
+
+* feat(*): add ai-agent to generate plot or made a query based on scraped data saved in csv file ([`68e2649`](https://github.com/poneoneo/Alibaba-Scrapper/commit/68e264947e46ae06d3596cf06a3466f95109ef1f))
+
+### Fix
+
+* fix(*): delete buffer.csv based on sys plateform ([`79cd27b`](https://github.com/poneoneo/Alibaba-Scrapper/commit/79cd27b99009e4b71c934d6962f461a7f904cb95))
+
+* fix(ai-agent command): The file &#39;dh5.csv&#39; was not found. ([`c7239cf`](https://github.com/poneoneo/Alibaba-Scrapper/commit/c7239cf2ed69c7794658eae7d8028df413c33a3f))
+
+* fix(ai-agent command): add a way to select csv file to talk with. ([`7ee86a8`](https://github.com/poneoneo/Alibaba-Scrapper/commit/7ee86a8e010649a7f99bb6badbaf8978e55bfff7))
+
+### Performance
+
+* perf(ai-agent): add a better quality to plot generation ([`7b285d8`](https://github.com/poneoneo/Alibaba-Scrapper/commit/7b285d89f80e16d6b10daae5f1fb300cfe14cdce))
+
+### Refactor
+
+* refactor(parser): fix refactoring issue #9 ([`24c778c`](https://github.com/poneoneo/Alibaba-Scrapper/commit/24c778cd1eef037ef5d9d241c17b30f4433ae195))
+
+### Style
+
+* style(*): apply ruff formating ([`b6347f1`](https://github.com/poneoneo/Alibaba-Scrapper/commit/b6347f1ea3e2a0f6163b51eec0d90a0cb27ade2d))
+
+* style(ruff): apply ruff formating ([`5a2402d`](https://github.com/poneoneo/Alibaba-Scrapper/commit/5a2402d6741220d319b0b19a65042f21d81074eb))
+
+* style(terminal): pretty printing dataframe result after each query to ai-agent ([`54bcd88`](https://github.com/poneoneo/Alibaba-Scrapper/commit/54bcd887300372fd8a6a185dbb40338bd9c443b1))
+
+### Unknown
+
+* Merge pull request #15 from poneoneo/fix-all-issues-
+
+Fix all issues with all changes recommended ([`90e8c5c`](https://github.com/poneoneo/Alibaba-Scrapper/commit/90e8c5c3a61132d07f3044feeeeaef2aa093794b))
+
 ## v0.4.4 (2024-08-17)
 
 ## v0.4.3 (2024-08-17)
