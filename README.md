@@ -61,7 +61,7 @@ https://github.com/user-attachments/assets/5beb4efb-f9b0-4dad-b0d6-a9771db6c61c
 
 ## About
 
-Alibaba-CLI-Scraper is a python package that provides a dedicated CLI interface for scraping data from Alibaba.com. The purpose of this project is to extract products and theirs related suppliers informations and store it in a local database (SQLite or MySQL). The project utilizes asynchronous requests for efficient handling of numerous requests and allows users to easily run the scraper and manage the database using a user-friendly command-line interface (CLI).
+Alibaba-CLI-Scraper is a python CLI tool designed to scrape, save and interact in plain english with data from Alibaba.com. Based on user, some products data and theirs related suppliers data will be extracted and saved it in a local database (SQLite or MySQL) and then will be ready to be analysed and even visualized through a powefull ai-agent powered by [data-horse](https://github.com/DeDolphins/DataHorse). It's also be designed to be user-friendly and therefore has fairly simple and easy-to-use commands to navigate through all the features of this tool.
 
 ## Table of Contents
 
