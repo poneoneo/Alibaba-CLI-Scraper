@@ -366,8 +366,8 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
  *  **`ai-agent` sub-command:** Calls an Ai agent to interact with your scraped data in plain english. 
 
   this command takes one required argument and one optional argument:
-    * -  **`query` (required):** content of the query that you want to ask to the ai agent.
-    * -  **`--csv-file` or `-f` (required):**  The name for your CSV file with his extension.
+  * -  **`query` (required):** content of the query that you want to ask to the ai agent.
+  * -  **`--csv-file` or `-f` (required):**  The name for your CSV file with his extension.
 
 
 
