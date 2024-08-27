@@ -1,6 +1,6 @@
 <div align="center">
   <p>
-    <a href="#"><img src="images\image.png" width="300" height="300" alt="overview image" /></a>
+    <a href="#"><img src="_static\images\image.png" width="300" height="300" alt="overview image" /></a>
   </p>
 </div>
 <p align="center">  <b>Alibaba-CLI-Scraper</b> </p>
@@ -23,57 +23,25 @@
 ![Codacy grade](https://img.shields.io/codacy/grade/bbecd0598d5e460ea87e3aa5f8db8798)
 </div>
 
-<div align="center">
 
-
-
-https://github.com/user-attachments/assets/10f2ff2b-eef7-4b61-b317-89cf22252f1e
-
-
-
-</div>
-
-Run commands in one click.
-
-No need to RTFM (I means this Readme) again, run the text-mode to know  the purspose of each commands and theirs related options and parameters. 
-
-
-<div align="center">
-
-https://github.com/user-attachments/assets/fbab45ff-b46c-4021-b481-5d74eadc1813
-
-</div>
-
-S/o [Trogon](https://github.com/Textualize/trogon). An amazing tool to easily turn your Click CLI application into a powerful TUI application.
-
-
-Chat with your scraped data in plain english to generate and visualize plot to make decisions based on real-time data. 
-
-<div align="center">
-
-
-https://github.com/user-attachments/assets/5beb4efb-f9b0-4dad-b0d6-a9771db6c61c
-
-
-</div>
 
 ---
 
-## Table of Contents
+# Table of Contents
 
-- [Table of Contents](#table-of-contents)
-- [About](#about)
-  - [Features:](#features)
-  - [Which important informations will be retrieved from the Alibaba website ?](#which-important-informations-will-be-retrieved-from-the-alibaba-website-)
-  - [Sample of CSV output](#sample-of-csv-output)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Using the CLI Interface](#using-the-cli-interface)
-    - [Available Commands:](#available-commands)
-      - [Important Informations:](#important-informations)
-      - [How to set My API KEY ?](#how-to-set-my-api-key-)
-- [Contributions Welcome!](#contributions-welcome)
-- [License](#license)
+- [Table of Contents]<table-of-contents>
+- [About]<about>
+  - [Features:]<features>
+  - [Which important informations will be retrieved from the Alibaba website ?]<which-important-informations-will-be-retrieved-from-the-alibaba-website->
+  - [Sample of CSV output]<sample-of-csv-output>
+  - [Prerequisites]<prerequisites>
+  - [Installation]<installation>
+  - [Using the CLI Interface]<using-the-cli-interface>
+    - [Available Commands:]<available-commands>
+      - [Important Informations:]<important-informations>
+      - [How to set My API KEY ?]<how-to-set-my-api-key->
+- [Contributions Welcome!]<contributions-welcome>
+- [License]<license>
   
 ## About
 Alibaba-CLI-Scraper is a python CLI tool designed to scrape, save and interact in plain english with data from Alibaba.com. Based on user, some products data and theirs related suppliers data will be extracted and saved it in a local database (SQLite or MySQL) and then will be ready to be analysed and even visualized through a powefull ai-agent powered by [data-horse](https://github.com/DeDolphins/DataHorse). It's also be designed to be user-friendly and therefore has fairly simple and easy-to-use commands to navigate through all the features of this tool.
@@ -158,7 +126,7 @@ When you will run command to export your sqlite file as a csv a `OUTER FULL JOIN
 
 - Python 3.11 or Higher
 
-- Scraping Browser API KEY from [BrightData](https://get.brightdata.com/fdrqnme1smdc)  to know how to set your api key look at [here](#available-commands) 
+- Scraping Browser API KEY from [BrightData](https://get.brightdata.com/fdrqnme1smdc)  to know how to set your api key look at [here]<available-commands>
 
 - Windows or Linux as OS 
 
@@ -204,7 +172,7 @@ If you'd like to use `pip` instead, just replace `pipx` with `pip`  but obviousl
 
 <div align="center">
   <p>
-    <a href="#"><img src="images\help-cli-2.png" width="900" height="340" alt="aba-run help image" /></a>
+    <a href="#"><img src="_static\images\help-cli-2.png" width="900" height="340" alt="aba-run help image" /></a>
   </p>
 
 </div>
@@ -224,8 +192,6 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
 
   <details>
   <summary>Scraper Demo</summary>
-
-  [https://user-images.githubusercontent.com/49741340/238535232-459847af-a15c-4d9b-91ac-fab9958bc74f.mp4](https://private-user-images.githubusercontent.com/52409392/351958081-302e7586-7e73-495f-bb40-41b8002c0480.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjE4ODE5NTUsIm5iZiI6MTcyMTg4MTY1NSwicGF0aCI6Ii81MjQwOTM5Mi8zNTE5NTgwODEtMzAyZTc1ODYtN2U3My00OTVmLWJiNDAtNDFiODAwMmMwNDgwLm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA3MjUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNzI1VDA0MjczNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWQwZjlhM2I5ODk5ZjYzYmRhNmI5OWJhMzMxMDU2MGQ4NTBiZTk0OTAzNDg5M2M3NTU1M2NhYzFkYTc1YzQ5YzcmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.xOTTGRRU8UQ8YZFMegl_TJC6kvtCR4aQEwJyp_DAjjk)
 
   </details>
 
@@ -264,8 +230,6 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
   <details>
   <summary>db-init Demo with sqlite</summary>
 
-  [https://user-images.githubusercontent.com/49741340/238535232-459847af-a15c-4d9b-91ac-fab9958bc74f.mp4](https://private-user-images.githubusercontent.com/52409392/351970999-0f9491e5-69f0-470b-8a8e-9e436f0a0d0b.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjE4ODQ0MjksIm5iZiI6MTcyMTg4NDEyOSwicGF0aCI6Ii81MjQwOTM5Mi8zNTE5NzA5OTktMGY5NDkxZTUtNjlmMC00NzBiLThhOGUtOWU0MzZmMGEwZDBiLm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA3MjUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNzI1VDA1MDg0OVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWRiMmJiZTg3MDE3NTAwZWRhMzE2MTM5NDhjNmZkZTAwZWYxOTUxN2RlMzA1NGM4MzgyNWJkZTJmNTNkNzFhNDAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.gjlDs3VMK_MIg1Ne3cEqrO__LsZdyOgjy-SlZuXvd_s)
-
   </details>
 
   *   **`db-init` sub-command:** Creates a new database mysql/sqlite with products and suppliers as tables in it.
@@ -276,7 +240,7 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
     
       *   **`--only-with` or `-ow`(optional Mysql):**  If you just want to update some details of your credentials in `db_credentials.json` file but not all, use this flag.
   
-  * **NB:** `--host` and `--port` are respectively set to `localhost` and `3306` by default. Also When you initialize your database with Mysql Engine for the first time, you must to set `--user`, `--password` and `--db-name` arguments. this will create a `db_credentials.json` file in your current directory with your credentials. Prevent you to set it again next time. Thus you will be able to set just import field when the time will come to [update](#important-informations) your database.
+  * **NB:** `--host` and `--port` are respectively set to `localhost` and `3306` by default. Also When you initialize your database with Mysql Engine for the first time, you must to set `--user`, `--password` and `--db-name` arguments. this will create a `db_credentials.json` file in your current directory with your credentials. Prevent you to set it again next time. Thus you will be able to set just import field when the time will come to [update]<important-informations> your database.
 
   **MySQL Use case:**
 
@@ -304,8 +268,6 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
 
   <details>
   <summary>db-update Demo</summary>
-
-  [https://user-images.githubusercontent.com/49741340/238535232-459847af-a15c-4d9b-91ac-fab9958bc74f.mp4](https://private-user-images.githubusercontent.com/52409392/351977812-ecfe8e3b-af20-4611-a07d-dd6ac401bf8c.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjE4ODY1NjgsIm5iZiI6MTcyMTg4NjI2OCwicGF0aCI6Ii81MjQwOTM5Mi8zNTE5Nzc4MTItZWNmZThlM2ItYWYyMC00NjExLWEwN2QtZGQ2YWM0MDFiZjhjLm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA3MjUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNzI1VDA1NDQyOFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTY4OTI3NDY0OThmYTA5NDJiMTEyMjBhZjczNDE2M2RkZWNlMmRjMzUyZjBkODgwMjY2NTc1NzQ1NjI5MTBmMzcmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.Fa2jqUTAg-MQ-J33x6x_UIjnId190KhdEJZbUmmbTiw)
 
   </details>
 
@@ -336,7 +298,7 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
 
 <div align="center">
   <p>
-    <a href="#"><img src="images\export-as-csv-demo.gif" width="900" height="340" alt="command result 1" /></a>
+    <a href="#"><img src="_static\images\export-as-csv-demo.gif" width="900" height="340" alt="command result 1" /></a>
   </p>
   <p align="center">
   </p>
@@ -378,7 +340,7 @@ I believe in the power of open source! If you'd like to contribute to this proje
 
 ## License
 
-This project is licensed under the [Gnu General Public License Version **3**](COPYING).
+This project is licensed under the [Gnu General Public License Version **3**]<COPYING>.
 
 
   
