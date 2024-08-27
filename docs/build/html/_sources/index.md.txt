@@ -31,7 +31,7 @@
 
 - [Table of Contents]<table-of-contents>
 - [About]<about>
-  - [Features:]<features>
+  - [Features]<features>
   - [Which important informations will be retrieved from the Alibaba website ?]<which-important-informations-will-be-retrieved-from-the-alibaba-website->
   - [Sample of CSV output]<sample-of-csv-output>
   - [Prerequisites]<prerequisites>
