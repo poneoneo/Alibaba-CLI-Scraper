@@ -27,7 +27,7 @@
 
 ---
 
-# Table of Contents
+<!-- # Table of Contents
 
 - [Table of Contents]<table-of-contents>
 - [About]<about>
@@ -41,12 +41,12 @@
       - [Important Informations:]<important-informations>
       - [How to set My API KEY ?]<how-to-set-my-api-key->
 - [Contributions Welcome!]<contributions-welcome>
-- [License]<license>
+- [License]<license> -->
   
-## About
+# About
 Alibaba-CLI-Scraper is a python CLI tool designed to scrape, save and interact in plain english with data from Alibaba.com. Based on user, some products data and theirs related suppliers data will be extracted and saved it in a local database (SQLite or MySQL) and then will be ready to be analysed and even visualized through a powefull ai-agent powered by [data-horse](https://github.com/DeDolphins/DataHorse). It's also be designed to be user-friendly and therefore has fairly simple and easy-to-use commands to navigate through all the features of this tool.
 
-### Features:
+## Features
 
 * **Asynchronous API:** Utilizes asynchronous API of Playwright and Brightdata Proxies for efficient handling of numerous pages results.
 
@@ -56,7 +56,7 @@ Alibaba-CLI-Scraper is a python CLI tool designed to scrape, save and interact i
   
 * **Ai-agent:** Interact with your scraped data in plain english to easily analyse an visualize what matter for you.
 
-### Which important informations will be retrieved from the Alibaba website ?
+## Which important informations will be retrieved from the Alibaba website ?
 
 Fields related to `Suppliers`:
 
@@ -110,7 +110,7 @@ Fields related to `Products`:
     
     `trade_product`:bool
   
-### Sample of CSV output
+## Sample of CSV output
 
 When you will run command to export your sqlite file as a csv a `OUTER FULL JOIN` operation will be made to join all the fields of the both tables. Bellow you have a sample results maching `agricultural machinery` keywords.
 
@@ -122,7 +122,7 @@ When you will run command to export your sqlite file as a csv a `OUTER FULL JOIN
 |4   |5hp/7hp/12hp rotary electric start agricultural farming walking tractor power tiller weeder cultivators                         |1                |1               |4          |1                |              |2              |0.0          |0.0         |0.0         |0.0                |1                |1              |1               |1            |244.0    |371.0    |shandong jinlong lutai international trade co., ltd.                                         |verified         |0         |chine         |1                     |0.0                   |
 |5   |free shipping 3.5 ton mini excavator 1 ton 2 ton kubota engine digger excavator mini pelle chinese cheap small excavator machine|1                |1               |5          |1                |CE            |95             |4.6          |25.0        |4.6         |4.6                |1                |1              |1               |1            |988.0    |1235.0   |shandong qilu industrial co., ltd.                                                           |unverified       |5         |chine         |4                     |4.6                   |
 
-### Prerequisites
+## Prerequisites
 
 - Python 3.11 or Higher
 
@@ -133,7 +133,7 @@ When you will run command to export your sqlite file as a csv a `OUTER FULL JOIN
 
 
 
-### Installation
+## Installation
 
 It's recommended to use [pipx](https://pypa.github.io/pipx/) instead of pip for end-user applications written in Python. `pipx` installs the package, exposes his CLI() entrypoints in an isolated environment and makes it available everywhere in your system. This guarantees no dependency conflicts and clean uninstall.
 let's install `aba-cli-scrapper` using pipx:
@@ -165,7 +165,7 @@ If you'd like to use `pip` instead, just replace `pipx` with `pip`  but obviousl
    ```
 
   
-### Using the CLI Interface
+## Using the CLI Interface
  
 
 **Need Help?**  run  any commands followed by `--help` for detailed informations about its usage and options. For example: `aba-run --help` will show you all subcommands available and how to use them.
@@ -183,9 +183,9 @@ Practice make perfect isn't ? So let's get started with a use case example.
 Let's assume  that you want to scrape data about `electric bikes` from Alibaba.com.
 
 ---
-#### Available Commands:
+## Available Commands:
 
-  ##### Important Informations:
+  ### Important Informations:
 
   * **`initialize` :**  Means create a new Mysql or SQLite database with products and suppliers table in it. Which will be used to store your scraped data. Especially for mysql engine, you will need to create an empty database in your mysql server before.
   * **`update` :** Means add your scraped data to a newly initialized Mysql or SQLite database. this action cannot be performed twice on the same database. 
@@ -196,7 +196,7 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
   </details>
 
 
-  ##### How to set My API KEY ?
+  ### How to set My API KEY ?
 
   by default `scrapper` will use async mode which is supported by brightdata api, means if you want to use it you will need to provide your api key. set it by using command bellow:
 
