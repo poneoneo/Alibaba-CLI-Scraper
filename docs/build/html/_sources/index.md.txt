@@ -1,6 +1,6 @@
 <div align="center">
   <p>
-    <a href="#"><img src="_static\images\image.png" width="300" height="300" alt="overview image" /></a>
+    <a href="#"><img src="_static/images/image.png" width="300" height="300" alt="overview image" /></a>
   </p>
 </div>
 <p align="center">  <b>Alibaba-CLI-Scraper</b> </p>
@@ -172,7 +172,7 @@ If you'd like to use `pip` instead, just replace `pipx` with `pip`  but obviousl
 
 <div align="center">
   <p>
-    <a href="#"><img src="_static\images\help-cli-2.png" width="900" height="340" alt="aba-run help image" /></a>
+    <a href="#"><img src="_static/images/help-cli-2.png" width="900" height="340" alt="aba-run help image" /></a>
   </p>
 
 </div>
@@ -298,7 +298,7 @@ Let's assume  that you want to scrape data about `electric bikes` from Alibaba.c
 
 <div align="center">
   <p>
-    <a href="#"><img src="_static\images\export-as-csv-demo.gif" width="900" height="340" alt="command result 1" /></a>
+    <a href="#"><img src="_static/images/export-as-csv-demo.gif" width="900" height="340" alt="command result 1" /></a>
   </p>
   <p align="center">
   </p>
