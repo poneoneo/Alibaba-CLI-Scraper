@@ -5,9 +5,7 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-import pathlib
-import sys
-sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())
+
 
 project = 'aba-cli-scrapper'
 copyright = "2024, O'neal MBOULA"
@@ -19,9 +17,6 @@ release = '0.5.3'
 
 extensions = [
     'myst_parser',
-    'sphinx.ext.duration',
-   'sphinx.ext.doctest',
-   'sphinx.ext.autodoc',
 ]
 
 templates_path = ['_templates']

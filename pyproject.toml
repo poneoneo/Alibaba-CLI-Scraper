@@ -98,6 +98,9 @@ plotly = "^5.23.0"
 
 [tool.poetry.group.dev.dependencies]
 python-semantic-release = "^9.8.6"
+sphinx = "^8.0.2"
+myst-parser = "^4.0.0"
+furo = "^2024.8.6"
 
 [build-system]
 requires = ["poetry-core"]
