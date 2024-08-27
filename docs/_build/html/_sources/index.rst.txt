@@ -1,0 +1,3238 @@
+.. aba-cli-scrapper documentation master file, created by
+   sphinx-quickstart on Mon Aug 26 22:12:33 2024.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+
+.. toctree::
+
+   usage
+   api
+
+.. container::
+
+   .. raw:: html
+
+      <p>
+
+   .. raw:: html
+
+      </p>
+
+.. raw:: html
+
+   <p align="center">
+
+Alibaba-CLI-Scraper
+
+.. raw:: html
+
+   </p>
+
+.. raw:: html
+
+   <p align="center">
+
+🛒-💻- 🕸
+
+.. raw:: html
+
+   </p>
+
+--------------
+
+.. raw:: html
+
+   <p align="center">
+
+Create your own Alibaba dataset and interact with it in plain English.
+
+.. raw:: html
+
+   </p>
+
+.. container::
+
+   |PyPI - Version| |PyPI - Downloads| |GitHub Release Date|
+
+.. container::
+
+   |PyPI - Python Version| |GitHub License|
+
+.. container::
+
+   .. figure:: https://img.shields.io/codacy/grade/bbecd0598d5e460ea87e3aa5f8db8798
+      :alt: Codacy grade
+
+      Codacy grade
+
+.. container::
+
+   https://github.com/user-attachments/assets/10f2ff2b-eef7-4b61-b317-89cf22252f1e
+
+Run commands in one click.
+
+No need to RTFM (I means this Readme) again, run the text-mode to know
+the purspose of each commands and theirs related options and parameters.
+
+.. container::
+
+   https://github.com/user-attachments/assets/fbab45ff-b46c-4021-b481-5d74eadc1813
+
+S/o `Trogon <https://github.com/Textualize/trogon>`__. An amazing tool
+to easily turn your Click CLI application into a powerful TUI
+application.
+
+Chat with your scraped data in plain english to generate and visualize
+plot to make decisions based on real-time data.
+
+.. container::
+
+   https://github.com/user-attachments/assets/5beb4efb-f9b0-4dad-b0d6-a9771db6c61c
+
+--------------
+
+About
+-----
+
+Alibaba-CLI-Scraper is a python CLI tool designed to scrape, save and
+interact in plain english with data from Alibaba.com. Based on user,
+some products data and theirs related suppliers data will be extracted
+and saved it in a local database (SQLite or MySQL) and then will be
+ready to be analysed and even visualized through a powefull ai-agent
+powered by `data-horse <https://github.com/DeDolphins/DataHorse>`__.
+It’s also be designed to be user-friendly and therefore has fairly
+simple and easy-to-use commands to navigate through all the features of
+this tool.
+
+Table of Contents
+-----------------
+
+-  `About <#about>`__
+-  `Table of Contents <#table-of-contents>`__
+
+   -  `Features: <#features>`__
+   -  `Which important informations will be retrieved from the Alibaba
+      website
+      ? <#which-important-informations-will-be-retrieved-from-the-alibaba-website->`__
+   -  `Sample of CSV output <#sample-of-csv-output>`__
+   -  `Prerequisites <#prerequisites>`__
+   -  `Installation <#installation>`__
+   -  `Using the CLI Interface <#using-the-cli-interface>`__
+
+      -  `Available Commands: <#available-commands>`__
+
+         -  `Important Informations: <#important-informations>`__
+         -  `How to set My API KEY ? <#how-to-set-my-api-key->`__
+
+-  `Contributions Welcome! <#contributions-welcome>`__
+-  `License <#license>`__
+
+Features:
+~~~~~~~~~
+
+-  **Asynchronous API:** Utilizes asynchronous API of Playwright and
+   Brightdata Proxies for efficient handling of numerous pages results.
+
+-  **Text Mode:** Provides easy-to-use commands with text mode for those
+   who are not comfortable with commands in the terminal.
+
+-  **Export-As-Csv:** Export your generated sqlite file to csv file.
+
+-  **Ai-agent:** Interact with your scraped data in plain english to
+   easily analyse an visualize what matter for you.
+
+Which important informations will be retrieved from the Alibaba website ?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Fields related to ``Suppliers``:
+
+::
+
+   `id`: int
+
+   `name`: str
+
+   `verification_mode`: str
+
+   `sopi_level`: int
+
+   `country_name`: str
+
+   `years_as_gold_supplier`: int
+
+   `supplier_service_score`: float
+
+Fields related to ``Products``:
+
+::
+
+   `id`: int
+
+   `name`: str 
+
+   `alibaba_guranteed`: bool
+
+   `certifications`: str
+
+   `minimum_to_order`: int
+
+   `ordered_or_sold`: int
+
+   `supplier_id`: int
+
+   `min_price`: float
+
+   `max_price`: float
+
+   `product_score`: float
+
+   `review_count` : float
+
+   `review_score` : float
+
+   `shipping_time_score` : float
+
+   `is_full_promotion`: bool
+
+   `is_customizable`: bool
+
+   `is_instant_order`: bool
+
+   `trade_product`:bool
+
+Sample of CSV output
+~~~~~~~~~~~~~~~~~~~~
+
+When you will run command to export your sqlite file as a csv a
+``OUTER FULL JOIN`` operation will be made to join all the fields of the
+both tables. Bellow you have a sample results maching
+``agricultural machinery`` keywords.
+
++---+----------------+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+-----------+---+---+---+---+---+
+| i | name           | a | m | s | a | c | o | p | r | r | s | i | i | i | t | m | m | name      | v | s | c | y | s |
+| d |                | l | i | u | l | e | r | r | e | e | h | s | s | s | r | i | a |           | e | o | o | e | u |
+|   |                | i | n | p | i | r | d | o | v | v | i | _ | _ | _ | a | n | x |           | r | p | u | a | p |
+|   |                | b | i | p | b | t | e | d | i | i | p | f | c | i | d | _ | _ |           | i | i | n | r | p |
+|   |                | a | m | l | a | i | r | u | e | e | p | u | u | n | e | p | p |           | f | _ | t | s | l |
+|   |                | b | u | i | b | f | e | c | w | w | i | l | s | s | _ | r | r |           | i | l | r | _ | i |
+|   |                | a | m | e | a | i | d | t | _ | _ | n | l | t | t | p | i | i |           | c | e | y | a | e |
+|   |                | _ | _ | r | _ | c | _ | _ | c | s | g | _ | o | a | r | c | c |           | a | v | _ | s | r |
+|   |                | g | t | _ | g | a | o | s | o | c | _ | p | m | n | o | e | e |           | t | e | n | _ | _ |
+|   |                | u | o | i | u | t | r | c | u | o | t | r | i | t | d |   |   |           | i | l | a | g | s |
+|   |                | r | _ | d | r | i | _ | o | n | r | i | o | z | _ | u |   |   |           | o |   | m | o | e |
+|   |                | a | o |   | a | o | s | r | t | e | m | m | a | o | c |   |   |           | n |   | e | l | r |
+|   |                | n | r |   | n | n | o | e |   |   | e | o | b | r | t |   |   |           | _ |   |   | d | v |
+|   |                | t | d |   | t | s | l |   |   |   | _ | t | l | d |   |   |   |           | m |   |   | _ | i |
+|   |                | e | e |   | e |   | d |   |   |   | s | i | e | e |   |   |   |           | o |   |   | s | c |
+|   |                | e | r |   | e |   |   |   |   |   | c | o |   | r |   |   |   |           | d |   |   | u | e |
+|   |                | d |   |   | d |   |   |   |   |   | o | n |   |   |   |   |   |           | e |   |   | p | _ |
+|   |                |   |   |   |   |   |   |   |   |   | r |   |   |   |   |   |   |           |   |   |   | p | s |
+|   |                |   |   |   |   |   |   |   |   |   | e |   |   |   |   |   |   |           |   |   |   | l | c |
+|   |                |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           |   |   |   | i | o |
+|   |                |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           |   |   |   | e | r |
+|   |                |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           |   |   |   | r | e |
++===+================+===+===+===+===+===+===+===+===+===+===+===+===+===+===+===+===+===========+===+===+===+===+===+
+| 1 | mesh knitting  | 1 | 1 | 1 | 1 |   | 0 | 5 | 1 | 5 | 5 | 1 | 1 | 1 | 1 | 9 | 1 | qingdao   | u | 0 | c | 9 | 5 |
+|   | weaving        |   |   |   |   |   |   | . | . | . | . |   |   |   |   | 9 | 8 | shanzhong | n |   | h |   | . |
+|   | machine        |   |   |   |   |   |   | 0 | 0 | 0 | 0 |   |   |   |   | 9 | 9 | imp and   | v |   | i |   | 0 |
+|   | produce        |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 7 | 7 | exp ltd.  | e |   | n |   |   |
+|   | sunscreen net  |   |   |   |   |   |   |   |   |   |   |   |   |   |   | . | 9 |           | r |   | e |   |   |
+|   | agricultural   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 0 | . |           | i |   |   |   |   |
+|   | shade net anti |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 0 |           | f |   |   |   |   |
+|   | net            |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | i |   |   |   |   |
+|   |                |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | e |   |   |   |   |
+|   |                |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | d |   |   |   |   |
++---+----------------+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+-----------+---+---+---+---+---+
+| 2 | chinese small  | 1 | 1 | 2 | 1 |   | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 4 | 4 | shandong  | u | 0 | c | 1 | 0 |
+|   | farm rotary    |   |   |   |   |   |   | . | . | . | . |   |   |   |   | 5 | 5 | guoyoule  | n |   | h |   | . |
+|   | tiller 12hp    |   |   |   |   |   |   | 0 | 0 | 0 | 0 |   |   |   |   | 5 | 5 | agr       | v |   | i |   | 0 |
+|   | 15hp 20hp two  |   |   |   |   |   |   |   |   |   |   |   |   |   |   | . | . | icultural | e |   | n |   |   |
+|   | wheel mini     |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 0 | 0 | machinery | r |   | e |   |   |
+|   | hand tractor   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | co., ltd. | i |   |   |   |   |
+|   | walk behind    |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | f |   |   |   |   |
+|   | tractors       |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | i |   |   |   |   |
+|   |                |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | e |   |   |   |   |
+|   |                |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | d |   |   |   |   |
++---+----------------+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+-----------+---+---+---+---+---+
+| 3 | small          | 1 | 1 | 3 | 1 |   | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 2 | 4 | shandong  | u | 0 | c | 1 | 0 |
+|   | m              |   |   |   |   |   |   | . | . | . | . |   |   |   |   | 3 | 6 | my        | n |   | h |   | . |
+|   | ultifunctional |   |   |   |   |   |   | 0 | 0 | 0 | 0 |   |   |   |   | 5 | 2 | agr       | v |   | i |   | 0 |
+|   | flexible 130l  |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 0 | 0 | icultural | e |   | n |   |   |
+|   | orchard remote |   |   |   |   |   |   |   |   |   |   |   |   |   |   | . | . | f         | r |   | e |   |   |
+|   | control garden |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 0 | 0 | acilities | i |   |   |   |   |
+|   | crawler        |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | co., ltd. | f |   |   |   |   |
+|   | agriculture    |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | i |   |   |   |   |
+|   | robot sprayer  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | e |   |   |   |   |
+|   |                |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | d |   |   |   |   |
++---+----------------+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+-----------+---+---+---+---+---+
+| 4 | 5hp/7hp/12hp   | 1 | 1 | 4 | 1 |   | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 2 | 3 | shandong  | v | 0 | c | 1 | 0 |
+|   | rotary         |   |   |   |   |   |   | . | . | . | . |   |   |   |   | 4 | 7 | jinlong   | e |   | h |   | . |
+|   | electric start |   |   |   |   |   |   | 0 | 0 | 0 | 0 |   |   |   |   | 4 | 1 | lutai     | r |   | i |   | 0 |
+|   | agricultural   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | . | . | inte      | i |   | n |   |   |
+|   | farming        |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 0 | 0 | rnational | f |   | e |   |   |
+|   | walking        |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | trade     | i |   |   |   |   |
+|   | tractor power  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | co., ltd. | e |   |   |   |   |
+|   | tiller weeder  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | d |   |   |   |   |
+|   | cultivators    |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           |   |   |   |   |   |
++---+----------------+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+-----------+---+---+---+---+---+
+| 5 | free shipping  | 1 | 1 | 5 | 1 | C | 9 | 4 | 2 | 4 | 4 | 1 | 1 | 1 | 1 | 9 | 1 | shandong  | u | 5 | c | 4 | 4 |
+|   | 3.5 ton mini   |   |   |   |   | E | 5 | . | 5 | . | . |   |   |   |   | 8 | 2 | qilu      | n |   | h |   | . |
+|   | excavator 1    |   |   |   |   |   |   | 6 | . | 6 | 6 |   |   |   |   | 8 | 3 | i         | v |   | i |   | 6 |
+|   | ton 2 ton      |   |   |   |   |   |   |   | 0 |   |   |   |   |   |   | . | 5 | ndustrial | e |   | n |   |   |
+|   | kubota engine  |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 0 | . | co., ltd. | r |   | e |   |   |
+|   | digger         |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 0 |           | i |   |   |   |   |
+|   | excavator mini |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | f |   |   |   |   |
+|   | pelle chinese  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | i |   |   |   |   |
+|   | cheap small    |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | e |   |   |   |   |
+|   | excavator      |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           | d |   |   |   |   |
+|   | machine        |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |           |   |   |   |   |   |
++---+----------------+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+-----------+---+---+---+---+---+
+
+Prerequisites
+~~~~~~~~~~~~~
+
+-  Python 3.11 or Higher
+
+-  Scraping Browser API KEY from
+   `BrightData <https://get.brightdata.com/fdrqnme1smdc>`__ to know how
+   to set your api key look at `here <#available-commands>`__
+
+-  Windows or Linux as OS
+
+Installation
+~~~~~~~~~~~~
+
+It’s recommended to use `pipx <https://pypa.github.io/pipx/>`__ instead
+of pip for end-user applications written in Python. ``pipx`` installs
+the package, exposes his CLI() entrypoints in an isolated environment
+and makes it available everywhere in your system. This guarantees no
+dependency conflicts and clean uninstall. let’s install
+``aba-cli-scrapper`` using pipx:
+
+-  Install pipx with a python 3.11 or higher version:
+   ``shell     python/python3 -m pip install --user pipx``
+
+-  add pipx to your PATH:
+
+   .. code:: shell
+
+          pipx ensurepath
+
+-  Install ``aba-cli-scrapper`` using pipx:
+
+   .. code:: shell
+
+         pipx install aba-cli-scrapper
+
+   and you’re ready to use ``aba-cli-scrapper``!
+
+If you’d like to use ``pip`` instead, just replace ``pipx`` with ``pip``
+but obviously as usual you’ll need to create a virtual environment and
+activate it before to use ``aba-cli-scrapper`` to avoid any dependency
+conflicts issues. let’s install ``aba-cli-scrapper`` using pip:
+
+-  Create a virtual environment with Python 3.11 or higher:
+   ``shell     python/python3 -m venv your-virtual-environment-name``
+-  activate the virtual environment:
+   ``shell     your-virtual-environment-name\\Scripts\\activate``
+
+Using the CLI Interface
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Need Help?** run any commands followed by ``--help`` for detailed
+informations about its usage and options. For example:
+``aba-run --help`` will show you all subcommands available and how to
+use them.
+
+.. container::
+
+   .. raw:: html
+
+      <p>
+
+   .. raw:: html
+
+      </p>
+
+**Warnings:** - ``aba-run`` is the base command means all other commands
+that will be introduce bellow are sub-commands and should always be
+preceded by ``aba-run``. Practice make perfect isn’t ? So let’s get
+started with a use case example. Let’s assume that you want to scrape
+data about ``electric bikes`` from Alibaba.com.
+
++---+
+| # |
+| # |
+| # |
+| # |
+| A |
+| v |
+| a |
+| i |
+| l |
+| a |
+| b |
+| l |
+| e |
+| C |
+| o |
+| m |
+| m |
+| a |
+| n |
+| d |
+| s |
+| : |
++---+
+| # |
+| # |
+| # |
+| # |
+| # |
+| I |
+| m |
+| p |
+| o |
+| r |
+| t |
+| a |
+| n |
+| t |
+| I |
+| n |
+| f |
+| o |
+| r |
+| m |
+| a |
+| t |
+| i |
+| o |
+| n |
+| s |
+| : |
++---+
+| \ |
+| * |
+| * |
+| * |
+| ` |
+| ` |
+| i |
+| n |
+| i |
+| t |
+| i |
+| a |
+| l |
+| i |
+| z |
+| e |
+| ` |
+| ` |
+| : |
+| * |
+| * |
+| M |
+| e |
+| a |
+| n |
+| s |
+| c |
+| r |
+| e |
+| a |
+| t |
+| e |
+| a |
+| n |
+| e |
+| w |
+| M |
+| y |
+| s |
+| q |
+| l |
+| o |
+| r |
+| S |
+| Q |
+| L |
+| i |
+| t |
+| e |
+| d |
+| a |
+| t |
+| a |
+| b |
+| a |
+| s |
+| e |
+| w |
+| i |
+| t |
+| h |
+| p |
+| r |
+| o |
+| d |
+| u |
+| c |
+| t |
+| s |
+| a |
+| n |
+| d |
+| s |
+| u |
+| p |
+| p |
+| l |
+| i |
+| e |
+| r |
+| s |
+| t |
+| a |
+| b |
+| l |
+| e |
+| i |
+| n |
+| i |
+| t |
+| . |
+| W |
+| h |
+| i |
+| c |
+| h |
+| w |
+| i |
+| l |
+| l |
+| b |
+| e |
+| u |
+| s |
+| e |
+| d |
+| t |
+| o |
+| s |
+| t |
+| o |
+| r |
+| e |
+| y |
+| o |
+| u |
+| r |
+| s |
+| c |
+| r |
+| a |
+| p |
+| e |
+| d |
+| d |
+| a |
+| t |
+| a |
+| . |
+| E |
+| s |
+| p |
+| e |
+| c |
+| i |
+| a |
+| l |
+| l |
+| y |
+| f |
+| o |
+| r |
+| m |
+| y |
+| s |
+| q |
+| l |
+| e |
+| n |
+| g |
+| i |
+| n |
+| e |
+| , |
+| y |
+| o |
+| u |
+| w |
+| i |
+| l |
+| l |
+| n |
+| e |
+| e |
+| d |
+| t |
+| o |
+| c |
+| r |
+| e |
+| a |
+| t |
+| e |
+| a |
+| n |
+| e |
+| m |
+| p |
+| t |
+| y |
+| d |
+| a |
+| t |
+| a |
+| b |
+| a |
+| s |
+| e |
+| i |
+| n |
+| y |
+| o |
+| u |
+| r |
+| m |
+| y |
+| s |
+| q |
+| l |
+| s |
+| e |
+| r |
+| v |
+| e |
+| r |
+| b |
+| e |
+| f |
+| o |
+| r |
+| e |
+| . |
+| \ |
+| * |
+| * |
+| * |
+| ` |
+| ` |
+| u |
+| p |
+| d |
+| a |
+| t |
+| e |
+| ` |
+| ` |
+| : |
+| * |
+| * |
+| M |
+| e |
+| a |
+| n |
+| s |
+| a |
+| d |
+| d |
+| y |
+| o |
+| u |
+| r |
+| s |
+| c |
+| r |
+| a |
+| p |
+| e |
+| d |
+| d |
+| a |
+| t |
+| a |
+| t |
+| o |
+| a |
+| n |
+| e |
+| w |
+| l |
+| y |
+| i |
+| n |
+| i |
+| t |
+| i |
+| a |
+| l |
+| i |
+| z |
+| e |
+| d |
+| M |
+| y |
+| s |
+| q |
+| l |
+| o |
+| r |
+| S |
+| Q |
+| L |
+| i |
+| t |
+| e |
+| d |
+| a |
+| t |
+| a |
+| b |
+| a |
+| s |
+| e |
+| . |
+| t |
+| h |
+| i |
+| s |
+| a |
+| c |
+| t |
+| i |
+| o |
+| n |
+| c |
+| a |
+| n |
+| n |
+| o |
+| t |
+| b |
+| e |
+| p |
+| e |
+| r |
+| f |
+| o |
+| r |
+| m |
+| e |
+| d |
+| t |
+| w |
+| i |
+| c |
+| e |
+| o |
+| n |
+| t |
+| h |
+| e |
+| s |
+| a |
+| m |
+| e |
+| d |
+| a |
+| t |
+| a |
+| b |
+| a |
+| s |
+| e |
+| . |
++---+
+|   |
++---+
+| ` |
+| h |
+| t |
+| t |
+| p |
+| s |
+| : |
+| / |
+| / |
+| u |
+| s |
+| e |
+| r |
+| - |
+| i |
+| m |
+| a |
+| g |
+| e |
+| s |
+| . |
+| g |
+| i |
+| t |
+| h |
+| u |
+| b |
+| u |
+| s |
+| e |
+| r |
+| c |
+| o |
+| n |
+| t |
+| e |
+| n |
+| t |
+| . |
+| c |
+| o |
+| m |
+| / |
+| 4 |
+| 9 |
+| 7 |
+| 4 |
+| 1 |
+| 3 |
+| 4 |
+| 0 |
+| / |
+| 2 |
+| 3 |
+| 8 |
+| 5 |
+| 3 |
+| 5 |
+| 2 |
+| 3 |
+| 2 |
+| - |
+| 4 |
+| 5 |
+| 9 |
+| 8 |
+| 4 |
+| 7 |
+| a |
+| f |
+| - |
+| a |
+| 1 |
+| 5 |
+| c |
+| - |
+| 4 |
+| d |
+| 9 |
+| b |
+| - |
+| 9 |
+| 1 |
+| a |
+| c |
+| - |
+| f |
+| a |
+| b |
+| 9 |
+| 9 |
+| 5 |
+| 8 |
+| b |
+| c |
+| 7 |
+| 4 |
+| f |
+| . |
+| m |
+| p |
+| 4 |
+|   |
+| < |
+| h |
+| t |
+| t |
+| p |
+| s |
+| : |
+| / |
+| / |
+| p |
+| r |
+| i |
+| v |
+| a |
+| t |
+| e |
+| - |
+| u |
+| s |
+| e |
+| r |
+| - |
+| i |
+| m |
+| a |
+| g |
+| e |
+| s |
+| . |
+| g |
+| i |
+| t |
+| h |
+| u |
+| b |
+| u |
+| s |
+| e |
+| r |
+| c |
+| o |
+| n |
+| t |
+| e |
+| n |
+| t |
+| . |
+| c |
+| o |
+| m |
+| / |
+| 5 |
+| 2 |
+| 4 |
+| 0 |
+| 9 |
+| 3 |
+| 9 |
+| 2 |
+| / |
+| 3 |
+| 5 |
+| 1 |
+| 9 |
+| 5 |
+| 8 |
+| 0 |
+| 8 |
+| 1 |
+| - |
+| 3 |
+| 0 |
+| 2 |
+| e |
+| 7 |
+| 5 |
+| 8 |
+| 6 |
+| - |
+| 7 |
+| e |
+| 7 |
+| 3 |
+| - |
+| 4 |
+| 9 |
+| 5 |
+| f |
+| - |
+| b |
+| b |
+| 4 |
+| 0 |
+| - |
+| 4 |
+| 1 |
+| b |
+| 8 |
+| 0 |
+| 0 |
+| 2 |
+| c |
+| 0 |
+| 4 |
+| 8 |
+| 0 |
+| . |
+| m |
+| p |
+| 4 |
+| ? |
+| j |
+| w |
+| t |
+| = |
+| e |
+| y |
+| J |
+| h |
+| b |
+| G |
+| c |
+| i |
+| O |
+| i |
+| J |
+| I |
+| U |
+| z |
+| I |
+| 1 |
+| N |
+| i |
+| I |
+| s |
+| I |
+| n |
+| R |
+| 5 |
+| c |
+| C |
+| I |
+| 6 |
+| I |
+| k |
+| p |
+| X |
+| V |
+| C |
+| J |
+| 9 |
+| . |
+| e |
+| y |
+| J |
+| p |
+| c |
+| 3 |
+| M |
+| i |
+| O |
+| i |
+| J |
+| n |
+| a |
+| X |
+| R |
+| o |
+| d |
+| W |
+| I |
+| u |
+| Y |
+| 2 |
+| 9 |
+| t |
+| I |
+| i |
+| w |
+| i |
+| Y |
+| X |
+| V |
+| k |
+| I |
+| j |
+| o |
+| i |
+| c |
+| m |
+| F |
+| 3 |
+| L |
+| m |
+| d |
+| p |
+| d |
+| G |
+| h |
+| 1 |
+| Y |
+| n |
+| V |
+| z |
+| Z |
+| X |
+| J |
+| j |
+| b |
+| 2 |
+| 5 |
+| 0 |
+| Z |
+| W |
+| 5 |
+| 0 |
+| L |
+| m |
+| N |
+| v |
+| b |
+| S |
+| I |
+| s |
+| I |
+| m |
+| t |
+| l |
+| e |
+| S |
+| I |
+| 6 |
+| I |
+| m |
+| t |
+| l |
+| e |
+| T |
+| U |
+| i |
+| L |
+| C |
+| J |
+| l |
+| e |
+| H |
+| A |
+| i |
+| O |
+| j |
+| E |
+| 3 |
+| M |
+| j |
+| E |
+| 4 |
+| O |
+| D |
+| E |
+| 5 |
+| N |
+| T |
+| U |
+| s |
+| I |
+| m |
+| 5 |
+| i |
+| Z |
+| i |
+| I |
+| 6 |
+| M |
+| T |
+| c |
+| y |
+| M |
+| T |
+| g |
+| 4 |
+| M |
+| T |
+| Y |
+| 1 |
+| N |
+| S |
+| w |
+| i |
+| c |
+| G |
+| F |
+| 0 |
+| a |
+| C |
+| I |
+| 6 |
+| I |
+| i |
+| 8 |
+| 1 |
+| M |
+| j |
+| Q |
+| w |
+| O |
+| T |
+| M |
+| 5 |
+| M |
+| i |
+| 8 |
+| z |
+| N |
+| T |
+| E |
+| 5 |
+| N |
+| T |
+| g |
+| w |
+| O |
+| D |
+| E |
+| t |
+| M |
+| z |
+| A |
+| y |
+| Z |
+| T |
+| c |
+| 1 |
+| O |
+| D |
+| Y |
+| t |
+| N |
+| 2 |
+| U |
+| 3 |
+| M |
+| y |
+| 0 |
+| 0 |
+| O |
+| T |
+| V |
+| m |
+| L |
+| W |
+| J |
+| i |
+| N |
+| D |
+| A |
+| t |
+| N |
+| D |
+| F |
+| i |
+| O |
+| D |
+| A |
+| w |
+| M |
+| m |
+| M |
+| w |
+| N |
+| D |
+| g |
+| w |
+| L |
+| m |
+| 1 |
+| w |
+| N |
+| D |
+| 9 |
+| Y |
+| L |
+| U |
+| F |
+| t |
+| e |
+| i |
+| 1 |
+| B |
+| b |
+| G |
+| d |
+| v |
+| c |
+| m |
+| l |
+| 0 |
+| a |
+| G |
+| 0 |
+| 9 |
+| Q |
+| V |
+| d |
+| T |
+| N |
+| C |
+| 1 |
+| I |
+| T |
+| U |
+| F |
+| D |
+| L |
+| V |
+| N |
+| I |
+| Q |
+| T |
+| I |
+| 1 |
+| N |
+| i |
+| Z |
+| Y |
+| L |
+| U |
+| F |
+| t |
+| e |
+| i |
+| 1 |
+| D |
+| c |
+| m |
+| V |
+| k |
+| Z |
+| W |
+| 5 |
+| 0 |
+| a |
+| W |
+| F |
+| s |
+| P |
+| U |
+| F |
+| L |
+| S |
+| U |
+| F |
+| W |
+| Q |
+| 0 |
+| 9 |
+| E |
+| W |
+| U |
+| x |
+| T |
+| Q |
+| T |
+| U |
+| z |
+| U |
+| F |
+| F |
+| L |
+| N |
+| F |
+| p |
+| B |
+| J |
+| T |
+| J |
+| G |
+| M |
+| j |
+| A |
+| y |
+| N |
+| D |
+| A |
+| 3 |
+| M |
+| j |
+| U |
+| l |
+| M |
+| k |
+| Z |
+| 1 |
+| c |
+| y |
+| 1 |
+| l |
+| Y |
+| X |
+| N |
+| 0 |
+| L |
+| T |
+| E |
+| l |
+| M |
+| k |
+| Z |
+| z |
+| M |
+| y |
+| U |
+| y |
+| R |
+| m |
+| F |
+| 3 |
+| c |
+| z |
+| R |
+| f |
+| c |
+| m |
+| V |
+| x |
+| d |
+| W |
+| V |
+| z |
+| d |
+| C |
+| Z |
+| Y |
+| L |
+| U |
+| F |
+| t |
+| e |
+| i |
+| 1 |
+| E |
+| Y |
+| X |
+| R |
+| l |
+| P |
+| T |
+| I |
+| w |
+| M |
+| j |
+| Q |
+| w |
+| N |
+| z |
+| I |
+| 1 |
+| V |
+| D |
+| A |
+| 0 |
+| M |
+| j |
+| c |
+| z |
+| N |
+| V |
+| o |
+| m |
+| W |
+| C |
+| 1 |
+| B |
+| b |
+| X |
+| o |
+| t |
+| R |
+| X |
+| h |
+| w |
+| a |
+| X |
+| J |
+| l |
+| c |
+| z |
+| 0 |
+| z |
+| M |
+| D |
+| A |
+| m |
+| W |
+| C |
+| 1 |
+| B |
+| b |
+| X |
+| o |
+| t |
+| U |
+| 2 |
+| l |
+| n |
+| b |
+| m |
+| F |
+| 0 |
+| d |
+| X |
+| J |
+| l |
+| P |
+| W |
+| Q |
+| w |
+| Z |
+| j |
+| l |
+| h |
+| M |
+| 2 |
+| I |
+| 5 |
+| O |
+| D |
+| k |
+| 5 |
+| Z |
+| j |
+| Y |
+| z |
+| Y |
+| m |
+| R |
+| h |
+| N |
+| m |
+| I |
+| 5 |
+| O |
+| W |
+| J |
+| h |
+| M |
+| z |
+| M |
+| x |
+| M |
+| D |
+| U |
+| 2 |
+| M |
+| G |
+| Q |
+| 4 |
+| N |
+| T |
+| B |
+| i |
+| Z |
+| T |
+| k |
+| 0 |
+| O |
+| T |
+| A |
+| z |
+| N |
+| D |
+| g |
+| 5 |
+| M |
+| 2 |
+| M |
+| 3 |
+| N |
+| T |
+| U |
+| 1 |
+| M |
+| 2 |
+| N |
+| h |
+| Y |
+| z |
+| F |
+| k |
+| Y |
+| T |
+| c |
+| 1 |
+| Y |
+| z |
+| Q |
+| 5 |
+| Y |
+| z |
+| c |
+| m |
+| W |
+| C |
+| 1 |
+| B |
+| b |
+| X |
+| o |
+| t |
+| U |
+| 2 |
+| l |
+| n |
+| b |
+| m |
+| V |
+| k |
+| S |
+| G |
+| V |
+| h |
+| Z |
+| G |
+| V |
+| y |
+| c |
+| z |
+| 1 |
+| o |
+| b |
+| 3 |
+| N |
+| 0 |
+| J |
+| m |
+| F |
+| j |
+| d |
+| G |
+| 9 |
+| y |
+| X |
+| 2 |
+| l |
+| k |
+| P |
+| T |
+| A |
+| m |
+| a |
+| 2 |
+| V |
+| 5 |
+| X |
+| 2 |
+| l |
+| k |
+| P |
+| T |
+| A |
+| m |
+| c |
+| m |
+| V |
+| w |
+| b |
+| 1 |
+| 9 |
+| p |
+| Z |
+| D |
+| 0 |
+| w |
+| I |
+| n |
+| 0 |
+| . |
+| x |
+| O |
+| T |
+| T |
+| G |
+| R |
+| R |
+| U |
+| 8 |
+| U |
+| Q |
+| 8 |
+| Y |
+| Z |
+| F |
+| M |
+| e |
+| g |
+| l |
+| _ |
+| T |
+| J |
+| C |
+| 6 |
+| k |
+| v |
+| t |
+| C |
+| R |
+| 4 |
+| a |
+| Q |
+| E |
+| w |
+| J |
+| y |
+| p |
+| _ |
+| D |
+| A |
+| j |
+| j |
+| k |
+| > |
+| ` |
+| _ |
+| _ |
++---+
+|   |
++---+
+| # |
+| # |
+| # |
+| # |
+| # |
+| H |
+| o |
+| w |
+| t |
+| o |
+| s |
+| e |
+| t |
+| M |
+| y |
+| A |
+| P |
+| I |
+| K |
+| E |
+| Y |
+| ? |
++---+
+| b |
+| y |
+| d |
+| e |
+| f |
+| a |
+| u |
+| l |
+| t |
+| ` |
+| ` |
+| s |
+| c |
+| r |
+| a |
+| p |
+| p |
+| e |
+| r |
+| ` |
+| ` |
+| w |
+| i |
+| l |
+| l |
+| u |
+| s |
+| e |
+| a |
+| s |
+| y |
+| n |
+| c |
+| m |
+| o |
+| d |
+| e |
+| w |
+| h |
+| i |
+| c |
+| h |
+| i |
+| s |
+| s |
+| u |
+| p |
+| p |
+| o |
+| r |
+| t |
+| e |
+| d |
+| b |
+| y |
+| b |
+| r |
+| i |
+| g |
+| h |
+| t |
+| d |
+| a |
+| t |
+| a |
+| a |
+| p |
+| i |
+| , |
+| m |
+| e |
+| a |
+| n |
+| s |
+| i |
+| f |
+| y |
+| o |
+| u |
+| w |
+| a |
+| n |
+| t |
+| t |
+| o |
+| u |
+| s |
+| e |
+| i |
+| t |
+| y |
+| o |
+| u |
+| w |
+| i |
+| l |
+| l |
+| n |
+| e |
+| e |
+| d |
+| t |
+| o |
+| p |
+| r |
+| o |
+| v |
+| i |
+| d |
+| e |
+| y |
+| o |
+| u |
+| r |
+| a |
+| p |
+| i |
+| k |
+| e |
+| y |
+| . |
+| s |
+| e |
+| t |
+| i |
+| t |
+| b |
+| y |
+| u |
+| s |
+| i |
+| n |
+| g |
+| c |
+| o |
+| m |
+| m |
+| a |
+| n |
+| d |
+| b |
+| e |
+| l |
+| l |
+| o |
+| w |
+| : |
++---+
+| ` |
+| ` |
+| s |
+| h |
+| e |
+| l |
+| l |
+|   |
+| a |
+| b |
+| a |
+| - |
+| r |
+| u |
+| n |
+|   |
+| s |
+| e |
+| t |
+| - |
+| a |
+| p |
+| i |
+| - |
+| k |
+| e |
+| y |
+|   |
+| y |
+| o |
+| u |
+| r |
+| _ |
+| a |
+| p |
+| i |
+| _ |
+| k |
+| e |
+| y |
+| ` |
+| ` |
+| a |
+| n |
+| d |
+| n |
+| o |
+| w |
+| r |
+| u |
+| n |
+| ` |
+| ` |
+| s |
+| c |
+| r |
+| a |
+| p |
+| e |
+| r |
+| ` |
+| ` |
+| s |
+| u |
+| b |
+| - |
+| c |
+| o |
+| m |
+| m |
+| a |
+| n |
+| d |
+| w |
+| i |
+| t |
+| h |
+| o |
+| u |
+| t |
+| ` |
+| ` |
+| - |
+| - |
+| s |
+| y |
+| n |
+| c |
+| - |
+| a |
+| p |
+| i |
+| ` |
+| ` |
+| f |
+| l |
+| a |
+| g |
+| t |
+| o |
+| u |
+| s |
+| e |
+| a |
+| s |
+| y |
+| n |
+| c |
+| m |
+| o |
+| d |
+| e |
+| . |
++---+
+| \ |
+| * |
+| * |
+| * |
+| ` |
+| ` |
+| s |
+| c |
+| r |
+| a |
+| p |
+| e |
+| r |
+| ` |
+| ` |
+| s |
+| u |
+| b |
+| - |
+| c |
+| o |
+| m |
+| m |
+| a |
+| n |
+| d |
+| : |
+| * |
+| * |
+| I |
+| n |
+| i |
+| t |
+| i |
+| a |
+| t |
+| e |
+| s |
+| s |
+| c |
+| r |
+| a |
+| p |
+| i |
+| n |
+| g |
+| o |
+| f |
+| A |
+| l |
+| i |
+| b |
+| a |
+| b |
+| a |
+| . |
+| c |
+| o |
+| m |
+| b |
+| a |
+| s |
+| e |
+| d |
+| o |
+| n |
+| t |
+| h |
+| e |
+| p |
+| r |
+| o |
+| v |
+| i |
+| d |
+| e |
+| d |
+| k |
+| e |
+| y |
+| w |
+| o |
+| r |
+| d |
+| s |
+| . |
+| t |
+| h |
+| i |
+| s |
+| c |
+| o |
+| m |
+| m |
+| a |
+| n |
+| d |
+| t |
+| a |
+| k |
+| e |
+| s |
+| t |
+| w |
+| o |
+| r |
+| e |
+| q |
+| u |
+| i |
+| r |
+| e |
+| d |
+| a |
+| r |
+| g |
+| u |
+| m |
+| e |
+| n |
+| t |
+| s |
+| a |
+| n |
+| d |
+| o |
+| n |
+| e |
+| o |
+| p |
+| t |
+| i |
+| o |
+| n |
+| a |
+| l |
+| a |
+| r |
+| g |
+| u |
+| m |
+| e |
+| n |
+| t |
+| : |
+| \ |
+| * |
+| - |
+| * |
+| * |
+| ` |
+| ` |
+| k |
+| e |
+| y |
+| _ |
+| w |
+| o |
+| r |
+| d |
+| s |
+| ` |
+| ` |
+| ( |
+| r |
+| e |
+| q |
+| u |
+| i |
+| r |
+| e |
+| d |
+| ) |
+| : |
+| * |
+| * |
+| T |
+| h |
+| e |
+| s |
+| e |
+| a |
+| r |
+| c |
+| h |
+| t |
+| e |
+| r |
+| m |
+| ( |
+| s |
+| ) |
+| f |
+| o |
+| r |
+| f |
+| i |
+| n |
+| d |
+| i |
+| n |
+| g |
+| p |
+| r |
+| o |
+| d |
+| u |
+| c |
+| t |
+| s |
+| o |
+| n |
+| A |
+| l |
+| i |
+| b |
+| a |
+| b |
+| a |
+| . |
+| E |
+| n |
+| c |
+| l |
+| o |
+| s |
+| e |
+| m |
+| u |
+| l |
+| t |
+| i |
+| p |
+| l |
+| e |
+| k |
+| e |
+| y |
+| w |
+| o |
+| r |
+| d |
+| s |
+| i |
+| n |
+| q |
+| u |
+| o |
+| t |
+| e |
+| s |
+| . |
+| \ |
+| * |
+| - |
+| * |
+| * |
+| ` |
+| ` |
+| - |
+| - |
+| p |
+| a |
+| g |
+| e |
+| - |
+| r |
+| e |
+| s |
+| u |
+| l |
+| t |
+| s |
+| ` |
+| ` |
+| o |
+| r |
+| ` |
+| ` |
+| - |
+| p |
+| r |
+| ` |
+| ` |
+| ( |
+| r |
+| e |
+| q |
+| u |
+| i |
+| r |
+| e |
+| d |
+| ) |
+| : |
+| * |
+| * |
+| U |
+| s |
+| u |
+| a |
+| l |
+| l |
+| y |
+| k |
+| e |
+| y |
+| s |
+| w |
+| o |
+| r |
+| d |
+| s |
+| w |
+| i |
+| l |
+| l |
+| r |
+| e |
+| s |
+| u |
+| l |
+| t |
+| s |
+| t |
+| o |
+| m |
+| a |
+| n |
+| y |
+| p |
+| a |
+| g |
+| e |
+| s |
+| m |
+| a |
+| c |
+| t |
+| h |
+| i |
+| n |
+| g |
+| t |
+| h |
+| e |
+| m |
+| . |
+| T |
+| h |
+| e |
+| n |
+| y |
+| o |
+| u |
+| m |
+| u |
+| s |
+| t |
+| t |
+| o |
+| i |
+| n |
+| d |
+| i |
+| c |
+| a |
+| t |
+| e |
+| h |
+| o |
+| w |
+| m |
+| a |
+| n |
+| y |
+| o |
+| f |
+| t |
+| h |
+| e |
+| m |
+| y |
+| o |
+| u |
+| w |
+| a |
+| n |
+| t |
+| t |
+| o |
+| p |
+| u |
+| l |
+| l |
+| o |
+| u |
+| t |
+| . |
+| I |
+| f |
+| a |
+| n |
+| y |
+| v |
+| a |
+| l |
+| u |
+| e |
+| i |
+| s |
+| n |
+| o |
+| t |
+| p |
+| r |
+| o |
+| v |
+| i |
+| d |
+| e |
+| d |
+| ` |
+| ` |
+| 1 |
+| 0 |
+| ` |
+| ` |
+| w |
+| i |
+| l |
+| l |
+| b |
+| e |
+| u |
+| s |
+| e |
+| d |
+| b |
+| y |
+| d |
+| e |
+| f |
+| a |
+| u |
+| l |
+| t |
+| . |
+| \ |
+| * |
+| - |
+| * |
+| * |
+| ` |
+| ` |
+| - |
+| - |
+| h |
+| t |
+| m |
+| l |
+| - |
+| f |
+| o |
+| l |
+| d |
+| e |
+| r |
+| ` |
+| ` |
+| o |
+| r |
+| ` |
+| ` |
+| - |
+| h |
+| f |
+| ` |
+| ` |
+| ( |
+| o |
+| p |
+| t |
+| i |
+| o |
+| n |
+| a |
+| l |
+| ) |
+| : |
+| * |
+| * |
+| S |
+| p |
+| e |
+| c |
+| i |
+| f |
+| i |
+| e |
+| s |
+| t |
+| h |
+| e |
+| d |
+| i |
+| r |
+| e |
+| c |
+| t |
+| o |
+| r |
+| y |
+| t |
+| o |
+| s |
+| t |
+| o |
+| r |
+| e |
+| t |
+| h |
+| e |
+| r |
+| a |
+| w |
+| H |
+| T |
+| M |
+| L |
+| f |
+| i |
+| l |
+| e |
+| s |
+| . |
+| I |
+| f |
+| o |
+| m |
+| i |
+| t |
+| t |
+| e |
+| d |
+| , |
+| a |
+| f |
+| o |
+| l |
+| d |
+| e |
+| r |
+| w |
+| i |
+| t |
+| h |
+| s |
+| a |
+| n |
+| i |
+| t |
+| i |
+| z |
+| e |
+| d |
+| k |
+| e |
+| y |
+| w |
+| o |
+| r |
+| d |
+| s |
+| a |
+| s |
+| n |
+| a |
+| m |
+| e |
+| w |
+| i |
+| l |
+| l |
+| b |
+| e |
+| a |
+| u |
+| t |
+| o |
+| m |
+| a |
+| t |
+| i |
+| c |
+| a |
+| l |
+| l |
+| y |
+| c |
+| r |
+| e |
+| a |
+| t |
+| e |
+| d |
+| . |
+| I |
+| n |
+| t |
+| h |
+| i |
+| s |
+| c |
+| a |
+| s |
+| e |
+| ` |
+| ` |
+| e |
+| l |
+| e |
+| c |
+| t |
+| r |
+| i |
+| c |
+| _ |
+| b |
+| i |
+| k |
+| e |
+| s |
+| ` |
+| ` |
+| w |
+| i |
+| l |
+| l |
+| b |
+| e |
+| u |
+| s |
+| e |
+| d |
+| a |
+| s |
+| a |
+| r |
+| e |
+| s |
+| u |
+| l |
+| t |
+| s |
+| f |
+| o |
+| l |
+| d |
+| e |
+| r |
+| n |
+| a |
+| m |
+| e |
+| . |
+| \ |
+| * |
+| - |
+| * |
+| * |
+| ` |
+| ` |
+| - |
+| - |
+| s |
+| y |
+| n |
+| c |
+| - |
+| a |
+| p |
+| i |
+| ` |
+| ` |
+| o |
+| r |
+| ` |
+| ` |
+| - |
+| s |
+| a |
+| ` |
+| ` |
+| ( |
+| o |
+| p |
+| t |
+| i |
+| o |
+| n |
+| a |
+| l |
+| ) |
+| : |
+| * |
+| * |
+| f |
+| l |
+| a |
+| g |
+| i |
+| n |
+| d |
+| i |
+| c |
+| a |
+| t |
+| e |
+| s |
+| t |
+| h |
+| a |
+| t |
+| y |
+| o |
+| u |
+| w |
+| a |
+| n |
+| t |
+| t |
+| o |
+| u |
+| s |
+| e |
+| s |
+| y |
+| n |
+| c |
+| m |
+| o |
+| d |
+| e |
+| . |
+| B |
+| y |
+| d |
+| e |
+| f |
+| a |
+| u |
+| l |
+| t |
+| ` |
+| ` |
+| a |
+| s |
+| y |
+| n |
+| c |
+| ` |
+| ` |
+| m |
+| o |
+| d |
+| e |
+| i |
+| s |
+| u |
+| s |
+| e |
+| d |
+| . |
++---+
+| * |
+| * |
+| E |
+| x |
+| a |
+| m |
+| p |
+| l |
+| e |
+| * |
+| * |
+| : |
++---+
+| ` |
+| ` |
+| b |
+| a |
+| s |
+| h |
+|   |
+| a |
+| b |
+| a |
+| - |
+| r |
+| u |
+| n |
+|   |
+| s |
+| c |
+| r |
+| a |
+| p |
+| e |
+| r |
+|   |
+| " |
+| e |
+| l |
+| e |
+| c |
+| t |
+| r |
+| i |
+| c |
+|   |
+| b |
+| i |
+| k |
+| e |
+| s |
+| " |
+|   |
+| - |
+| h |
+| f |
+|   |
+| " |
+| b |
+| i |
+| k |
+| e |
+| _ |
+| r |
+| e |
+| s |
+| u |
+| l |
+| t |
+| s |
+| " |
+|   |
+| - |
+| p |
+| r |
+|   |
+| 1 |
+| 5 |
+|   |
+|   |
+| - |
+| - |
+| s |
+| y |
+| n |
+| c |
+| - |
+| a |
+| p |
+| i |
+| / |
+| - |
+| s |
+| a |
+| ` |
+| ` |
+| a |
+| n |
+| d |
+| v |
+| o |
+| i |
+| l |
+| a |
+| ! |
++---+
+| N |
+| o |
+| w |
+| ` |
+| ` |
+| b |
+| i |
+| k |
+| e |
+| _ |
+| r |
+| e |
+| s |
+| u |
+| l |
+| t |
+| s |
+| ` |
+| ` |
+| ( |
+| s |
+| i |
+| n |
+| c |
+| e |
+| y |
+| o |
+| u |
+| a |
+| l |
+| r |
+| e |
+| a |
+| d |
+| y |
+| p |
+| r |
+| o |
+| v |
+| i |
+| d |
+| e |
+| d |
+| n |
+| a |
+| m |
+| e |
+| y |
+| o |
+| u |
+| w |
+| i |
+| s |
+| h |
+| t |
+| o |
+| h |
+| a |
+| v |
+| e |
+| ) |
+| d |
+| i |
+| r |
+| e |
+| c |
+| t |
+| o |
+| r |
+| y |
+| h |
+| a |
+| s |
+| b |
+| e |
+| e |
+| n |
+| c |
+| r |
+| e |
+| a |
+| t |
+| e |
+| d |
+| a |
+| n |
+| d |
+| s |
+| h |
+| o |
+| u |
+| l |
+| d |
+| c |
+| o |
+| n |
+| t |
+| a |
+| i |
+| n |
+| s |
+| a |
+| l |
+| l |
+| h |
+| t |
+| m |
+| l |
+| f |
+| i |
+| l |
+| e |
+| s |
+| f |
+| r |
+| o |
+| m |
+| a |
+| l |
+| i |
+| b |
+| a |
+| b |
+| a |
+| . |
+| c |
+| o |
+| m |
+| m |
+| a |
+| t |
+| c |
+| h |
+| i |
+| n |
+| g |
+| y |
+| o |
+| u |
+| r |
+| k |
+| e |
+| y |
+| w |
+| o |
+| r |
+| d |
+| s |
+| . |
++---+
+
+.. raw:: html
+
+   <details>
+
+.. raw:: html
+
+   <summary>
+
+db-init Demo with sqlite
+
+.. raw:: html
+
+   </summary>
+
+`https://user-images.githubusercontent.com/49741340/238535232-459847af-a15c-4d9b-91ac-fab9958bc74f.mp4 <https://private-user-images.githubusercontent.com/52409392/351970999-0f9491e5-69f0-470b-8a8e-9e436f0a0d0b.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjE4ODQ0MjksIm5iZiI6MTcyMTg4NDEyOSwicGF0aCI6Ii81MjQwOTM5Mi8zNTE5NzA5OTktMGY5NDkxZTUtNjlmMC00NzBiLThhOGUtOWU0MzZmMGEwZDBiLm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA3MjUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNzI1VDA1MDg0OVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWRiMmJiZTg3MDE3NTAwZWRhMzE2MTM5NDhjNmZkZTAwZWYxOTUxN2RlMzA1NGM4MzgyNWJkZTJmNTNkNzFhNDAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.gjlDs3VMK_MIg1Ne3cEqrO__LsZdyOgjy-SlZuXvd_s>`__
+
+.. raw:: html
+
+   </details>
+
+-  **``db-init`` sub-command:** Creates a new database mysql/sqlite with
+   products and suppliers as tables in it. this command takes one
+   required arguments and six optional arguments(depends on engine you
+   choose):
+
+   -  
+
+      -  **``engine`` (required):** Choose either ``sqlite`` or
+         ``mysql``. Is set to ``sqlite`` by default.
+
+   -  
+
+      -  **``--sqlite-file`` or ``-f``\ (optional, SQLite only):** The
+         name for your SQLite database file (without any extension).
+
+   -  
+
+      -  **``--host`` or ``-h``, ``--port`` or ``-p``, ``--user`` or
+         ``-u``, ``--password`` or ``-pw``, ``--db-name``\ or ``-db``
+         (required for MySQL):** Your MySQL database connection details.
+
+   -  **``--only-with`` or ``-ow``\ (optional Mysql):** If you just want
+      to update some details of your credentials in
+      ``db_credentials.json`` file but not all, use this flag.
+
+-  **NB:** ``--host`` and ``--port`` are respectively set to
+   ``localhost`` and ``3306`` by default. Also When you initialize your
+   database with Mysql Engine for the first time, you must to set
+   ``--user``, ``--password`` and ``--db-name`` arguments. this will
+   create a ``db_credentials.json`` file in your current directory with
+   your credentials. Prevent you to set it again next time. Thus you
+   will be able to set just import field when the time will come to
+   `update <#important-informations>`__ your database.
+
+**MySQL Use case:**
+
+.. code:: shell
+
+   aba-run db-init mysql -u "mysql_username" -pw "mysql_password" -db "alibaba_products" 
+
+**SQLite Use case :**
+
+.. code:: shell
+
+   aba-run db-init sqlite --sqlite-file alibaba_data
+
+db-init subcommand will try to use sqlite engine by default so if you
+are planning to use it run as bellow :
+
+**SQLite Use case V2 :** ``shell   aba-run db-init -f alibaba_data``
+
+As soons as your database has been initialized, you can update it with
+the scraped data.
+
+--------------
+
+.. raw:: html
+
+   <details>
+
+.. raw:: html
+
+   <summary>
+
+db-update Demo
+
+.. raw:: html
+
+   </summary>
+
+`https://user-images.githubusercontent.com/49741340/238535232-459847af-a15c-4d9b-91ac-fab9958bc74f.mp4 <https://private-user-images.githubusercontent.com/52409392/351977812-ecfe8e3b-af20-4611-a07d-dd6ac401bf8c.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjE4ODY1NjgsIm5iZiI6MTcyMTg4NjI2OCwicGF0aCI6Ii81MjQwOTM5Mi8zNTE5Nzc4MTItZWNmZThlM2ItYWYyMC00NjExLWEwN2QtZGQ2YWM0MDFiZjhjLm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA3MjUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNzI1VDA1NDQyOFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTY4OTI3NDY0OThmYTA5NDJiMTEyMjBhZjczNDE2M2RkZWNlMmRjMzUyZjBkODgwMjY2NTc1NzQ1NjI5MTBmMzcmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.Fa2jqUTAg-MQ-J33x6x_UIjnId190KhdEJZbUmmbTiw>`__
+
+.. raw:: html
+
+   </details>
+
+-  **``db-update`` sub-command:** add scraped data from html files to
+   your database (you can’t use this command twice with same database
+   name to avoid UNIQUE CONSTRAINT ERROR).
+
+this command takes two required arguments and two optional arguments: \*
+- **``--db-engine`` (required):** Select your database engine:
+``sqlite`` or ``mysql``. Is set to ``sqlite`` by default. \* -
+**``--kw-results``/``-kr`` (required):** The path to the folder
+containing the HTML files generated by the ``scraper`` sub command. \* -
+**``--filename``/``-f`` (required for SQLite):** If you’re using SQLite,
+provide the desired filename for your database. whitout any extension.
+\* - **``--db-name``/``-db`` (optional for MySQL):** If you’re using
+MySQL engine, and want to push the data to a different database, provide
+the desired database name.
+
+**MySQL Use case:**
+
+command bellow assuming that you already have your database credentials
+in ``db_credentials.json`` file to autocomplete required parameter. if
+not this will raise an error.
+
+.. code:: shell
+
+     aba-run db-update  mysql --kw-results bike_results\ 
+
+**NB:What if you want to change something while you updating the
+database? Assuming that you have run another scraping command and you
+want to save this data in another database name whitout update
+credential file or rewriting all theses parameter just to change your
+database name then, simply run
+``aba-run db-update  mysql --kw-results another_keyword_folder_result\ --db-name "another_database_name"``.**
+
+**SQLite Use case:**
+``shell   aba-run db-update  sqlite --kw-results bike_results\ --filename alibaba_data``
+—
+
+.. raw:: html
+
+   <details>
+
+.. raw:: html
+
+   <summary>
+
+export-as-csv Demo
+
+.. raw:: html
+
+   </summary>
+
+.. container::
+
+   .. raw:: html
+
+      <p>
+
+   .. raw:: html
+
+      </p>
+
+   .. raw:: html
+
+      <p align="center">
+
+   .. raw:: html
+
+      </p>
+
+.. raw:: html
+
+   </details>
+
+-  **``export-as-csv`` sub-command:** Exports scraped data from your
+   sqlitedatabase to a CSV file. This csv file will contain a
+   ``FULL OUTER JOIN`` with the ``products`` and ``suppliers`` tables.
+
+this command takes one required argument and one optional argument: \* -
+**``--sqlite_file`` (required):** The name for your SQLite database file
+with his extension. \* - **``--to`` or ``-t`` (required):** The name for
+your CSV file with his extension.
+
+.. raw:: html
+
+   <details>
+
+.. raw:: html
+
+   <summary>
+
+ai-agent Demo
+
+.. raw:: html
+
+   </summary>
+
+.. container::
+
+.. raw:: html
+
+   </details>
+
+The purpose of this command is to provide a way to interact with your
+scraped data in plain english. - You will be able build a query i.e
+“list all suppliers in china”. In this case the answer will be a pretty
+table with the name of the suppliers. - or i.e “plot the price of all
+the products in china”. In this case the answer will be a line chart
+with the price of all the products in china.
+
+-  **``ai-agent`` sub-command:** Calls an Ai agent to interact with your
+   scraped data in plain english.
+
+this command takes one required argument and one optional argument: \* -
+**``query`` (required):** content of the query that you want to ask to
+the ai agent. \* - **``--csv-file`` or ``-f`` (required):** The name for
+your CSV file with his extension.
+
+Contributions Welcome!
+----------------------
+
+I believe in the power of open source! If you’d like to contribute to
+this project, feel free to fork the repository, make your changes, and
+submit a pull request. I’m always open to new ideas and improvements.
+
+License
+-------
+
+This project is licensed under the `Gnu General Public License Version
+3 <COPYING>`__.
+
+.. |PyPI - Version| image:: https://img.shields.io/pypi/v/aba-cli-scrapper
+.. |PyPI - Downloads| image:: https://img.shields.io/pypi/dm/aba-cli-scrapper?label=PyPI-Downloads
+.. |GitHub Release Date| image:: https://img.shields.io/github/release-date/poneoneo/Alibaba-CLI-Scrapper
+.. |PyPI - Python Version| image:: https://img.shields.io/pypi/pyversions/aba-cli-scrapper
+.. |GitHub License| image:: https://img.shields.io/github/license/poneoneo/Alibaba-CLI-Scrapper
+
