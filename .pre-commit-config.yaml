@@ -22,10 +22,14 @@ repos:
       # Run the linter.
       - id: ruff
         args: [ --fix ]
+        files: "aba_cli_scrapper/.*\\.py"
         args: [ --config, pyproject.toml ]
         verbose: true # show the result of the linter in the terminal.
+        always_run: true
 
       # Run the formatter.
       - id: ruff-format
         args: [ --config, pyproject.toml ]
+        files: "aba_cli_scrapper/.*\\.py"
         verbose: true # show the result of the linter in the terminal.
+        always_run: true
