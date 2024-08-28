@@ -134,21 +134,6 @@ def scraper(
 ) -> None:
 	"""
 	Scrape Alibaba.com based on the provided keywords.
-
-	Usage:
-		aba-run scraper [OPTIONS] KEY_WORDS
-
-	Arguments:
-		KEY_WORDS  The search term(s) for finding products on Alibaba. Enclose multiple keywords in quotes.
-
-	Options:
-		-hf, --html-folder TEXT  Folder to save the results  [default:]
-		-pr, --page-results INTEGER  Number of results per page to scrape from alibaba  [default: 10]
-		-sa, --sync-api  Wether to sync or not  [default: False]
-
-	Examples:
-		aba-run scraper "electric bikes" -hf "bike_results" -pr 15
-		aba-run scraper "electric bikes" -hf "bike_results" -pr 15  --sync-api
 	"""
 	save_in_folder = (
 		key_words.strip().replace(" ", "_")
@@ -232,15 +217,7 @@ def db_update(
 		),
 	] = None,
 ):
-	r"""Updates the database with new products and their related suppliers. \n
-	Example: \n
-	\b \b aba db-update sqlite/mysql --kw-results keyword_folder_result --db-name your_database_name \n
-	Raises: \n
-	\b \b \b MissingParameter: If the engine is not 'sqlite' or 'mysql', or if the filename is required for sqlite engine, or if the filename is specified for non-sqlite engine.
-
-	Returns:
-	    None
-	"""
+	"""Update a database with scraped products and suppliers data."""
 	if db_engine not in ["sqlite", "mysql"]:
 		raise MissingParameter("--engine should be sqlite or mysql")
 	if db_engine == "sqlite" and filename is None:
@@ -320,15 +297,8 @@ def db_init(
 		),
 	] = False,
 ):
-	r"""This command initializes a database using the specified engine. It checks the validity of the engine and the
-	required parameters. If the engine is 'sqlite', it creates a sqlite database file with the specified name. If the
-	engine is 'mysql', it creates a mysql database using the specified host, port, user, password, and database name provided by the user. \n
-	If your database has been initialized with mysql engine, a json file will be created with your credentials. Making it easier to update your database later means you will no longer need to write all your credentials each time you want to update.
-
-	Raises:\n
-	\b \b \b MissingParameter: If the engine is not 'sqlite' or 'mysql', or if the filename is required for sqlite engine, or if the filename is specified for non-sqlite engine.
-
-
+	"""
+	Create a new database sqlite/mysql with `<products>` and `<suppliers>` as tables in it.
 	"""
 	if engine not in ["sqlite", "mysql"]:
 		raise MissingParameter("--engine should be sqlite or mysql")
@@ -378,7 +348,7 @@ def export_as_csv(
 		),
 	],
 ):
-	"""This command exports a sqlite database as a csv file. A `FULL OUTER JOIN` operation will be used to join the two tables."""
+	"""Exports a sqlite database as a csv file. A `FULL OUTER JOIN` operation will be used to join the two tables."""
 	query = """
       SELECT Product.id as product_id,
       Product.name as product_name,
@@ -435,7 +405,7 @@ def set_api_key(
 		),
 	],
 ) -> None:
-	"""This command sets your bright data api key."""
+	"""Sets your bright data api key."""
 	dotenv_file = dotenv.find_dotenv()
 	dotenv.load_dotenv(dotenv_file)
 	os.environ["SBR_WS_CDP_LIST"] = api_key
@@ -465,7 +435,7 @@ def ai_agent(
 		),
 	],
 ) -> None:
-	"""This command let users interact with theirs scraped data in plain english."""
+	"""Interact with a csv file provided by you to answer your queries."""
 	df = datahorse.read(f"{csv_file}")
 	if df is None:
 		raise UsageError("An unexpected error has occured. May due to your csv file.")
