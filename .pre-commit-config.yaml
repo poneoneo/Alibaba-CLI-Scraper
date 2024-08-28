@@ -22,8 +22,10 @@ repos:
       # Run the linter.
       - id: ruff
         args: [ --fix ]
+        args: [ --config, pyproject.toml ]
         verbose: true # show the result of the linter in the terminal.
 
       # Run the formatter.
       - id: ruff-format
+        args: [ --config, pyproject.toml ]
         verbose: true # show the result of the linter in the terminal.
