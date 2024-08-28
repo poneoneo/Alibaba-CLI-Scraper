@@ -11,7 +11,6 @@ repos:
     - id: ruff
       types_or: [ python, pyi ]
       args: [ --fix ]
-      files: 'aba_cli_scrapper/*.py' # Run linter against all files.
       verbose: true # show the result of the linter in the terminal.
 
 
@@ -19,5 +18,4 @@ repos:
     # Run the formatter.
     - id: ruff-format
       types_or: [ python, pyi ]
-      files: 'aba_cli_scrapper/*.py' # Run linter against all files.
       verbose: true # show the result of the linter in the terminal.
