@@ -146,7 +146,7 @@ target-version = "py311"
 
 [tool.ruff.format]
 quote-style = "double"
-indent-style = "tab"
+indent-style = "space"
 docstring-code-format = true
 docstring-code-line-length = 20
 
