@@ -67,7 +67,10 @@ def _db_url(credentials: dict = dict(), auto_fill: bool = False):
                     None,
                 ]:
                     cred.update({"db_name": item[1]})
-                elif item[0] == "user" and item[1] not in [cred.get("user"), None]:
+                elif item[0] == "user" and item[1] not in [
+                    cred.get("user"),
+                    None,
+                ]:
                     cred.update({"user": item[1]})
                 elif item[0] == "password" and item[1] not in [
                     cred.get("password"),
@@ -109,7 +112,8 @@ def scraper(
         typer.Option("--html-folder", "-hf", help="Folder to save the results"),
     ] = None,
     sync_api: Annotated[
-        Optional[bool], typer.Option("--sync-api", "-sa", help="wether to sync or not")
+        Optional[bool],
+        typer.Option("--sync-api", "-sa", help="wether to sync or not"),
     ] = False,
     page_results: Annotated[
         int,
@@ -120,9 +124,7 @@ def scraper(
         ),
     ] = 10,
 ) -> None:
-    """
-    Runs scraper subcommand and loking for products and related suppliers infos based on provided keywords, then save the results in a specified folder by default this folder is named with the keywords that was provided and could attached with '_' if there are spaces in the keywords'.
-    """
+    """Runs scraper subcommand and loking for products and related suppliers infos based on provided keywords, then save the results in a specified folder by default this folder is named with the keywords that was provided and could attached with '_' if there are spaces in the keywords'."""
     save_in_folder = (
         key_words.strip().replace(" ", "_")
         if (html_folder is None and html_folder != "")
@@ -130,12 +132,16 @@ def scraper(
     )
     if sync_api:
         sync_scrapper(
-            save_in=save_in_folder, key_words=key_words, page_results=page_results
+            save_in=save_in_folder,
+            key_words=key_words,
+            page_results=page_results,
         )
     else:
         asyncio.run(
             async_scrapper(
-                save_in=save_in_folder, key_words=key_words, page_results=page_results
+                save_in=save_in_folder,
+                key_words=key_words,
+                page_results=page_results,
             )
         )
 
@@ -145,7 +151,9 @@ def db_update(
     kw_results: Annotated[
         Path,
         typer.Option(
-            "--kw-results", "-kr", help="Folder where the html results are stored"
+            "--kw-results",
+            "-kr",
+            help="Folder where the html results are stored",
         ),
     ],
     db_engine: Annotated[
@@ -168,12 +176,16 @@ def db_update(
         ),
     ] = "localhost",
     port: Annotated[
-        Optional[int], typer.Option("--port", "-p", help="Port of the database engine")
+        Optional[int],
+        typer.Option("--port", "-p", help="Port of the database engine"),
     ] = 3306,
     user: Annotated[
         Optional[str],
         typer.Option(
-            "--user", "-u", help="User of the database engine", show_default=False
+            "--user",
+            "-u",
+            help="User of the database engine",
+            show_default=False,
         ),
     ] = None,
     password: Annotated[
@@ -195,8 +207,7 @@ def db_update(
         ),
     ] = None,
 ):
-    """
-    Updates the database with new products and their related suppliers. \n
+    r"""Updates the database with new products and their related suppliers. \n
     Example: \n
     \b \b aba db-update sqlite/mysql --kw-results keyword_folder_result --db-name your_database_name \n
     Raises: \n
@@ -261,7 +272,8 @@ def db_init(
         ),
     ] = "localhost",
     port: Annotated[
-        Optional[int], typer.Option("--port", "-p", help="Port of the database engine")
+        Optional[int],
+        typer.Option("--port", "-p", help="Port of the database engine"),
     ] = 3306,
     user: Annotated[
         Optional[str],
@@ -288,8 +300,7 @@ def db_init(
         ),
     ] = False,
 ):
-    """
-    This command initializes a database using the specified engine. It checks the validity of the engine and the
+    r"""This command initializes a database using the specified engine. It checks the validity of the engine and the
     required parameters. If the engine is 'sqlite', it creates a sqlite database file with the specified name. If the
     engine is 'mysql', it creates a mysql database using the specified host, port, user, password, and database name provided by the user. \n
     If your database has been initialized with mysql engine, a json file will be created with your credentials. Making it easier to update your database later means you will no longer need to write all your credentials each time you want to update.
@@ -349,9 +360,7 @@ def export_as_csv(
         ),
     ],
 ):
-    """
-    This command exports a sqlite database as a csv file. A `FULL OUTER JOIN` operation will be used to join the two tables.
-    """
+    """This command exports a sqlite database as a csv file. A `FULL OUTER JOIN` operation will be used to join the two tables."""
     query = """
       SELECT Product.id as product_id,
       Product.name as product_name,
@@ -362,14 +371,14 @@ def export_as_csv(
       Product.ordered_or_sold as ordered_or_sold,
       Product.product_score as product_score,
       Product.review_count  as review_count,
-      Product.review_score as review_score, 
-      Product.shipping_time_score as shipping_time_score, 
+      Product.review_score as review_score,
+      Product.shipping_time_score as shipping_time_score,
       Product.is_full_promotion as is_full_promotion,
       Product.is_customizable as is_customizable,
       Product.is_instant_order as is_instant_order,
       Product.trade_product  as trade_product,
       Product.min_price as min_price,
-      Product.max_price as max_price, 
+      Product.max_price as max_price,
       supplier.name as supplier_name ,
       supplier.verification_mode,
       supplier.sopi_level as sopi_level,
@@ -410,9 +419,7 @@ def set_api_key(
         ),
     ],
 ) -> None:
-    """
-    This command sets your bright data api key.
-    """
+    """This command sets your bright data api key."""
     dotenv_file = dotenv.find_dotenv()
     dotenv.load_dotenv(dotenv_file)
     os.environ["SBR_WS_CDP_LIST"] = api_key
@@ -442,9 +449,7 @@ def ai_agent(
         ),
     ],
 ) -> None:
-    """
-    This command let users interact with theirs scraped data in plain english.
-    """
+    """This command let users interact with theirs scraped data in plain english."""
     df = datahorse.read(f"{csv_file}")
     if df is None:
         raise UsageError("An unexpected error has occured. May due to your csv file.")

@@ -1,5 +1,4 @@
-"""
-This script is responsible for scraping data from the Alibaba website.
+"""This script is responsible for scraping data from the Alibaba website.
 It uses the Playwright library to navigate through multiple pages
 extract HTML content,and save it to disk. The script defines
 functions to handle asynchronous tasks,interact with
@@ -16,7 +15,6 @@ from typing import Optional
 
 import playwright
 import playwright.sync_api
-import selectolax
 import urllib3
 from click import UsageError
 from loguru import logger
@@ -40,39 +38,6 @@ from .info_message import run_scrapper_with_success
 HTML_PAGE_RESULT = []
 
 
-def _browser_parser(html_content: str | bytes, curr_url: str):
-    """Parse the HTML content of the page to get the divs with class `.organic-list.viewtype-list`
-
-    :param html_content: The HTML content of the page
-    :type html_content: str
-    :return: A list of divs with class `.organic-list.viewtype-list`
-    :rtype: list
-    """
-    if html_content is None:
-        logger.warning(
-            " your page could not be loaded, an empty none value has been returned "
-        )
-        return None
-    body_parser = selectolax.parser.HTMLParser(html_content)
-    logger.info(
-        f"looking for .organic-list class in the DOM page {curr_url.split('page=')[1]}... "
-    )
-    product_div = body_parser.css_first(".organic-list")
-    if product_div is None:
-        return None
-    html_result = product_div.html
-    if html_result is None:
-        logger.warning(
-            f"any HTML content from page {curr_url.split('page=')[1]} matched the selector '.organic-list', None value has been returned"
-        )
-        return None
-    else:
-        logger.info(
-            f"HTML content from page {curr_url.split('page=')[1]} has been returned  "
-        )
-        return html_result
-
-
 @retry(stop=stop_after_attempt(3))
 async def goto_task(
     url: str,
@@ -84,7 +49,7 @@ async def goto_task(
     page: AsyncPage,
     page_results: int,
 ) -> Optional[str]:
-    """Return the entire HTML content from each page only the divs with class `.organic-list.viewtype-list`
+    """Return the entire HTML content from each page only the divs with class `.organic-list.viewtype-list`.
 
     :param url: URL of page range 1 to 42 include
     :type url: str
@@ -122,7 +87,7 @@ async def async_scrapper(*, save_in: str, key_words: str, page_results: int) -> 
     """Create a list of tasks with `goto` coroutine and pass it to `asyncio.wait` coroutine
     then wait for all the results.
     The function takes no arguments and returns None.
-    :return: None
+    :return: None.
     """
     async with async_playwright() as p:
         logger.info("Connecting to CDP and creating the browser... ")

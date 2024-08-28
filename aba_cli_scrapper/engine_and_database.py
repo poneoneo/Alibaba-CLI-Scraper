@@ -30,8 +30,7 @@ def save_all_changes(
     engine_db: Engine,
     sql_model,
 ):
-    """
-    A function that saves all changes by creating all metadata for a given SQL model on the specified engine database.
+    """A function that saves all changes by creating all metadata for a given SQL model on the specified engine database.
 
     Parameters:
     engine_db (Engine): The database engine to use for saving changes.
@@ -48,8 +47,7 @@ def save_all_changes(
 
 
 def add_suppliers_to_db(suppliers: Sequence[SupplierDict], engine_db: Engine):
-    """
-    Adds a list of suppliers to the database.
+    """Adds a list of suppliers to the database.
 
     Args:
         suppliers (list[dict[str, Any]]): A list of dictionaries representing suppliers.
@@ -71,9 +69,7 @@ def add_suppliers_to_db(suppliers: Sequence[SupplierDict], engine_db: Engine):
             TimeElapsedColumn(),
             transient=True,
         ) as progress:
-            adder_supp = progress.add_task(
-                description="Adding suppliers to database ..."
-            )
+            adder_supp = progress.add_task(description="Adding suppliers to database ...")
             for supplier in suppliers:
                 # pprint(f"country_name={supplier['country_name']}")
                 if supplier["name"] in added:
@@ -107,8 +103,7 @@ def add_suppliers_to_db(suppliers: Sequence[SupplierDict], engine_db: Engine):
 
 
 def add_products_to_db(products: Sequence[ProductDict], engine_db: Engine):
-    """
-    Adds a list of products to the database.
+    """Adds a list of products to the database.
 
     Args:
         products (list[dict[str, Any]]): A list of dictionaries representing products.

@@ -1,20 +1,29 @@
 default_language_version:
     python: python3.11
-files: "aba_cli_scrapper/*.py"
+
 repos:
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  # Ruff version.
-  rev: v0.6.2
-  hooks:
-    # Run the linter.
-    - id: ruff
-      types_or: [ python, pyi ]
-      args: [ --fix ]
-      verbose: true # show the result of the linter in the terminal.
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-added-large-files # prevents giant files from being committed.
+      - id: check-case-conflict # checks for files that would conflict in case-insensitive filesystems.
+      - id: check-executables-have-shebangs # ensures that (non-binary) executables have a shebang.
+      - id: check-json # checks json files for parseable syntax.
+      - id: check-shebang-scripts-are-executable # ensures that (non-binary) files with a shebang are executable.
+      - id: check-merge-conflict # checks for files that contain merge conflict strings.
+      - id: detect-private-key # detects the presence of private keys.
+      - id: trailing-whitespace # trims trailing whitespace.
 
 
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.6.2
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [ --fix ]
+        verbose: true # show the result of the linter in the terminal.
 
-    # Run the formatter.
-    - id: ruff-format
-      types_or: [ python, pyi ]
-      verbose: true # show the result of the linter in the terminal.
+      # Run the formatter.
+      - id: ruff-format
+        verbose: true # show the result of the linter in the terminal.

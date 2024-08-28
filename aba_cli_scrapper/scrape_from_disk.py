@@ -30,13 +30,10 @@ from .utils_scrapping import (
     suppliers_status,
 )
 
-# logger.remove(4)
-# logger.add(sys.stderr,level="DEBUG",colorize=True)
-
 
 @dataclass
 class PageParser:
-    """Parse each html page downloaded from alibaba and return a list of suppliers and products
+    """Parse each html page downloaded from alibaba and return a list of suppliers and products.
 
     :raises TypeError: _description_
     :raises FileNotFoundError: if the targeted folder does not exist
@@ -44,13 +41,11 @@ class PageParser:
     :rtype: class `PageParser`
     """
 
-    targeted_folder: Union[
-        str, Path
-    ]  # folder path that contains all html files to be scraped
+    # folder path that contains all html files to be scraped
+    targeted_folder: Union[str, Path]
 
     def _retrieve_html_content_as_string(self, html_file: Path):
-        """
-        Retrieve html content from a html file and return it as a string.
+        """Retrieve html content from a html file and return it as a string.
 
         :param html_file: The path of the html file to be read.
         :type html_file: str
@@ -84,11 +79,10 @@ class PageParser:
         return json_files
 
     def _divs_and_dict(self, selector: str = ".fy23-search-card"):
-        """
-        Retrieve div tags with a specified selector class from HTML files, parse them, and return a list of tuples containing the parsed div tags and corresponding JSON data as dictionaries.
+        """Retrieve div tags with a specified selector class from HTML files, parse them, and return a list of tuples containing the parsed div tags and corresponding JSON data as dictionaries.
         :param selector: The CSS selector for the div tags to retrieve. Defaults to ".fy23-search-card".
         :return: A list of tuples where each tuple contains the parsed div tags and the corresponding JSON data as dictionaries.
-        :rtype: List[Tuple[Node, Dict]]
+        :rtype: List[Tuple[Node, Dict]].
         """
         logger.info(f"Retrieving  div tags with class='{selector}' ...")
         divs_and_dict = [
@@ -120,11 +114,9 @@ class PageParser:
         return new_divs_and_dict
 
     def detected_suppliers(self):
-        """
-        Retrieves the detected suppliers from the divs and offers data.
+        """Retrieves the detected suppliers from the divs and offers data.
         Returns a list of unique suppliers with their relevant information.
         """
-
         suppliers: Sequence[SupplierDict] = list()
         console = rich.console.Console()
         with Progress(
@@ -157,9 +149,7 @@ class PageParser:
                         suppliers.append(
                             {
                                 "name": offer["companyName"].lower(),
-                                "verified_type": suppliers_status(
-                                    tags=divs, offer=offer
-                                ),
+                                "verified_type": suppliers_status(tags=divs, offer=offer),
                                 "sopi_level": offer["displayStarLevel"],
                                 "country_name": country_name(
                                     country_min=offer["countryCode"]
@@ -167,19 +157,13 @@ class PageParser:
                                 "gold_supplier_year": offer["goldSupplierYears"].split(
                                     " "
                                 )[0],
-                                "supplier_service_score": float(
-                                    offer["supplierService"]
-                                ),
+                                "supplier_service_score": float(offer["supplierService"]),
                             }
                         )
                 # all_pages_task.
-                progress.update(
-                    all_pages_task, advance=100 / len(self._divs_and_dict())
-                )
+                progress.update(all_pages_task, advance=100 / len(self._divs_and_dict()))
         # removing supliers present twice in supliers dict
-        unique_suppliers_tuple = list(
-            OrderedDict((str(d), d) for d in suppliers).items()
-        )
+        unique_suppliers_tuple = list(OrderedDict((str(d), d) for d in suppliers).items())
         # print(unique_suppliers_tuple)
         unique_suppliers = [
             supplier_tuple[1] for supplier_tuple in unique_suppliers_tuple
@@ -187,9 +171,7 @@ class PageParser:
         return unique_suppliers
 
     def detected_products(self):
-        """
-        Returns a list of unique products with their relevant information.
-        """
+        """Returns a list of unique products with their relevant information."""
         products: Sequence[ProductDict] = list()
         console = rich.console.Console()
         with Progress(
@@ -226,9 +208,7 @@ class PageParser:
                                 "guaranteed_by_alibaba": is_alibaba_guaranteed(
                                     str_status=offer["halfTrust"]
                                 ),
-                                "certifications": get_product_certification(
-                                    offer=offer
-                                ),
+                                "certifications": get_product_certification(offer=offer),
                                 "minimum_to_order": custom_minium_to_oder(
                                     offer["halfTrustMoq"].lower()
                                 ),
@@ -252,9 +232,7 @@ class PageParser:
                                 ),
                             }
                         )
-                progress.update(
-                    all_pages_task, advance=100 / len(self._divs_and_dict())
-                )
+                progress.update(all_pages_task, advance=100 / len(self._divs_and_dict()))
         unique_products_tuple = list(OrderedDict((str(d), d) for d in products).items())
         # removing supliers present twice in supliers dict
         unique_products = [product_tuple[1] for product_tuple in unique_products_tuple]

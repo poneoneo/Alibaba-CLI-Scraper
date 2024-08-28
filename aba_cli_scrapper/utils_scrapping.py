@@ -93,9 +93,7 @@ def is_trade_product(str_status: str):
 def suppliers_status(tags: list[Node], offer: dict):
     for tag in tags:
         # print(tag.attributes)
-        company_name = (
-            tag.css_first("a[data-spm='d_companyName']").text().strip().lower()
-        )
+        company_name = tag.css_first("a[data-spm='d_companyName']").text().strip().lower()
         # print(company_name+ "1")
         if company_name == offer["companyName"].lower().strip():
             # print(offer['companyName'].lower().strip()+"2")

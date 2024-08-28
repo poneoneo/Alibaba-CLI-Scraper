@@ -28,7 +28,10 @@ def scripts_hunter(css_selector: str, parser_instance: selectolax.parser.HTMLPar
             json_result = (
                 script.text()
                 .replace("window.__page__data__config =", "")
-                .replace("window.__page__data = window.__page__data__config.props", "")
+                .replace(
+                    "window.__page__data = window.__page__data__config.props",
+                    "",
+                )
                 .replace("window.__page__data =", "")
                 .strip("\n \t \b ")
             )
@@ -37,14 +40,13 @@ def scripts_hunter(css_selector: str, parser_instance: selectolax.parser.HTMLPar
 
 
 def json_parser_to_dict(html_content: str | bytes, css_selector: str = ""):
-    """Parse the HTML content of the page to get the divs with class `.organic-list.viewtype-list`
+    """Parse the HTML content of the page to get the divs with class `.organic-list.viewtype-list`.
 
     :param html_content: The HTML content of the page
     :type html_content: str
     :return: A list of divs with class `.organic-list.viewtype-list`
     :rtype: list
     """
-
     # dont parse anything at this stage as we are going to parse later
     # print(html_content)
     body_parser = selectolax.parser.HTMLParser(html_content)
@@ -62,8 +64,7 @@ def json_parser_to_dict(html_content: str | bytes, css_selector: str = ""):
 
 @logger.catch()
 def write_to_disk(folder_name: str, pages_contents: list[str]):
-    """
-    Writes list's contents HTML pages to disk.
+    """Writes list's contents HTML pages to disk.
 
     Args:
         folder_name (str): The name of the folder where the HTML files will be saved.
@@ -83,7 +84,6 @@ def write_to_disk(folder_name: str, pages_contents: list[str]):
     Example Usage:
         write_to_disk("my_folder", ["<html>...</html>", "<html>...</html>"])
     """
-
     logger.info("Saving your scrapping result in disk...")
     path_obj = _create_folder(folder_name)
     for page_number, content in enumerate(pages_contents):
@@ -99,7 +99,9 @@ def write_to_disk(folder_name: str, pages_contents: list[str]):
         # print(type(json_as_dict))
         # json_as_str = json.dumps(json_as_dict, indent=4)
         with open(
-            (path_obj / f"page_{page_number+1}.html").resolve(), "w", encoding="utf-8"
+            (path_obj / f"page_{page_number+1}.html").resolve(),
+            "w",
+            encoding="utf-8",
         ) as file:
             file.write(content)
         logger.info(
