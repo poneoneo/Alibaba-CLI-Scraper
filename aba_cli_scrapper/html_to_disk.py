@@ -54,18 +54,13 @@ def json_parser_to_dict(html_content: str | bytes, css_selector: str = ""):
 	:return: A list of divs with class `.organic-list.viewtype-list`
 	:rtype: list
 	"""
-	# dont parse anything at this stage as we are going to parse later
-	# print(html_content)
 	body_parser = selectolax.parser.HTMLParser(html_content)
-	# div_with_class_container_or_id_root = body_parser.css_first(css_selector)
 	json_result = scripts_hunter(css_selector, body_parser)
 	if json_result == "":
 		json_result = scripts_hunter("div[id='root']", body_parser)
-		# print(json_result)
 		return json_result
 	if json_result is None:
 		return None
-	# print(json_result)
 	return json_result.strip()
 
 
