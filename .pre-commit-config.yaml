@@ -36,8 +36,8 @@ repos:
         verbose: true # show the result of the linter in the terminal.
         always_run: true
 
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v2.5.1
-    hooks:
-      - id: prettier
-        files: \.md
+  # - repo: https://github.com/pre-commit/mirrors-prettier
+  #   rev: v2.5.1
+  #   hooks:
+  #     - id: prettier
+  #       files: \.md
