@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.5.5 (2024-08-30)
+
+### Unknown
+
+* doc(changelog): remove secret ([`e0c2799`](https://github.com/poneoneo/Alibaba-Scrapper/commit/e0c279941aa4fa46b78b852e02f5abdd56bd2e2e))
+
 ## v0.5.4 (2024-08-30)
 
 ### Documentation
