@@ -2,7 +2,6 @@ import json
 from collections import OrderedDict
 from dataclasses import dataclass
 from pathlib import Path
-from pprint import pprint
 from typing import Sequence, Union
 
 import rich
@@ -15,7 +14,7 @@ from selectolax.parser import HTMLParser
 
 from aba_cli_scrapper.typed_datas import ProductDict, SupplierDict
 
-from .html_to_disk import json_parser_to_dict
+from .html_to_disk import json_hunter
 from .utils_scrapping import (
 	country_name,
 	custom_minium_to_oder,
@@ -76,21 +75,6 @@ class PageParser:
 		logger.info("Html files list has been returned.")
 		return html_files
 
-	def _json_files_explorer(self):
-		"""Retrieves all the json files in the targeted folder.
-
-		:raises FileNotFoundError: if the targeted folder does not exist
-		:return: A list of all json files in the targeted folder
-		:rtype: List[Path]
-		"""
-		targeted_folder = Path(self.targeted_folder).resolve()
-		if not targeted_folder.exists():
-			raise FileNotFoundError()
-		logger.info(f"getting html files from {targeted_folder} ... ")
-		json_files = [html_file for html_file in targeted_folder.glob("*.json")]
-		logger.info("json files list has been returned.")
-		return json_files
-
 	def _divs_and_dict(self, selector: str = ".fy23-search-card"):
 		"""
 		Retrieves the div tags that match the given selector and a dictionary of parsed content from the html file
@@ -105,7 +89,7 @@ class PageParser:
 		divs_and_dict = [
 			(
 				HTMLParser(self._retrieve_html_content_as_string(html_file)).css(selector),
-				json_parser_to_dict(
+				json_hunter(
 					self._retrieve_html_content_as_string(html_file),
 					css_selector="div[class='container']",
 				),
@@ -116,14 +100,8 @@ class PageParser:
 
 		new_divs_and_dict = []
 		for item in divs_and_dict:
-			# print("hello")
-			# print(item[0])
-			# print(type(item[1]))
-			# print(item[1])
 			if item[1] is None or item[1] == "":
-				# print("this item is none or an empty string {}".format(item[1]))
 				continue
-			# print("this item is not none or an empty string {}".format(item[1]))
 			new_divs_and_dict.append((item[0], json.loads(item[1])))  # type: ignore
 
 		return new_divs_and_dict
@@ -236,11 +214,3 @@ class PageParser:
 		# removing supliers present twice in supliers dict
 		unique_products = [product_tuple[1] for product_tuple in unique_products_tuple]
 		return unique_products
-
-
-if __name__ == "__main__":
-	pp = PageParser(targeted_folder="Alibaba_Scapper_new")
-	dt = pp.detected_suppliers()
-	for d in dt:
-		pprint(d)
-	# help(pp)

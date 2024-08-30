@@ -46,8 +46,8 @@ def scripts_hunter(css_selector: str, parser_instance: selectolax.parser.HTMLPar
 	return json_result
 
 
-def json_parser_to_dict(html_content: str | bytes, css_selector: str = ""):
-	"""Parse the HTML content of the page to get the divs with class `.organic-list.viewtype-list`.
+def json_hunter(html_content: str | bytes, css_selector: str = ""):
+	"""Parse the HTML content of the page to get all json content in the divs where eitheir class=`.organic-list.viewtype-list` or  id='root'.
 
 	:param html_content: The HTML content of the page
 	:type html_content: str

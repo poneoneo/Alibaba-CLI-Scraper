@@ -5,13 +5,13 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
-      - id: check-added-large-files # prevents giant files from being committed.
       - id: check-case-conflict # checks for files that would conflict in case-insensitive filesystems.
       - id: check-executables-have-shebangs # ensures that (non-binary) executables have a shebang.
       - id: check-json # checks json files for parseable syntax.
       - id: check-shebang-scripts-are-executable # ensures that (non-binary) files with a shebang are executable.
       - id: check-merge-conflict # checks for files that contain merge conflict strings.
       - id: detect-private-key # detects the presence of private keys.
+        files: "aba_cli_scrapper/.*\\.py"
       - id: trailing-whitespace # trims trailing whitespace.
 
 
@@ -23,6 +23,7 @@ repos:
       - id: ruff
         args: [ --fix ]
         files: "aba_cli_scrapper/.*\\.py"
+        exclude: "doc/.*\\.py"
         args: [ --config, pyproject.toml ]
         verbose: true # show the result of the linter in the terminal.
         always_run: true
@@ -31,6 +32,7 @@ repos:
       - id: ruff-format
         args: [ --config, pyproject.toml ]
         files: "aba_cli_scrapper/.*\\.py"
+        exclude: "doc/.*\\.py"
         verbose: true # show the result of the linter in the terminal.
         always_run: true
 

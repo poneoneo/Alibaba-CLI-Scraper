@@ -41,10 +41,9 @@ aba-run = "aba_cli_scrapper.__main__:app_t"
 [tool.poetry.dependencies]
 python = ">=3.11.0,<4.0.0"
 
-
 python-dotenv = "^1.0.1"
 sqlalchemy = "^2.0.32"
-typer = "^0.12.3"
+typer = "^0.12.5"
 sqlmodel = "^0.0.21"
 selectolax = "^0.3.21"
 playwright = "1.45.0"
@@ -93,12 +92,15 @@ networkx = "^3.3"
 plotly = "^5.23.0"
 
 
+
 [tool.poetry.group.dev.dependencies]
 python-semantic-release = "^9.8.6"
 sphinx = "^8.0.2"
 myst-parser = "^4.0.0"
 furo = "^2024.8.6"
 coverage = "^7.6.1"
+pytest-socket = "^0.7.0"
+faker = "^28.0.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -173,3 +175,6 @@ ignore = ["D417"]
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
 
+[tool.pytest.ini_options]
+
+addopts = "-p no:warnings:DeprecationWarning"

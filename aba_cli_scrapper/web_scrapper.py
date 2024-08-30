@@ -9,7 +9,6 @@ managing environment variables.
 
 import asyncio
 import os
-import time
 from asyncio import TaskGroup
 from typing import Optional
 
@@ -116,6 +115,7 @@ async def async_scrapper(*, save_in: str, key_words: str, page_results: int) -> 
 	async with async_playwright() as p:
 		logger.info("Connecting to CDP and creating the browser... ")
 		try:
+			# print("rt")
 			api_key = SBR_WS_CDP_LIST
 			if api_key == "":
 				rprint(
@@ -140,8 +140,12 @@ async def async_scrapper(*, save_in: str, key_words: str, page_results: int) -> 
 					"[white] Seems like playwright is not installed. lets aba install it for you... [/white]"
 				)
 				os.system("playwright install")
+			elif "WebSocket error" in str(e):
+				rprint(
+					"[red]Web Socket is disconnected. You May need to activate your Internet connexion"
+				)
 			else:
-				print(str(e))
+				rprint("[red]Unexpected error occured ...")
 
 		context_browser = await browser.new_context()
 		s_one = asyncio.Semaphore(value=10)
@@ -216,11 +220,3 @@ def sync_scrapper(*, save_in: str, key_words: str, page_results: int) -> None:
 					raise UsageError("Check your internet connection ... ")
 	write_to_disk(save_in, HTML_PAGE_RESULT)
 	run_scrapper_with_success(folder_name=save_in)
-
-
-if __name__ == "__main__":
-	start_time = time.perf_counter()
-	# asyncio.run(async_scrapper(save_in='pc_lenovo', key_words='pc lenovo'),debug=False)
-	sync_scrapper(save_in="pc_lenovo", key_words="pc lenovo", page_results=30)
-	end_time = time.perf_counter()
-	print(f" all those tasks tooks: {end_time - start_time:.2f}")
