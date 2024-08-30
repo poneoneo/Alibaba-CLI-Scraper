@@ -3,16 +3,16 @@ import pytest
 from aba_cli_scrapper.__main__ import app_t
 from typer.testing import CliRunner
 import socket
-import sys
 
 
 class block_network(socket.socket):
-    def __init__(self, *args, **kwargs):
-        raise Exception("Network call blocked")
-
+	def __init__(self, *args, **kwargs):
+		raise Exception("Network call blocked")
 
 
 runner = CliRunner()
+
+
 def test_db_init_sqlite_file():
 	"""
 	Test db-init command with sqlite engine and given filename
@@ -34,14 +34,13 @@ def test_db_init_mysql_database():
 	assert result.exit_code == 0
 	assert "create it first and then try again" in result.stdout
 
+
 def test_db_init_mysql_database_auto_fill():
 	"""
 	Test db-init mysql engine with auto-fill case
 	"""
 
-	result = runner.invoke(
-		app_t, ["db-init", "mysql", "-db", "air_fryers","-ow"]
-	)
+	result = runner.invoke(app_t, ["db-init", "mysql", "-db", "air_fryers", "-ow"])
 	assert result.exit_code == 0
 	assert "air_fryers  has been created succesfully" in result.stdout
 
@@ -75,8 +74,9 @@ def test_ai_gent():
 
 def test_scraper_no_internet():
 	socket.socket = block_network
-	result =  runner.invoke(app_t, ["scraper", "pc dell", "-pr", "3"])
+	result = runner.invoke(app_t, ["scraper", "pc dell", "-pr", "3"])
 	assert result.exit_code == 1
+
 
 @pytest.mark.filterwarnings("ignore::pytest.PytestUnraisableExceptionWarning")
 @pytest.mark.filterwarnings("ignore:: RuntimeWarning")
@@ -84,14 +84,10 @@ def test_db_update_with_not_found_directory():
 	result = runner.invoke(app_t, ["db-update", "-f", "fa", "-kr", "./Foo_Bar"])
 	assert result.exit_code == 2
 
+
 def test_db_update_sqlite_file_successfully():
 	fake = Faker()
 	sqlite_filename = fake.first_name()[:3]
 	runner.invoke(app_t, ["db-init", "-f", f"{sqlite_filename}"])
-	result = runner.invoke(app_t, ["db-update", "-f", f"{sqlite_filename}","-kr","./Air_fryers"])
+	result = runner.invoke(app_t, ["db-update", "-f", f"{sqlite_filename}", "-kr", "./Air_fryers"])
 	assert f"{sqlite_filename}.sqlite  file has been updated succesfully" in result.stdout
-
-
-
-
-

@@ -22,7 +22,7 @@
 
 <div align="center">
 
-![Codacy grade](https://img.shields.io/codacy/grade/bbecd0598d5e460ea87e3aa5f8db8798) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+![Codacy grade](https://img.shields.io/codacy/grade/bbecd0598d5e460ea87e3aa5f8db8798) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit) ![Codacy coverage (branch)](https://img.shields.io/codacy/coverage/bbecd0598d5e460ea87e3aa5f8db8798/main)
 
 </div>
 

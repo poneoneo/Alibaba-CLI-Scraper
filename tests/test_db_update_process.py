@@ -1,6 +1,7 @@
 import pytest
 from aba_cli_scrapper.scrape_from_disk import PageParser
 
+
 @pytest.mark.filterwarnings("ignore::pytest.PytestUnraisableExceptionWarning")
 @pytest.mark.filterwarnings("ignore:: RuntimeWarning")
 def test_count_suppliers_and_products():
