@@ -70,6 +70,8 @@
 
 ### Unknown
 
+* doc(changelog): remove .md prettier hook ([`3c782e4`](https://github.com/poneoneo/Alibaba-Scrapper/commit/3c782e424db6d5fe40a960684ce7b9dc5702f983))
+
 * doc(changelog): format changelog ([`2e5d555`](https://github.com/poneoneo/Alibaba-Scrapper/commit/2e5d5550bdb9495af92162ef6d5b8fbd16f9a99b))
 
 * doc(readme): add coverage bage ([`9ef72a8`](https://github.com/poneoneo/Alibaba-Scrapper/commit/9ef72a8939661375f608d739e2efdeb39545aa42))
