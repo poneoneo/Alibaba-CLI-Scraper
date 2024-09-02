@@ -678,5 +678,6 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
-SBR_WS_CDP_LIST: str = os.environ.get("SBR_WS_CDP_LIST", "")
+BRIGHT_DATA_API_KEY: str = os.environ.get("BRIGHT_DATA_API_KEY", "")
+SYPHOON_API_KEY: str = os.environ.get("SYPHOON_API_KEY", "")
 LOGURU_LEVEL: str | None = os.environ.get("LOGURU_LEVEL")

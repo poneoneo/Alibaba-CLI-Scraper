@@ -25,6 +25,7 @@ from trogon import tui
 from typing_extensions import Annotated
 import datahorse
 
+
 from . import LOGURU_LEVEL
 from .engine_and_database import (
 	add_products_to_db,
@@ -34,7 +35,7 @@ from .engine_and_database import (
 )
 from .info_message import update_db_success_sqlite, update_db_with_success
 from .scrape_from_disk import PageParser
-from .web_scrapper import async_scrapper, sync_scrapper
+from aba_cli_scrapper.proxies_providers import BrightDataProxyProvider, SyphoonProxyProvider
 
 load_dotenv()
 logger.remove(0)
@@ -45,7 +46,11 @@ logger.add(sys.stderr, colorize=True, level=f"{LOGURU_LEVEL}")  # type: ignore
 @click.group()
 def app():
 	pass
-	...
+
+
+app_t = typer.Typer(
+	pretty_exceptions_enable=False,
+)
 
 
 def _db_url(credentials: dict = dict(), auto_fill: bool = False):
@@ -107,11 +112,6 @@ def _db_url(credentials: dict = dict(), auto_fill: bool = False):
 		return f"mysql+pymysql://{cred.get('user')}:{cred.get('password')}@{cred.get('host')}/{cred.get('db_name')}"
 
 
-app_t = typer.Typer(
-	pretty_exceptions_enable=False,
-)
-
-
 @app_t.command()
 def scraper(
 	key_words: Annotated[str, typer.Argument(help="Keywords to search for on alibaba")] = "",
@@ -141,17 +141,54 @@ def scraper(
 		else html_folder
 	)
 	if sync_api:
-		sync_scrapper(
+		BrightDataProxyProvider.sync_scraper(
 			save_in=save_in_folder,
 			key_words=key_words,
 			page_results=page_results,
 		)
 	else:
 		asyncio.run(
-			async_scrapper(
-				save_in=save_in_folder,
-				key_words=key_words,
-				page_results=page_results,
+			BrightDataProxyProvider.async_scraper(
+				save_in=save_in_folder, key_words=key_words, page_results=page_results
+			)
+		)
+
+
+@app_t.command()
+def syphoon_scraper(
+	key_words: Annotated[str, typer.Argument(help="Keywords to search for on alibaba")] = "",
+	html_folder: Annotated[
+		Optional[str],
+		typer.Option("--html-folder", "-hf", help="Folder to save the results"),
+	] = None,
+	sync_api: Annotated[
+		Optional[bool],
+		typer.Option("--sync-api", "-sa", help="wether to sync or not"),
+	] = False,
+	page_results: Annotated[
+		int,
+		typer.Option(
+			"--page-results",
+			"-pr",
+			help="Number of results per page to scrape from alibaba 10 by defaults",
+		),
+	] = 10,
+):
+	save_in_folder = (
+		key_words.strip().replace(" ", "_")
+		if (html_folder is None and html_folder != "")
+		else html_folder
+	)
+	if sync_api:
+		SyphoonProxyProvider.sync_scraper(
+			save_in=save_in_folder,
+			key_words=key_words,
+			page_results=page_results,
+		)
+	else:
+		asyncio.run(
+			SyphoonProxyProvider.async_scraper(
+				save_in=save_in_folder, key_words=key_words, page_results=page_results
 			)
 		)
 
@@ -404,12 +441,28 @@ def set_api_key(
 			help="take bright data api key you want to use",
 		),
 	],
+	proxies_provider: Annotated[
+		str,
+		typer.Option(
+			"--proxies-provider",
+			"-pp",
+			help="take proxies provider you want to use (i.e: Syphoon, Brightdata, etc.)",
+		),
+	],
 ) -> None:
 	"""Sets your bright data api key."""
 	dotenv_file = dotenv.find_dotenv()
 	dotenv.load_dotenv(dotenv_file)
-	os.environ["SBR_WS_CDP_LIST"] = api_key
-	dotenv.set_key(dotenv_file, "SBR_WS_CDP_LIST", os.environ["SBR_WS_CDP_LIST"])
+	value = ""
+	if proxies_provider == "brightdata":
+		os.environ["BRIGHT_DATA_API_KEY"] = api_key
+		value = "BRIGHT_DATA_API_KEY"
+	elif proxies_provider == "syphoon":
+		os.environ["SYPHOON_API_KEY"] = api_key
+		value = "SYPHOON_API_KEY"
+	else:
+		return
+	dotenv.set_key(dotenv_file, f"{value}", os.environ[f"{value}"])
 	rprint(
 		"[bold white]API key has been saved with success now you can use [magenta bold] `scraper` [/magenta bold] subcommand with async mode  :white_heavy_check_mark-emoji: ![/bold white]"
 	)
