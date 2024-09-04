@@ -133,7 +133,7 @@ def scraper(
 	] = 10,
 ) -> None:
 	"""
-	Scrape Alibaba.com based on the provided keywords.
+	Scrape with Bright-Data proxies rovider.
 	"""
 	save_in_folder = (
 		key_words.strip().replace(" ", "_")
@@ -174,6 +174,9 @@ def syphoon_scraper(
 		),
 	] = 10,
 ):
+	"""
+	Scrape with Syphoon proxies provider.
+	"""
 	save_in_folder = (
 		key_words.strip().replace(" ", "_")
 		if (html_folder is None and html_folder != "")
@@ -450,7 +453,7 @@ def set_api_key(
 		),
 	],
 ) -> None:
-	"""Sets your bright data api key."""
+	"""Sets your proxies provider api key could beBrightdata or Syphoon."""
 	dotenv_file = dotenv.find_dotenv()
 	dotenv.load_dotenv(dotenv_file)
 	value = ""
