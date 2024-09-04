@@ -18,14 +18,17 @@ def _create_folder(folder_name: str):
 
 
 def scripts_hunter(css_selector: str, parser_instance: selectolax.parser.HTMLParser):
-	div_with_class_container_or_id_root = parser_instance.css_first(css_selector)
-	if div_with_class_container_or_id_root is None:
-		logger.warning(
-			"Something went wrong with the parsing, an empty none value has been returned "
-		)
-		return None
-	list_scripts = div_with_class_container_or_id_root.css("script")
-	# print(list_scripts)
+	if css_selector != "":
+		div_with_id_root = parser_instance.css_first(css_selector)
+		if div_with_id_root is None:
+			logger.warning(
+				"Something went wrong with the parsing, an empty none value has been returned "
+			)
+			return None
+		else:
+			list_scripts = div_with_id_root.css("script")
+	else:
+		list_scripts = parser_instance.css("script")
 	json_result = ""
 	for script in list_scripts:
 		script_content = script.text()
@@ -56,11 +59,9 @@ def json_hunter(html_content: str | bytes, css_selector: str = ""):
 	"""
 	body_parser = selectolax.parser.HTMLParser(html_content)
 	json_result = scripts_hunter(css_selector, body_parser)
-	if json_result == "":
-		json_result = scripts_hunter("div[id='root']", body_parser)
-		return json_result
 	if json_result is None:
-		return None
+		json_result = scripts_hunter("", body_parser)
+		return json_result
 	return json_result.strip()
 
 

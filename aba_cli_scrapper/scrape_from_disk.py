@@ -3,6 +3,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence, Union
+from selectolax.parser import Node
 
 import rich
 from loguru import logger
@@ -91,7 +92,7 @@ class PageParser:
 				HTMLParser(self._retrieve_html_content_as_string(html_file)).css(selector),
 				json_hunter(
 					self._retrieve_html_content_as_string(html_file),
-					css_selector="div[class='container']",
+					css_selector="div[id='root']",
 				),
 			)
 			for html_file in self._html_files_explorer()
@@ -103,8 +104,19 @@ class PageParser:
 			if item[1] is None or item[1] == "":
 				continue
 			new_divs_and_dict.append((item[0], json.loads(item[1])))  # type: ignore
-
 		return new_divs_and_dict
+
+	def _suppliers_appender(self, offers_list: Sequence[dict], suppliers: list, divs: list[Node]):
+		for offer in offers_list:
+			suppliers.append({
+				"name": offer["companyName"].lower(),
+				"verified_type": suppliers_status(tags=divs, offer=offer),
+				"sopi_level": offer["displayStarLevel"],
+				"country_name": country_name(country_min=offer["countryCode"]),
+				"gold_supplier_year": offer["goldSupplierYears"].split(" ")[0],
+				"supplier_service_score": float(offer["supplierService"]),
+			})
+		return suppliers
 
 	def detected_suppliers(self):
 		"""Retrieves the detected suppliers from the divs and offers data.
@@ -123,10 +135,8 @@ class PageParser:
 			)
 			# single_page_task = progress.add_task(description="Retrieving suppliers ...", total=1)
 			for divs, offers in self._divs_and_dict():
-				# print(offers)
-				# print(type(offers))
-				# with open("offers.json", "w") as f:
-				#     json.dump(offers, f,indent=4)
+				with open("offers_i.json", "w") as f:
+					f.write(json.dumps(offers, indent=4))
 				try:
 					if offers["offerTotalCount"] == 0:
 						continue
@@ -135,25 +145,41 @@ class PageParser:
 						continue
 				try:
 					offers_values = offers["offerResultData"]["offers"]
+					suppliers_added = self._suppliers_appender(
+						offers_list=offers_values, suppliers=suppliers, divs=divs
+					)
 				except KeyError:
 					offers_values = offers["props"]["offerResultData"]["offers"]
-					pass
-					for offer in offers_values:
-						suppliers.append({
-							"name": offer["companyName"].lower(),
-							"verified_type": suppliers_status(tags=divs, offer=offer),
-							"sopi_level": offer["displayStarLevel"],
-							"country_name": country_name(country_min=offer["countryCode"]),
-							"gold_supplier_year": offer["goldSupplierYears"].split(" ")[0],
-							"supplier_service_score": float(offer["supplierService"]),
-						})
-				# all_pages_task.
+					suppliers_added = self._suppliers_appender(
+						offers_list=offers_values, suppliers=suppliers, divs=divs
+					)
 				progress.update(all_pages_task, advance=100 / len(self._divs_and_dict()))
 		# removing supliers present twice in supliers dict
-		unique_suppliers_tuple = list(OrderedDict((str(d), d) for d in suppliers).items())
-		# print(unique_suppliers_tuple)
+		unique_suppliers_tuple = list(OrderedDict((str(d), d) for d in suppliers_added).items())
 		unique_suppliers = [supplier_tuple[1] for supplier_tuple in unique_suppliers_tuple]
 		return unique_suppliers
+
+	def _produtcs_appender(self, offers_list: Sequence[dict], products: Sequence[ProductDict]):
+		for offer in offers_list:
+			products.append({
+				"name": offer["enPureTitle"].lower(),
+				"max_price": get_product_price(all_price_text=offer["price"], which="max"),
+				"min_price": get_product_price(all_price_text=offer["price"], which="min"),
+				"guaranteed_by_alibaba": is_alibaba_guaranteed(str_status=offer["halfTrust"]),
+				"certifications": get_product_certification(offer=offer),
+				"minimum_to_order": custom_minium_to_oder(offer["halfTrustMoq"].lower()),
+				"ordered_or_sold": ordered_or_sold(offer=offer),
+				"supplied_by": offer["companyName"].lower(),
+				"product_score": float(offer["productScore"]),
+				"review_count": float(offer["reviewCount"]),
+				"review_score": float(offer["reviewScore"]),
+				"shipping_time_score": float(offer["shippingTime"]),
+				"is_full_promotion": is_full_promotion(str_status=offer["isFullPromotion"]),
+				"customizable": is_customizable(str_status=offer["customizable"]),
+				"instant_order": is_instant_order(str_status=offer["halfTrustInstantOrder"]),
+				"trade_product": is_trade_product(str_status=offer["tradeProduct"]),
+			})
+		return products
 
 	def detected_products(self):
 		"""Returns a list of unique products with their relevant information."""
@@ -175,42 +201,16 @@ class PageParser:
 						continue
 				try:
 					offers_values = offers["offerResultData"]["offers"]
+					products_added = self._produtcs_appender(
+						offers_list=offers_values, products=products
+					)
 				except KeyError:
 					offers_values = offers["props"]["offerResultData"]["offers"]
-					pass
-					for offer in offers_values:
-						products.append({
-							"name": offer["enPureTitle"].lower(),
-							"max_price": get_product_price(
-								all_price_text=offer["price"], which="max"
-							),
-							"min_price": get_product_price(
-								all_price_text=offer["price"], which="min"
-							),
-							"guaranteed_by_alibaba": is_alibaba_guaranteed(
-								str_status=offer["halfTrust"]
-							),
-							"certifications": get_product_certification(offer=offer),
-							"minimum_to_order": custom_minium_to_oder(
-								offer["halfTrustMoq"].lower()
-							),
-							"ordered_or_sold": ordered_or_sold(offer=offer),
-							"supplied_by": offer["companyName"].lower(),
-							"product_score": float(offer["productScore"]),
-							"review_count": float(offer["reviewCount"]),
-							"review_score": float(offer["reviewScore"]),
-							"shipping_time_score": float(offer["shippingTime"]),
-							"is_full_promotion": is_full_promotion(
-								str_status=offer["isFullPromotion"]
-							),
-							"customizable": is_customizable(str_status=offer["customizable"]),
-							"instant_order": is_instant_order(
-								str_status=offer["halfTrustInstantOrder"]
-							),
-							"trade_product": is_trade_product(str_status=offer["tradeProduct"]),
-						})
+					products_added = self._produtcs_appender(
+						offers_list=offers_values, products=products, divs=divs
+					)
 				progress.update(all_pages_task, advance=100 / len(self._divs_and_dict()))
-		unique_products_tuple = list(OrderedDict((str(d), d) for d in products).items())
+		unique_products_tuple = list(OrderedDict((str(d), d) for d in products_added).items())
 		# removing supliers present twice in supliers dict
 		unique_products = [product_tuple[1] for product_tuple in unique_products_tuple]
 		return unique_products

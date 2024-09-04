@@ -14,6 +14,7 @@ from typing import Optional
 from loguru import logger
 from playwright.async_api import BrowserContext
 from playwright.async_api import Page as AsyncPage
+
 from rich.progress import Progress, TaskID
 
 
@@ -52,11 +53,10 @@ async def goto_task(
 	try:
 		async with page:
 			logger.info(f"Loading page {url.split('page=')[1]} ... ")
-			response = await page.goto(url, wait_until="domcontentloaded", timeout=0)
-			if response is None:
-				return None
+			await page.goto(url, wait_until="domcontentloaded", timeout=0)
 			logger.info(f"get response text from web page {url.split('page=')[1]} ... ")
-			html_body = await response.text()
+			locator = page.locator("css=div.container")
+			html_body = await locator.inner_html()
 			progress.start_task(task)
 			progress.update(task, advance=100 / page_results)
 			global HTML_PAGE_RESULT
@@ -70,7 +70,3 @@ async def goto_task(
 def urls_pusher(words: str, stop_at: int):
 	for i in range(1, stop_at + 1):
 		yield f"https://www.alibaba.com/trade/search?spm=a2700.galleryofferlist.0.0.64271d1dZRDxt1&fsb=y&IndexArea=product_en&keywords={words}&tab=all&&page={i}"
-
-
-if __name__ == "__main__":
-	pass

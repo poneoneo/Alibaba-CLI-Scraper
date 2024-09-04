@@ -24,9 +24,7 @@ from rich.progress import Progress, SpinnerColumn, TaskID
 from . import BRIGHT_DATA_API_KEY, SYPHOON_API_KEY
 from .html_to_disk import write_to_disk
 from .info_message import run_scrapper_with_success
-from .web_scrapper import urls_pusher, goto_task
-
-HTML_PAGE_RESULT = []
+from .web_scrapper import urls_pusher, goto_task, HTML_PAGE_RESULT
 
 
 class BrightDataProxyProvider:
@@ -58,51 +56,49 @@ class BrightDataProxyProvider:
 
 		:raises Exception: If there is an error processing a page.
 		"""
-		async with async_playwright() as p:
-			logger.info("Connecting to CDP and creating the browser... ")
-			try:
-				# print("rt")
-				api_key = cls.BD_API_KEY
-				if api_key == "":
-					rprint(
-						"[red]You need to set your SCRAPING BROWSER API key from BrightData to Enable Async Scraping"
-					)
+		with Progress(
+			SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),
+			*Progress.get_default_columns(),
+			transient=True,
+		) as progress:
+			async with async_playwright() as p:
+				logger.info("Connecting to CDP and creating the browser... ")
+				try:
+					# print("rt")
+					if cls.BD_API_KEY == "":
+						rprint(
+							"[red]You need to set your SCRAPING BROWSER API key from BrightData to Enable Async Scraping"
+						)
+						return
+					browser = await p.chromium.connect_over_cdp(cls.BD_API_KEY)
+				except urllib3.exceptions.NameResolutionError:
+					rprint("[red]check your internet connection")
 					return
-				browser = await p.chromium.connect_over_cdp(api_key)
-			except urllib3.exceptions.NameResolutionError:
-				rprint("[red]check your internet connection")
-				return
 
-			except playwright._impl._errors.Error as e:  # type: ignore
-				if "Account is suspended" in str(e):
-					# print(str(e))
-					rprint(
-						"[red]Bright data account has been suspended by system may your api is exhausted recharge it and try again. You can use `--sync-api` flag after your last command to enable sync scrapping but you may not encounter enought success.  [/red]"
-					)
-					return
-				elif "exists" in str(e):
-					# print(str(e))
-					rprint(
-						"[white] Seems like playwright is not installed. lets aba install it for you... [/white]"
-					)
-					os.system("playwright install")
-				elif "WebSocket error" in str(e):
-					rprint(
-						"[red]Web Socket is disconnected. You May need to activate your Internet connexion"
-					)
-				else:
-					rprint("[red]Unexpected error occured ...")
+				except playwright._impl._errors.Error as e:  # type: ignore
+					if "Account is suspended" in str(e):
+						rprint(
+							"[red]Bright data account has been suspended by system may your api is exhausted recharge it and try again. You can use `--sync-api` flag after your last command to enable sync scrapping but you may not encounter enought success.  [/red]"
+						)
+						return
+					elif "exists" in str(e):
+						# print(str(e))
+						rprint(
+							"[white] Seems like playwright is not installed. lets aba install it for you... [/white]"
+						)
+						os.system("playwright install")
+					elif "WebSocket error" in str(e):
+						rprint(
+							"[red]Web Socket is disconnected. You May need to activate your Internet connexion"
+						)
+					else:
+						rprint("[red]Unexpected error occured ...")
 
-			context_browser = await browser.new_context()
-			s_one = asyncio.Semaphore(value=10)
-			logger.info("Loading pages results ... ")
-			async with asyncio.Lock():
-				async with asyncio.TaskGroup() as tg:
-					with Progress(
-						SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),
-						*Progress.get_default_columns(),
-						transient=True,
-					) as progress:
+				context_browser = await browser.new_context()
+				s_one = asyncio.Semaphore(value=10)
+				logger.info("Loading pages results ... ")
+				async with asyncio.Lock():
+					async with asyncio.TaskGroup() as tg:
 						task = progress.add_task("[green blink] async Scraping...", start=False)
 						for url in urls_pusher(words=key_words, stop_at=page_results):
 							async with asyncio.Lock():
@@ -120,8 +116,8 @@ class BrightDataProxyProvider:
 								)
 							)
 
-			write_to_disk(save_in, HTML_PAGE_RESULT)
-			run_scrapper_with_success(folder_name=save_in)
+				write_to_disk(save_in, HTML_PAGE_RESULT)
+				run_scrapper_with_success(folder_name=save_in)
 
 	@classmethod
 	def sync_scraper(cls, *, save_in: str, key_words: str, page_results: int) -> None:
@@ -226,8 +222,8 @@ class SyphoonProxyProvider:
 				)
 				os.system("playwright install")
 			context = browser.new_context()
+			api_request = context.request
 			for url in urls_pusher(words=key_words, stop_at=page_results):
-				api_request = context.request
 				logger.info(f"Loading page {url.split('page=')[1]} ... ")
 				try:
 					response = api_request.post(
@@ -283,50 +279,50 @@ class SyphoonProxyProvider:
 		:raises Exception: If there is an error processing a page.
 		"""
 		browser = None
-		async with async_playwright() as p:
-			logger.info("Connecting to CDP and creating the browser... ")
-			try:
-				# print("rt")
+		with Progress(
+			SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),
+			*Progress.get_default_columns(),
+			transient=True,
+		) as progress:
+			async with async_playwright() as p:
+				logger.info("Connecting to CDP and creating the browser... ")
+				try:
+					# print("rt")
 
-				if cls.SP_API_KEY == "":
-					rprint(
-						"[red]You need to set your SCRAPING BROWSER API key from BrightData to Enable Async Scraping"
-					)
-					return
-				browser = await p.chromium.launch()
-			except playwright._impl._errors.Error as e:  # type: ignore
-				if "Account is suspended" in str(e):
-					# print(str(e))
-					rprint(
-						"[red]Bright data account has been suspended by system may your api is exhausted recharge it and try again. You can use `--sync-api` flag after your last command to enable sync scrapping but you may not encounter enought success.  [/red]"
-					)
-					return
-				elif "exists" in str(e):
-					# print(str(e))
-					rprint(
-						"[white] Seems like playwright is not installed. lets aba install it for you... [/white]"
-					)
-					os.system("playwright install")
-				elif "WebSocket error" in str(e):
-					rprint(
-						"[red]Web Socket is disconnected. You May need to activate your Internet connexion"
-					)
-				else:
-					rprint("[red]Unexpected error occured ...")
-			context_browser = await browser.new_context()
-			s_one = asyncio.Semaphore(value=2)
-			logger.info("Loading pages results ... ")
-			async with asyncio.Lock():
-				async with asyncio.TaskGroup() as tg:
-					with Progress(
-						SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),
-						*Progress.get_default_columns(),
-						transient=True,
-					) as progress:
+					if cls.SP_API_KEY == "":
+						rprint(
+							"[red]You need to set your SCRAPING BROWSER API key from BrightData to Enable Async Scraping"
+						)
+						return
+					browser = await p.chromium.launch()
+				except playwright._impl._errors.Error as e:  # type: ignore
+					if "Account is suspended" in str(e):
+						# print(str(e))
+						rprint(
+							"[red]Bright data account has been suspended by system may your api is exhausted recharge it and try again. You can use `--sync-api` flag after your last command to enable sync scrapping but you may not encounter enought success.  [/red]"
+						)
+						return
+					elif "exists" in str(e):
+						# print(str(e))
+						rprint(
+							"[white] Seems like playwright is not installed. lets aba install it for you... [/white]"
+						)
+						os.system("playwright install")
+					elif "WebSocket error" in str(e):
+						rprint(
+							"[red]Web Socket is disconnected. You May need to activate your Internet connexion"
+						)
+					else:
+						rprint("[red]Unexpected error occured ...")
+				context_browser = await browser.new_context(base_url="http://api.syphoon.com/")
+				s_one = asyncio.Semaphore(value=2)
+				logger.info("Loading pages results ... ")
+				api_request_context = context_browser.request
+				async with asyncio.Lock():
+					async with asyncio.TaskGroup() as tg:
 						task = progress.add_task("[green blink] async Scraping...", start=False)
 						for url in urls_pusher(words=key_words, stop_at=page_results):
 							async with asyncio.Lock():
-								api_request_context = context_browser.request
 								tg.create_task(
 									cls.custom_goto_task(
 										url=url,
@@ -338,6 +334,5 @@ class SyphoonProxyProvider:
 										page_results=page_results,
 									)
 								)
-
-			write_to_disk(save_in, HTML_PAGE_RESULT)
-			run_scrapper_with_success(folder_name=save_in)
+				write_to_disk(save_in, HTML_PAGE_RESULT)
+				run_scrapper_with_success(folder_name=save_in)
