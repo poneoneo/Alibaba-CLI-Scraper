@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 from typing import Optional
 
-import pandas as pd
+
 import click
 import dotenv
 import sqlalchemy
@@ -24,6 +24,7 @@ from sqlmodel import SQLModel
 from trogon import tui
 from typing_extensions import Annotated
 import datahorse
+from datahorse import pandas as pd
 
 
 from . import LOGURU_LEVEL
