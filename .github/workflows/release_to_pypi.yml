@@ -1,0 +1,23 @@
+name: Release aba-cli-scrapper to PyPI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Release
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Build and publish to pypi
+        uses: JRubics/poetry-publish@v1.17
+        with:
+          python_version: "3.11.0"
+          poetry_version: "==1.8.3"
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
