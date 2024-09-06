@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "aba-cli-scrapper"
 version = "0.5.6"
-description = "Scrappe all products and theirs related suppliers existing on Alibaba based on keywords provided by user and save results into a database (Mysql/Sqlite)."
+description = "Create your own Alibaba dataset and interact with it in plain English."
 authors = ["poneoneo <onealzero@gmail.com>"]
 readme = "README.md"
 license = "GNU GENERAL PUBLIC LICENSEVersion 3, 29 June 2007"
-homepage = "https://github.com/poneoneo/Alibaba-CLI-Scrapper"
+homepage = "https://aba-cli-scrapper.readthedocs.io/en/latest/"
 repository = "https://github.com/poneoneo/Alibaba-CLI-Scrapper"
 keywords = ["cli", "scrapping", "alibaba", "scraper", "alibaba-cli-scrapper","dataset","ai-agent","RAG"]
 classifiers = [
