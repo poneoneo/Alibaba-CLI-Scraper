@@ -24,7 +24,7 @@ from rich.progress import Progress, SpinnerColumn, TaskID
 from . import BRIGHT_DATA_API_KEY, SYPHOON_API_KEY
 from .html_to_disk import write_to_disk
 from .info_message import run_scrapper_with_success
-from .web_scrapper import urls_pusher, goto_task, HTML_PAGE_RESULT
+from .proxies_utils import urls_pusher, goto_task, HTML_PAGE_RESULT
 
 
 class BrightDataProxyProvider:
