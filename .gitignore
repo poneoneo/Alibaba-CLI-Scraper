@@ -1,7 +1,7 @@
 *.sqlite
 todo.txt
 aba_cli_scrapper/__pycache__/*
-aba_cli_scrapper/.env
+aba_cli_scrapper/*.
 dist/
 .mypy_cache
 .pytest_cache
