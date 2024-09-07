@@ -1,12 +1,3 @@
-"""This script is responsible for scraping data from the Alibaba website.
-It uses the Playwright library to navigate through multiple pages
-extract HTML content,and save it to disk. The script defines
-functions to handle asynchronous tasks,interact with
-browser contexts, and gather data from the scraped HTML files.
-Additionally, it utilizes loguru for logging purposes and decouple for
-managing environment variables.
-"""
-
 import asyncio
 from asyncio import TaskGroup
 from typing import Optional

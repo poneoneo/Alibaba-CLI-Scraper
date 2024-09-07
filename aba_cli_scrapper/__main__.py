@@ -24,7 +24,7 @@ from sqlmodel import SQLModel
 from trogon import tui
 from typing_extensions import Annotated
 import datahorse
-from datahorse import pandas as pd
+import pandas as pd
 
 
 from . import LOGURU_LEVEL
