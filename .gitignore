@@ -6,4 +6,5 @@ dist/
 .mypy_cache
 .pytest_cache
 .vscode
-test/__pycache__/*
+tests/__pycache__/*
+tests/.env_tests
