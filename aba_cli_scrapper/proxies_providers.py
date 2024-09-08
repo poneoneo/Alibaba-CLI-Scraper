@@ -74,7 +74,6 @@ class BrightDataProxyProvider:
 				except urllib3.exceptions.NameResolutionError:
 					rprint("[red]check your internet connection")
 					return
-
 				except playwright._impl._errors.Error as e:  # type: ignore
 					if "Account is suspended" in str(e):
 						rprint(
@@ -92,7 +91,7 @@ class BrightDataProxyProvider:
 							"[red]Web Socket is disconnected. You May need to activate your Internet connexion"
 						)
 					else:
-						rprint("[red]Unexpected error occured ...")
+						rprint(f"[red]Unexpected error occured : \n{e}")
 
 				context_browser = await browser.new_context()
 				s_one = asyncio.Semaphore(value=10)
@@ -115,7 +114,6 @@ class BrightDataProxyProvider:
 									page_results=page_results,
 								)
 							)
-
 				write_to_disk(save_in, HTML_PAGE_RESULT)
 				run_scrapper_with_success(folder_name=save_in)
 
@@ -133,7 +131,7 @@ class BrightDataProxyProvider:
 			)
 			playwright = sync_playwright().start()
 			try:
-				browser = playwright.chromium.launch(headless=True)
+				browser = playwright.chromium.connect_over_cdp(cls.BD_API_KEY)
 			except playwright._impl._errors.Error:  # type: ignore
 				rprint(
 					"[white] Seems like playwright is not installed. lets aba install it for you... [/white]"
@@ -141,8 +139,8 @@ class BrightDataProxyProvider:
 				os.system("playwright install")
 			context = browser.new_context()
 			for url in urls_pusher(words=key_words, stop_at=page_results):
-				page = context.new_page()
 				logger.info(f"Loading page {url.split('page=')[1]} ... ")
+				page = context.new_page()
 				try:
 					response = page.goto(url, wait_until="domcontentloaded", timeout=0)
 					if response is None:
@@ -150,8 +148,8 @@ class BrightDataProxyProvider:
 					logger.info(
 						f"Returns the text representation of response body from page {url.split('page=')[1]} ... "
 					)
-					progress.start_task(task)
 					html_content = response.text()
+					progress.start_task(task)
 					progress.update(task, advance=100 / page_results)
 					global HTML_PAGE_RESULT
 					HTML_PAGE_RESULT.append(html_content)
@@ -160,8 +158,8 @@ class BrightDataProxyProvider:
 				except PError as e:
 					if "ERR_INTERNET_DISCONNECTED" in e.message:
 						raise UsageError("Check your internet connection ... ")
-		write_to_disk(save_in, HTML_PAGE_RESULT)
-		run_scrapper_with_success(folder_name=save_in)
+			write_to_disk(save_in, HTML_PAGE_RESULT)
+			run_scrapper_with_success(folder_name=save_in)
 
 
 class SyphoonProxyProvider:

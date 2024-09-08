@@ -47,7 +47,7 @@ async def goto_task(
 			await page.goto(url, wait_until="domcontentloaded", timeout=0)
 			logger.info(f"get response text from web page {url.split('page=')[1]} ... ")
 			locator = page.locator("css=div.container")
-			html_body = await locator.inner_html()
+			html_body = await locator.inner_html(timeout=0)
 			progress.start_task(task)
 			progress.update(task, advance=100 / page_results)
 			global HTML_PAGE_RESULT
