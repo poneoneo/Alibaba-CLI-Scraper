@@ -1,10 +1,12 @@
 *.sqlite
 todo.txt
 aba_cli_scrapper/__pycache__/*
-aba_cli_scrapper/*.
+aba_cli_scrapper/.env
 dist/
 .mypy_cache
 .pytest_cache
 .vscode
 tests/__pycache__/*.pyc
+tests/__pycache__/
 tests/.env_tests
+
