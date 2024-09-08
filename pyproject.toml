@@ -34,7 +34,6 @@ python-semantic-release = "^9.8.6"
 sphinx = "^8.0.2"
 myst-parser = "^4.0.0"
 coverage = "^7.6.1"
-faker = "^28.0.0"
 
 
 [tool.poetry.scripts]
@@ -170,5 +169,4 @@ ignore = ["D417"]
 fixable = ["ALL"]
 
 [tool.pytest.ini_options]
-
 addopts = "-p no:warnings:DeprecationWarning"
