@@ -37,6 +37,7 @@ from .engine_and_database import (
 from .info_message import update_db_success_sqlite, update_db_with_success
 from .scrape_from_disk import PageParser
 from aba_cli_scrapper.proxies_providers import BrightDataProxyProvider, SyphoonProxyProvider
+from .ascii import display_banner
 
 load_dotenv()
 logger.remove(0)
@@ -142,12 +143,14 @@ def scraper(
 		else html_folder
 	)
 	if sync_api:
+		display_banner()
 		BrightDataProxyProvider.sync_scraper(
 			save_in=save_in_folder,
 			key_words=key_words,
 			page_results=page_results,
 		)
 	else:
+		display_banner()
 		asyncio.run(
 			BrightDataProxyProvider.async_scraper(
 				save_in=save_in_folder, key_words=key_words, page_results=page_results
