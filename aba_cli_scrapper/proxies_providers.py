@@ -55,6 +55,9 @@ class BrightDataProxyProvider:
 
 		:raises Exception: If there is an error processing a page.
 		"""
+		if cls.BD_API_KEY == "":
+			rprint("[red]You need to set your  API key to use BrightData proxies ... [/red]")
+			return typer.Exit(code=1)
 		with Progress(
 			SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),
 			*Progress.get_default_columns(),
@@ -121,6 +124,9 @@ class BrightDataProxyProvider:
 
 	@classmethod
 	def sync_scraper(cls, *, save_in: str, key_words: str, page_results: int) -> None:
+		if cls.BD_API_KEY == "":
+			rprint("[red]You need to set your  API key to use BrightData proxies ... [/red]")
+			return typer.Exit(code=1)
 		with Progress(
 			SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),
 			*Progress.get_default_columns(),
@@ -134,13 +140,7 @@ class BrightDataProxyProvider:
 			try:
 				browser = playwright.chromium.connect_over_cdp(cls.BD_API_KEY)
 			except PError as e:
-				if "connect ECONNREFUSED" in e.message:
-					rprint(
-						"[red]You need to set your SCRAPING BROWSER API key from BrightData or proxies API key from Syphoon"
-					)
-					return typer.Exit(code=1)
-
-				elif "exists" in e.message:
+				if "exists" in e.message:
 					rprint(
 						"[white] Seems like playwright is not installed or need to be update. lets aba install it for you... [/white]"
 					)
@@ -212,7 +212,9 @@ class SyphoonProxyProvider:
 	@classmethod
 	@logger.catch()
 	def sync_scraper(cls, *, save_in: str, key_words: str, page_results: int) -> None:
-		# pages_urls = _looking_for_urls(keywords=key_words)
+		if cls.SP_API_KEY == "":
+			rprint("[red]You need to set your  API key to use Syphoon proxies ... [/red]")
+			return typer.Exit(code=1)
 		with Progress(
 			SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),
 			*Progress.get_default_columns(),
@@ -289,6 +291,9 @@ class SyphoonProxyProvider:
 		:raises Exception: If there is an error processing a page.
 		"""
 		browser = None
+		if cls.SP_API_KEY == "":
+			rprint("[red]You need to set your  API key to use Syphoon proxies ... [/red]")
+			return typer.Exit(code=1)
 		with Progress(
 			SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),
 			*Progress.get_default_columns(),
