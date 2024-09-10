@@ -22,6 +22,7 @@
 
 <div align="center">
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bbecd0598d5e460ea87e3aa5f8db8798)](https://app.codacy.com/gh/poneoneo/Alibaba-CLI-Scraper?utm_source=github.com&utm_medium=referral&utm_content=poneoneo/Alibaba-CLI-Scraper&utm_campaign=Badge_Grade)
 ![Codacy grade](https://img.shields.io/codacy/grade/bbecd0598d5e460ea87e3aa5f8db8798) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit) ![Codacy coverage (branch)](https://img.shields.io/codacy/coverage/bbecd0598d5e460ea87e3aa5f8db8798/main)
 
 </div>
