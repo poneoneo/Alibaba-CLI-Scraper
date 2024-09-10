@@ -22,7 +22,7 @@
 
 <div align="center">
 
-![Codacy grade](https://img.shields.io/codacy/grade/bbecd0598d5e460ea87e3aa5f8db8798) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit) ![Codacy coverage (branch)](https://img.shields.io/codacy/coverage/bbecd0598d5e460ea87e3aa5f8db8798/main)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2f57f95f64134aaaaf686fd0496c85a9)](https://app.codacy.com/gh/poneoneo/Alibaba-CLI-Scraper/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit) [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/2f57f95f64134aaaaf686fd0496c85a9)](https://app.codacy.com/gh/poneoneo/Alibaba-CLI-Scraper/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 
 </div>
 
