@@ -37,7 +37,7 @@ from .engine_and_database import (
 from .info_message import update_db_success_sqlite, update_db_with_success
 from .scrape_from_disk import PageParser
 from aba_cli_scrapper.proxies_providers import BrightDataProxyProvider, SyphoonProxyProvider
-from .ascii import display_banner
+from .ascii import display_banner, get_current_version
 
 load_dotenv()
 logger.remove(0)
@@ -53,6 +53,19 @@ def app():
 app_t = typer.Typer(
 	pretty_exceptions_enable=False,
 )
+
+
+@app_t.command()
+def version():
+	"""
+	Display the version of the program
+	"""
+	rprint(f"[magenta]aba-cli-scrapper version:[/magenta] [blue]{get_current_version()}")
+
+
+# @app_t.callback(invoke_without_command=True,name="--version", help="Display the version of the program",)
+# def version():
+# 	rprint(f"[magenta]aba-cli-scrapper version:[/magenta] [blue]{get_current_version()}")
 
 
 def _db_url(credentials: dict = dict(), auto_fill: bool = False):
