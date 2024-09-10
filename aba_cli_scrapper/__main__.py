@@ -187,12 +187,14 @@ def syphoon_scraper(
 		else html_folder
 	)
 	if sync_api:
+		display_banner()
 		SyphoonProxyProvider.sync_scraper(
 			save_in=save_in_folder,
 			key_words=key_words,
 			page_results=page_results,
 		)
 	else:
+		display_banner()
 		asyncio.run(
 			SyphoonProxyProvider.async_scraper(
 				save_in=save_in_folder, key_words=key_words, page_results=page_results
