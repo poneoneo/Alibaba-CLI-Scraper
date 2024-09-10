@@ -83,7 +83,7 @@ def test_export_as_csv():
 
 
 def test_ai_gent():
-	result = runner.invoke(app_t, ["ai-agent", "get all suppliers", "-f", "facsv.csv"])
+	result = runner.invoke(app_t, ["ai-agent", "get 3 suppliers", "-f", "facsv.csv"])
 	assert result.exit_code == 0
 
 	####### Test db-update with not found directory ######
