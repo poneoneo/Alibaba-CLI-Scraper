@@ -42,6 +42,7 @@ from .ascii import display_banner, get_current_version
 load_dotenv()
 logger.remove(0)
 logger.add(sys.stderr, colorize=True, level=f"{LOGURU_LEVEL}")  # type: ignore
+display_banner()  # display banner for all commands
 
 
 @tui(name="text-mode", command="aba-run")
@@ -156,14 +157,12 @@ def scraper(
 		else html_folder
 	)
 	if sync_api:
-		display_banner()
 		BrightDataProxyProvider.sync_scraper(
 			save_in=save_in_folder,
 			key_words=key_words,
 			page_results=page_results,
 		)
 	else:
-		display_banner()
 		asyncio.run(
 			BrightDataProxyProvider.async_scraper(
 				save_in=save_in_folder, key_words=key_words, page_results=page_results
@@ -200,14 +199,12 @@ def syphoon_scraper(
 		else html_folder
 	)
 	if sync_api:
-		display_banner()
 		SyphoonProxyProvider.sync_scraper(
 			save_in=save_in_folder,
 			key_words=key_words,
 			page_results=page_results,
 		)
 	else:
-		display_banner()
 		asyncio.run(
 			SyphoonProxyProvider.async_scraper(
 				save_in=save_in_folder, key_words=key_words, page_results=page_results
