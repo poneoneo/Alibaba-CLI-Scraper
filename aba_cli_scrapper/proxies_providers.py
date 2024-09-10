@@ -83,7 +83,6 @@ class BrightDataProxyProvider:
 						)
 						return
 					elif "exists" in str(e):
-						print(str(e))
 						rprint(
 							"[white] Seems like playwright is not installed or needs to be update. lets aba install it for you... [/white]"
 						)
@@ -92,6 +91,11 @@ class BrightDataProxyProvider:
 					elif "WebSocket error" in str(e):
 						rprint(
 							"[red]Web Socket is disconnected. You May need to activate your Internet connexion"
+						)
+						return typer.Exit(code=1)
+					elif "try connecting via ws" in e.message:
+						rprint(
+							"[red] You must to set a SCRAPING BROWSER API key (e.g 'ws://127.0.0.1:3000') to enable connection via websocket. "
 						)
 						return typer.Exit(code=1)
 					else:
@@ -146,8 +150,14 @@ class BrightDataProxyProvider:
 					)
 					os.system("playwright install")
 					return typer.Exit(code=1)
+				elif "try connecting via ws" in e.message:
+					rprint(
+						"[red] You must to set a SCRAPING BROWSER API key (e.g 'ws://127.0.0.1:3000') to enable connection via websocket. "
+					)
+					return typer.Exit(code=1)
 				else:
 					rprint(f"[red]Unexpected error occured : \n{e}")
+					return typer.Exit(code=1)
 			context = browser.new_context()
 			for url in urls_pusher(words=key_words, stop_at=page_results):
 				logger.info(f"Loading page {url.split('page=')[1]} ... ")
