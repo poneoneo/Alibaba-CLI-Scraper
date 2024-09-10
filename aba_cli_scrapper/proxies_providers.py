@@ -10,8 +10,6 @@ managing environment variables.
 import asyncio
 import os
 
-import playwright
-import playwright.sync_api
 import urllib3
 from click import UsageError
 from loguru import logger
@@ -20,6 +18,7 @@ from playwright.sync_api import Error as PError
 from playwright.sync_api import sync_playwright
 from rich import print as rprint
 from rich.progress import Progress, SpinnerColumn, TaskID
+import typer
 
 from . import BRIGHT_DATA_API_KEY, SYPHOON_API_KEY
 from .html_to_disk import write_to_disk
@@ -74,24 +73,27 @@ class BrightDataProxyProvider:
 				except urllib3.exceptions.NameResolutionError:
 					rprint("[red]check your internet connection")
 					return
-				except playwright._impl._errors.Error as e:  # type: ignore
+				except Exception as e:
 					if "Account is suspended" in str(e):
 						rprint(
 							"[red]Bright data account has been suspended by system may your api is exhausted recharge it and try again. You can use `--sync-api` flag after your last command to enable sync scrapping but you may not encounter enought success.  [/red]"
 						)
 						return
 					elif "exists" in str(e):
-						# print(str(e))
+						print(str(e))
 						rprint(
-							"[white] Seems like playwright is not installed. lets aba install it for you... [/white]"
+							"[white] Seems like playwright is not installed or needs to be update. lets aba install it for you... [/white]"
 						)
 						os.system("playwright install")
+						return typer.Exit(code=1)
 					elif "WebSocket error" in str(e):
 						rprint(
 							"[red]Web Socket is disconnected. You May need to activate your Internet connexion"
 						)
+						return typer.Exit(code=1)
 					else:
 						rprint(f"[red]Unexpected error occured : \n{e}")
+						return typer.Exit(code=1)
 
 				context_browser = await browser.new_context()
 				s_one = asyncio.Semaphore(value=10)
@@ -119,7 +121,6 @@ class BrightDataProxyProvider:
 
 	@classmethod
 	def sync_scraper(cls, *, save_in: str, key_words: str, page_results: int) -> None:
-		# pages_urls = _looking_for_urls(keywords=key_words)
 		with Progress(
 			SpinnerColumn(finished_text="[bold green]finished ✓[/bold green]"),
 			*Progress.get_default_columns(),
@@ -132,11 +133,21 @@ class BrightDataProxyProvider:
 			playwright = sync_playwright().start()
 			try:
 				browser = playwright.chromium.connect_over_cdp(cls.BD_API_KEY)
-			except playwright._impl._errors.Error:  # type: ignore
-				rprint(
-					"[white] Seems like playwright is not installed. lets aba install it for you... [/white]"
-				)
-				os.system("playwright install")
+			except PError as e:
+				if "connect ECONNREFUSED" in e.message:
+					rprint(
+						"[red]You need to set your SCRAPING BROWSER API key from BrightData or proxies API key from Syphoon"
+					)
+					return typer.Exit(code=1)
+
+				elif "exists" in e.message:
+					rprint(
+						"[white] Seems like playwright is not installed or need to be update. lets aba install it for you... [/white]"
+					)
+					os.system("playwright install")
+					return typer.Exit(code=1)
+				else:
+					rprint(f"[red]Unexpected error occured : \n{e}")
 			context = browser.new_context()
 			for url in urls_pusher(words=key_words, stop_at=page_results):
 				logger.info(f"Loading page {url.split('page=')[1]} ... ")
@@ -214,11 +225,12 @@ class SyphoonProxyProvider:
 			playwright = sync_playwright().start()
 			try:
 				browser = playwright.chromium.launch(headless=True)
-			except playwright._impl._errors.Error:  # type: ignore
+			except PError:
 				rprint(
-					"[white] Seems like playwright is not installed. lets aba install it for you... [/white]"
+					"[white] Seems like playwright is not installed or needs to be update. lets aba install it for you... [/white]"
 				)
 				os.system("playwright install")
+				return typer.Exit(code=1)
 			context = browser.new_context()
 			api_request = context.request
 			for url in urls_pusher(words=key_words, stop_at=page_results):
@@ -289,29 +301,32 @@ class SyphoonProxyProvider:
 
 					if cls.SP_API_KEY == "":
 						rprint(
-							"[red]You need to set your SCRAPING BROWSER API key from BrightData to Enable Async Scraping"
+							"[red]You need to set your SCRAPING BROWSER API key from BrightData or proxies API key from Syphoon"
 						)
 						return
 					browser = await p.chromium.launch()
-				except playwright._impl._errors.Error as e:  # type: ignore
+				except PError as e:  # type: ignore
 					if "Account is suspended" in str(e):
 						# print(str(e))
 						rprint(
 							"[red]Bright data account has been suspended by system may your api is exhausted recharge it and try again. You can use `--sync-api` flag after your last command to enable sync scrapping but you may not encounter enought success.  [/red]"
 						)
-						return
+						return typer.Exit(code=1)
 					elif "exists" in str(e):
 						# print(str(e))
 						rprint(
-							"[white] Seems like playwright is not installed. lets aba install it for you... [/white]"
+							"[white] Seems like playwright is not installed or needs to be update. lets aba install it for you... [/white]"
 						)
 						os.system("playwright install")
+						return typer.Exit(code=1)
 					elif "WebSocket error" in str(e):
 						rprint(
 							"[red]Web Socket is disconnected. You May need to activate your Internet connexion"
 						)
+						return typer.Exit(code=1)
 					else:
 						rprint("[red]Unexpected error occured ...")
+						return typer.Exit(code=1)
 				context_browser = await browser.new_context(base_url="http://api.syphoon.com/")
 				s_one = asyncio.Semaphore(value=2)
 				logger.info("Loading pages results ... ")
