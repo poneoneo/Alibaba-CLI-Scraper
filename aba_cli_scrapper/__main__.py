@@ -42,7 +42,7 @@ from .ascii import display_banner, get_current_version
 load_dotenv()
 logger.remove(0)
 logger.add(sys.stderr, colorize=True, level=f"{LOGURU_LEVEL}")  # type: ignore
-display_banner()  # display banner for all commands
+# display_banner()  # display banner for all commands
 
 
 @tui(name="text-mode", command="aba-run")
@@ -151,6 +151,7 @@ def scraper(
 	"""
 	Scrape with Bright-Data proxies rovider.
 	"""
+	display_banner()  # display banner for all commands
 	save_in_folder = (
 		key_words.strip().replace(" ", "_")
 		if (html_folder is None and html_folder != "")
@@ -193,6 +194,7 @@ def syphoon_scraper(
 	"""
 	Scrape with Syphoon proxies provider.
 	"""
+	display_banner()  # display banner for all commands
 	save_in_folder = (
 		key_words.strip().replace(" ", "_")
 		if (html_folder is None and html_folder != "")
@@ -274,6 +276,7 @@ def db_update(
 	] = None,
 ):
 	"""Update a database with scraped products and suppliers data."""
+	display_banner()  # display banner for all commands
 	if db_engine not in ["sqlite", "mysql"]:
 		raise MissingParameter("--engine should be sqlite or mysql")
 	if db_engine == "sqlite" and filename is None:
@@ -356,6 +359,7 @@ def db_init(
 	"""
 	Create a new database sqlite/mysql with `<products>` and `<suppliers>` as tables in it.
 	"""
+	display_banner()  # display banner for all commands
 	if engine not in ["sqlite", "mysql"]:
 		raise MissingParameter("--engine should be sqlite or mysql")
 	if engine == "sqlite" and sqlite_file is None:
@@ -405,6 +409,7 @@ def export_as_csv(
 	],
 ):
 	"""Exports a sqlite database as a csv file. A `FULL OUTER JOIN` operation will be used to join the two tables."""
+	display_banner()  # display banner for all commands
 	query = """
       SELECT Product.id as product_id,
       Product.name as product_name,
@@ -470,6 +475,7 @@ def set_api_key(
 	],
 ) -> None:
 	"""Sets your proxies provider api key could beBrightdata or Syphoon."""
+	display_banner()  # display banner for all commands
 	dotenv_file = dotenv.find_dotenv()
 	dotenv.load_dotenv(dotenv_file)
 	value = ""
@@ -512,6 +518,7 @@ def ai_agent(
 	if df is None:
 		raise UsageError("An unexpected error has occured. May due to your csv file.")
 
+	display_banner()  # display banner for all commands
 	with Progress(
 		SpinnerColumn(
 			finished_text="[bold green]finished ✓[/bold green]",
