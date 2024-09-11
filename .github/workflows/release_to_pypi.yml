@@ -35,7 +35,6 @@ jobs:
         uses: python-semantic-release/python-semantic-release@v9.8.8
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          version: "push"
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
