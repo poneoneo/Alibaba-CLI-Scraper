@@ -26,17 +26,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Use Python Semantic Release to prepare release
-        id: release
-        uses: python-semantic-release/python-semantic-release@v9.8.8
+      - name: Build and publish to pypi
+        uses: JRubics/poetry-publish@v1.17
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        if: steps.release.outputs.released == 'true'
-        with:
-          password: ${{ secrets.PYPI_TOKEN }}
+            python_version: "3.11.0"
+            poetry_version: "==1.8.3"
+            pypi_token: ${{ secrets.PYPI_TOKEN }}
 
       - name: Publish package distributions to GitHub Releases
         uses: python-semantic-release/upload-to-gh-release@v9.8.8
