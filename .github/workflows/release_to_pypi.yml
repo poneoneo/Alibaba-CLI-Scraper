@@ -14,10 +14,6 @@ jobs:
     # Set up operating system
     runs-on: ubuntu-latest
 
-    environment:
-        name: pypi
-        url: https://pypi.org/aba-cli-scrapper/
-
     # Define job steps
     steps:
       - name: Set up Python
