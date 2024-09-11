@@ -1,4 +1,4 @@
-name:
+name: Deploy to PyPI
 
 on: [push, pull_request]
 
@@ -16,7 +16,7 @@ jobs:
 
     environment:
         name: pypi
-        url: https://test.pypi.org/p/aba-cli-scrapper/
+        url: https://pypi.org/aba-cli-scrapper/
 
     # Define job steps
     steps:
