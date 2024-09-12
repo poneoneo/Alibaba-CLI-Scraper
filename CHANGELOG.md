@@ -1,5 +1,43 @@
 # CHANGELOG
 
+## v0.6.4 (2024-09-12)
+
+### Unknown
+
+* 💚 Reset CD workflow ([`f430bbc`](https://github.com/poneoneo/Alibaba-Scrapper/commit/f430bbcbed4948bf0feac3af09aca4b547d53791))
+
+* 💚 Update build process order ([`bb88e44`](https://github.com/poneoneo/Alibaba-Scrapper/commit/bb88e44f550da3825f4044f1ed6a6ca7c7bc8b72))
+
+* 💚 Update deploy steps ([`03f8848`](https://github.com/poneoneo/Alibaba-Scrapper/commit/03f88486c77f9a89318b583f62f1ea5bd610dc26))
+
+* 💚 Remove pipy env ([`eac3de5`](https://github.com/poneoneo/Alibaba-Scrapper/commit/eac3de5afd5de446fbc5b3d608328c3fe8c8b7b6))
+
+## v0.6.3 (2024-09-11)
+
+### Unknown
+
+* 🔖 Bump new version ([`98344dc`](https://github.com/poneoneo/Alibaba-Scrapper/commit/98344dc6d4f4dfc83e1a4fce86655f74cf2d39d1))
+
+* 💄 Center banner ([`cb4fcfd`](https://github.com/poneoneo/Alibaba-Scrapper/commit/cb4fcfd342117952b44b858fb87aa111a1747201))
+
+* 💄 Center banner ([`b6edddc`](https://github.com/poneoneo/Alibaba-Scrapper/commit/b6edddcd29c88ea79244ce2ee749286d4a75a406))
+
+* 🔖 Bump a new version ([`195a1be`](https://github.com/poneoneo/Alibaba-Scrapper/commit/195a1be5f5a617cefca8f1c6f869db337e989b1e))
+
+* ⚡️ Display banner more quickly
+
+diplay banner only when a specific command is called rather than display it for the whole __main__.py file ([`b63d596`](https://github.com/poneoneo/Alibaba-Scrapper/commit/b63d5968c9c8a7a8fab8526df2000ac1bfa87a9c))
+
+* 👷 Update deploy process ([`f4494c7`](https://github.com/poneoneo/Alibaba-Scrapper/commit/f4494c7ca80a61583ed6b5112ff1e8c10267a5e7))
+
+* fix 💚 Udpate deploy process ([`c9cbe47`](https://github.com/poneoneo/Alibaba-Scrapper/commit/c9cbe4728da8d76b7157726e8413bab87e6ba55c))
+
+* Update release_to_pypi.yml ([`7263305`](https://github.com/poneoneo/Alibaba-Scrapper/commit/7263305cc187d7e47485be25ee4cbed19896a491))
+
+* 💚 Update build process ([`862cdec`](https://github.com/poneoneo/Alibaba-Scrapper/commit/862cdec5b827df523f4ffa9eafd1056f7f677ab3))
+
+* 👷 Change publish and build command ([`e424927`](https://github.com/poneoneo/Alibaba-Scrapper/commit/e4249272ecada5e1d3943de6e688e949a8d1b0bb))
+
 ## v0.6.2 (2024-09-11)
 
 ### Unknown
