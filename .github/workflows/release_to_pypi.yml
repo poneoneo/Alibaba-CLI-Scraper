@@ -26,6 +26,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Publish package distributions to GitHub Releases
+        uses: python-semantic-release/upload-to-gh-release@v9.8.8
+        if: steps.release.outputs.released == 'true'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and publish to pypi
         uses: JRubics/poetry-publish@v1.17
         with:
@@ -33,9 +39,3 @@ jobs:
             poetry_version: "==1.8.3"
             pypi_token: ${{ secrets.PYPI_TOKEN }}
 
-      - name: Publish package distributions to GitHub Releases
-        uses: python-semantic-release/upload-to-gh-release@v9.8.8
-        if: steps.release.outputs.released == 'true'
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.release.outputs.tag }}
