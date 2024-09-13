@@ -3,7 +3,7 @@ name: Deploy to PyPI
 on: [push, pull_request]
 
 jobs:
-  cd:
+  release:
     permissions:
       id-token: write
       contents: write
@@ -26,21 +26,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Use Python Semantic Release to prepare release
-        id: release
-        uses: python-semantic-release/python-semantic-release@v9.8.8
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install dependencies
+        run: |
+          python -m pip install poetry --upgrade pip
+          poetry config virtualenvs.create false
+          poetry install
 
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        if: steps.release.outputs.released == 'true'
-        with:
-          password: ${{ secrets.PYPI_TOKEN }}
-
-      - name: Publish package distributions to GitHub Releases
-        uses: python-semantic-release/upload-to-gh-release@v9.8.8
-        if: steps.release.outputs.released == 'true'
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.release.outputs.tag }}
+      - name: Python Semantic Release
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "action@github.com"
+          semantic-release publish -D commit_author="github-actions <action@github.com>"
+        env:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          PYPI_TOKEN: ${{secrets.PYPI_TOKEN}}
