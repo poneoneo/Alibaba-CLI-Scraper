@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aba-cli-scrapper"
-version = "0.6.3"
+version = "0.6.4"
 description = "Create your own Alibaba dataset and interact with it in plain English. "
 authors = ["poneoneo <onealzero@gmail.com>"]
 readme = "docs/index.md"
@@ -28,6 +28,8 @@ include = [
 
 packages = [{include = "aba_cli_scrapper"},{include = "images"}, {include="pyproject.toml"}]
 
+
+# poetry settings
 [tool.poetry.dev-dependencies]
 pytest = "8.2.2"
 python-semantic-release = "^9.8.6"
@@ -92,22 +94,63 @@ furo = "^2024.8.6"
 pandas = "^2.2.2"
 
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+
+# semantic release settings
 [tool.semantic_release]
-version_variable = "pyproject.toml:version"
+version_toml = "pyproject.toml:version"
+version_variable = ["aba_cli_scrapper/__init__.py:__version__"]
 branch = "main"
+upload_to_pypi = true
+upload_to_repository = true
+upload_to_release = true
 changelog_file = "CHANGELOG.md"
 build_command = "rm -r dist ; poetry build ; poetry publish ;"
+commit_version_number = true
 
-[tool.semantic_release.branches.dev]
+[tool.semantic_release.remote]
+type = "github"
+token = {env = "GH_TOKEN"}
+
+[tool.semantic_release.commit_parser_options]
+major_tags = [":boom:"]
+minor_tags = [
+    ":sparkles:",
+    ":children_crossing:",
+    ":lipstick:",
+    ":iphone:",
+    ":egg:",
+    ":chart_with_upwards_trend:",
+]
+patch_tags = [
+    ":ambulance:",
+    ":lock:",
+    ":bug:",
+    ":zap:",
+    ":goal_net:",
+    ":alien:",
+    ":wheelchair:",
+    ":speech_balloon:",
+    ":mag:",
+    ":apple:",
+    ":penguin:",
+    ":checkered_flag:",
+    ":robot:",
+    ":green_apple:",
+]
+
+[tool.semantic_release.branches.main]
 match = "main"
 prerelease_token = "rc"
 prerelease = false
 
+[tool.semantic_release.publish]
+upload_to_vcs_release = true
+
+# coverage settings
 [tool.coverage.run]
 command_line = "-m pytest"
 
@@ -115,10 +158,9 @@ command_line = "-m pytest"
 include = ["aba_cli_scrapper/*.py"]
 show_missing = true
 
-
+# ruff settings
 [tool.ruff]
-# Exclude a variety of commonly ignored directories.
-exclude = [
+exclude = [    # Exclude a variety of commonly ignored directories.
     ".git",
     ".git-rewrite",
     ".ipynb_checkpoints",
