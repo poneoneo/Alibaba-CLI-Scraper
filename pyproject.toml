@@ -101,7 +101,7 @@ build-backend = "poetry.core.masonry.api"
 
 # semantic release settings
 [tool.semantic_release]
-version_toml = "pyproject.toml:version"
+version_toml = ["pyproject.toml:version"]
 version_variable = ["aba_cli_scrapper/__init__.py:__version__"]
 branch = "main"
 upload_to_pypi = true
