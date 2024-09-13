@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aba-cli-scrapper"
-version = "0.6.5"
+version = "0.6.6"
 description = "Create your own Alibaba dataset and interact with it in plain English. "
 authors = ["poneoneo <onealzero@gmail.com>"]
 readme = "docs/index.md"
@@ -101,19 +101,19 @@ build-backend = "poetry.core.masonry.api"
 
 # semantic release settings
 [tool.semantic_release]
-version_toml = ["pyproject.toml:version"]
-version_variable = ["aba_cli_scrapper/__init__.py:__version__"]
+version_toml = ["pyproject.toml:tool.poetry.version"]
+version_variable = ["aba_cli_scrapper/__init__.py:__version__","pyproject.toml:tool.poetry.version"]
 branch = "main"
-upload_to_pypi = true
-upload_to_repository = true
+major_on_zero = false
+upload_to_PyPI = true
 upload_to_release = true
 changelog_file = "CHANGELOG.md"
-build_command = "rm -r dist ; poetry build ; poetry publish ;"
+build_command = "pip install poetry && poetry build"
 commit_version_number = true
 
 [tool.semantic_release.remote]
 type = "github"
-token = {env = "GH_TOKEN"}
+token = {env = "GITHUB_TOKEN"}
 
 [tool.semantic_release.commit_parser_options]
 major_tags = [":boom:"]
