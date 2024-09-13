@@ -32,7 +32,6 @@ packages = [{include = "aba_cli_scrapper"},{include = "images"}, {include="pypro
 # poetry settings
 [tool.poetry.dev-dependencies]
 pytest = "8.2.2"
-python-semantic-release = "^9.8.6"
 sphinx = "^8.0.2"
 myst-parser = "^4.0.0"
 coverage = "^7.6.1"
@@ -46,6 +45,7 @@ aba-run = "aba_cli_scrapper.__main__:app_t"
 python = ">=3.11.0,<4.0.0"
 
 python-dotenv = "^1.0.1"
+python-semantic-release = "^9.8.6"
 sqlalchemy = "^2.0.32"
 typer = "^0.12.5"
 sqlmodel = "^0.0.21"

@@ -982,13 +982,13 @@ files = [
 
 [[package]]
 name = "importlib-resources"
-version = "6.4.4"
+version = "6.4.5"
 description = "Read resources from Python packages"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "importlib_resources-6.4.4-py3-none-any.whl", hash = "sha256:dda242603d1c9cd836c3368b1174ed74cb4049ecd209e7a1a0104620c18c5c11"},
-    {file = "importlib_resources-6.4.4.tar.gz", hash = "sha256:20600c8b7361938dc0bb2d5ec0297802e575df486f5a544fa414da65e13721f7"},
+    {file = "importlib_resources-6.4.5-py3-none-any.whl", hash = "sha256:ac29d5f956f01d5e4bb63102a5a19957f1b9175e45649977264a1416783bb717"},
+    {file = "importlib_resources-6.4.5.tar.gz", hash = "sha256:980862a1d16c9e147a59603677fa2aa5fd82b87f223b6cb870695bcfce830065"},
 ]
 
 [package.extras]
@@ -1348,13 +1348,13 @@ dev = ["meson-python (>=0.13.1)", "numpy (>=1.25)", "pybind11 (>=2.6)", "setupto
 
 [[package]]
 name = "mdit-py-plugins"
-version = "0.4.1"
+version = "0.4.2"
 description = "Collection of plugins for markdown-it-py"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "mdit_py_plugins-0.4.1-py3-none-any.whl", hash = "sha256:1020dfe4e6bfc2c79fb49ae4e3f5b297f5ccd20f010187acc52af2921e27dc6a"},
-    {file = "mdit_py_plugins-0.4.1.tar.gz", hash = "sha256:834b8ac23d1cd60cec703646ffd22ae97b7955a6d596eb1d304be1e251ae499c"},
+    {file = "mdit_py_plugins-0.4.2-py3-none-any.whl", hash = "sha256:0c673c3f889399a33b95e88d2f0d111b4447bdfea7f237dab2d488f459835636"},
+    {file = "mdit_py_plugins-0.4.2.tar.gz", hash = "sha256:5f2cd1fdb606ddf152d37ec30e46101a60512bc0e5fa1a7002c36647b09e26b5"},
 ]
 
 [package.dependencies]
@@ -2162,13 +2162,13 @@ cli = ["click (>=5.0)"]
 
 [[package]]
 name = "python-gitlab"
-version = "4.10.0"
+version = "4.11.1"
 description = "A python wrapper for the GitLab API"
 optional = false
 python-versions = ">=3.8.0"
 files = [
-    {file = "python_gitlab-4.10.0-py3-none-any.whl", hash = "sha256:53ea6d977fb26d256390636616ca91d127cd04bdefc6c5ce2d7711b8e5100b2a"},
-    {file = "python_gitlab-4.10.0.tar.gz", hash = "sha256:86f99c1915088e2d2573817aca8bf6bab5e4f12d42b04ef6b2df2abb528d57fd"},
+    {file = "python_gitlab-4.11.1-py3-none-any.whl", hash = "sha256:f15fe4f4cbaa58c04e422ad30a2d4fc7976294dfdf1f90f81ab927e5b2238f33"},
+    {file = "python_gitlab-4.11.1.tar.gz", hash = "sha256:7afa2f9c30618bc3daee95d2186a06e1cf18ca2fa97890eb55fd8ddc4e339812"},
 ]
 
 [package.dependencies]
@@ -2177,6 +2177,7 @@ requests-toolbelt = ">=1.0.0"
 
 [package.extras]
 autocompletion = ["argcomplete (>=1.10.0,<3)"]
+graphql = ["gql[httpx] (>=3.5.0,<4)"]
 yaml = ["PyYaml (>=6.0.1)"]
 
 [[package]]
@@ -2213,13 +2214,13 @@ test = ["coverage[toml] (>=7.0,<8.0)", "pytest (>=8.3,<9.0)", "pytest-clarity (>
 
 [[package]]
 name = "pytz"
-version = "2024.1"
+version = "2024.2"
 description = "World timezone definitions, modern and historical"
 optional = false
 python-versions = "*"
 files = [
-    {file = "pytz-2024.1-py2.py3-none-any.whl", hash = "sha256:328171f4e3623139da4983451950b28e95ac706e13f3f2630a879749e7a8b319"},
-    {file = "pytz-2024.1.tar.gz", hash = "sha256:2a29735ea9c18baf14b448846bde5a48030ed267578472d8955cd0e7443a9812"},
+    {file = "pytz-2024.2-py2.py3-none-any.whl", hash = "sha256:31c7c1817eb7fae7ca4b8c7ee50c72f93aa2dd863de768e1ef4245d426aa0725"},
+    {file = "pytz-2024.2.tar.gz", hash = "sha256:2aa355083c50a0f93fa581709deac0c9ad65cca8a9e9beac660adcbd493c798a"},
 ]
 
 [[package]]
@@ -3074,4 +3075,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11.0,<4.0.0"
-content-hash = "d4526e968a56d2f833cd643d8e253320cc92c56305a9cac2e8919e6801ddbe36"
+content-hash = "355b265c709545f7605af3e0153b3eb85deee4909c58c4769e1fd6675f42068b"
