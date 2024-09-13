@@ -33,8 +33,7 @@ jobs:
           poetry install
 
       - name: Python Semantic Release
-        run: |
-          semantic-release publish
         env:
-          github_token: ${{secrets.GITHUB_TOKEN}}
+          GH_TOKEN : ${{secrets.GITHUB_TOKEN}}
           PYPI_TOKEN: ${{secrets.PYPI_TOKEN}}
+        run: semantic-release publish
