@@ -105,12 +105,14 @@ version_toml = ["pyproject.toml:tool.poetry.version"]
 version_variable = ["aba_cli_scrapper/__init__.py:__version__","pyproject.toml:tool.poetry.version"]
 branch = "main"
 major_on_zero = false
-upload_to_PyPI = true
+upload_to_pypi = true
+upload_to_repository = true
 upload_to_release = true
 changelog_file = "CHANGELOG.md"
 build_command = "pip install poetry && poetry build"
 commit_version_number = true
-ignore_token_for_push=true
+version_source = "tag"
+commit_message = ":bookmark: Release version v{version}"
 
 [tool.semantic_release.remote]
 type = "github"
