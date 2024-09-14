@@ -35,6 +35,7 @@ pytest = "8.2.2"
 sphinx = "^8.0.2"
 myst-parser = "^4.0.0"
 coverage = "^7.6.1"
+python-semantic-release = "^9.8.6"
 
 
 [tool.poetry.scripts]
@@ -45,7 +46,6 @@ aba-run = "aba_cli_scrapper.__main__:app_t"
 python = ">=3.11.0,<4.0.0"
 
 python-dotenv = "^1.0.1"
-python-semantic-release = "^9.8.6"
 sqlalchemy = "^2.0.32"
 typer = "^0.12.5"
 sqlmodel = "^0.0.21"
@@ -106,17 +106,20 @@ version_variable = ["aba_cli_scrapper/__init__.py:__version__","pyproject.toml:t
 branch = "main"
 major_on_zero = false
 upload_to_pypi = true
-upload_to_repository = true
+upload_to_repository = false
 upload_to_release = true
 changelog_file = "CHANGELOG.md"
-build_command = "pip install poetry && poetry build"
+build_command = "poetry build"
 commit_version_number = true
 version_source = "tag"
 commit_message = ":bookmark: Release version v{version}"
+commit_parser = "emoji"
 
 [tool.semantic_release.remote]
 type = "github"
 token = {env = "GITHUB_TOKEN"}
+
+
 
 [tool.semantic_release.commit_parser_options]
 major_tags = [":boom:"]
@@ -150,8 +153,6 @@ match = "main"
 prerelease_token = "rc"
 prerelease = false
 
-[tool.semantic_release.publish]
-upload_to_vcs_release = true
 
 # coverage settings
 [tool.coverage.run]
