@@ -36,6 +36,7 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "action@github.com"
+          git update-index --chmod=+x /home/runner/.cache/pypoetry/virtualenvs/aba-cli-scrapper-vqQd7dh6-py3.11/bin/activate
           /home/runner/.cache/pypoetry/virtualenvs/aba-cli-scrapper-vqQd7dh6-py3.11/bin/activate
           semantic-release publish
         env:
