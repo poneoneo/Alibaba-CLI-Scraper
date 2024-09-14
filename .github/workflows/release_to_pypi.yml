@@ -36,7 +36,7 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "action@github.com"
-          poetry run semantic-release publish
+          semantic-release publish
         env:
           GH_TOKEN : ${{secrets.GITHUB_TOKEN}}
           PYPI_TOKEN: ${{secrets.PYPI_TOKEN}}
