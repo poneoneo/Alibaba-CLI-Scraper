@@ -36,7 +36,7 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "action@github.com"
-          poetry shell
+          /home/runner/.cache/pypoetry/virtualenvs/aba-cli-scrapper-vqQd7dh6-py3.11/bin/activate
           semantic-release publish
         env:
           GH_TOKEN : ${{secrets.GITHUB_TOKEN}}
