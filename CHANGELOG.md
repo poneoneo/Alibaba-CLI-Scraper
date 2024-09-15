@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.6.12 (2024-09-15)
+
+### Other
+
+* 🥅 Catch `no such table product` for non initialized sqlite file
+
+\ ([`5f1341f`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/5f1341f154b84f7c15e27f15d060af3a9a34a220))
+
 ## v0.6.11 (2024-09-15)
 
 ### Other
