@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.6.14 (2024-09-15)
+
+### Other
+
+* 🚀 Automate package distributions upload ([`7bfc5a0`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/7bfc5a030f79a67f23daec8a24e2418e70284580))
+
 ## v0.6.13 (2024-09-15)
 
 ### Other
