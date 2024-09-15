@@ -1,6 +1,9 @@
 name: Deploy to PyPI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   release:
@@ -13,6 +16,7 @@ jobs:
 
     # Set up operating system
     runs-on: ubuntu-latest
+    concurrency: release
 
     # Define job steps
     steps:
@@ -33,11 +37,12 @@ jobs:
           poetry install
 
       - name: Python Semantic Release
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "action@github.com"
-          poetry build
-          semantic-release version --patch
-        env:
-          GH_TOKEN : ${{secrets.GITHUB_TOKEN}}
-          PYPI_TOKEN: ${{secrets.PYPI_TOKEN}}
+      # Adjust tag with desired version if applicable. Version shorthand
+      # is NOT available, e.g. vX or vX.X will not work.
+        uses: python-semantic-release/python-semantic-release@v9.8.8
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: "patch"
+        # env:
+        #   GH_TOKEN : ${{secrets.GITHUB_TOKEN}}
+        #   PYPI_TOKEN: ${{secrets.PYPI_TOKEN}}
