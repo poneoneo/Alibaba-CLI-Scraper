@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aba-cli-scrapper"
-version = "0.6.5"
+version = "0.6.6"
 description = "Create your own Alibaba dataset and interact with it in plain English. "
 authors = ["poneoneo <onealzero@gmail.com>"]
 readme = "docs/index.md"
@@ -106,7 +106,7 @@ version_variable = ["aba_cli_scrapper/__init__.py:__version__","pyproject.toml:t
 branch = "main"
 major_on_zero = false
 upload_to_pypi = true
-upload_to_repository = false
+upload_to_repository = true
 upload_to_release = true
 changelog_file = "CHANGELOG.md"
 build_command = "poetry build"
