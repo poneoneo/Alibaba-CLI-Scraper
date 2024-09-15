@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.6.15 (2024-09-15)
+
+### Other
+
+* 🚀 Remobe released check ([`46cf456`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/46cf4564cc81c9a8f4759301c5e8bd82ffa81929))
+
 ## v0.6.14 (2024-09-15)
 
 ### Other
