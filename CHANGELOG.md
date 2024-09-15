@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.6.13 (2024-09-15)
+
+### Other
+
+* 🔧 Udate build command ([`1e84d05`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/1e84d0578d3b6f7d5c0573dbbf4ff44e5d483a8b))
+
+* 🔧 Uncomment build_command ([`3188666`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/31886666627ce18dcf2022b366f7c3275523566c))
+
+* 🚀 Prepare publish step ([`a1c64e5`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/a1c64e51b82eaefcb12e06c5cb470df496cb714c))
+
 ## v0.6.12 (2024-09-15)
 
 ### Other
