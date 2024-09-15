@@ -447,11 +447,11 @@ def export_as_csv(
 			header=True,
 			index_label="supplier_id",
 		)
-	except sqlite3.OperationalError as e:
-		if pf.system() != "Windows":
-			raise UsageError(f"{pf.system()} does not support <export-as-csv> command cause: {e}")
-		raise UsageError(f"An error has occured with <{sqlite_file}>:  {e}")
-
+	except pd.errors.DatabaseError as e:
+		raise UsageError(
+			f"{str(e).split(':')[1] + str(e).split(':')[2]}. Your database must be initialized first run : aba db-init <{sqlite_file}>  "
+		)
+		return typer.Exit(1)
 	rprint(
 		f"[bold white] {to} file has been created with success :white_heavy_check_mark-emoji: ![/bold white]"
 	)
