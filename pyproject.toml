@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aba-cli-scrapper"
-version = "0.6.7"
+version = "0.6.8"
 description = "Create your own Alibaba dataset and interact with it in plain English. "
 authors = ["poneoneo <onealzero@gmail.com>"]
 readme = "docs/index.md"
