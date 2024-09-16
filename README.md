@@ -9,6 +9,7 @@
 ---
 
 <p align="center"> <b> Create your own Alibaba dataset and interact with it in plain English. </b> </p>
+
 <div align="center">
 
 ![PyPI - Version](https://img.shields.io/pypi/v/aba-cli-scrapper) ![PyPI - Downloads](https://img.shields.io/pypi/dm/aba-cli-scrapper?label=PyPI-Downloads) ![GitHub Release Date](https://img.shields.io/github/release-date/poneoneo/Alibaba-CLI-Scrapper)
@@ -371,4 +372,4 @@ I believe in the power of open source! If you'd like to contribute to this proje
 
 ## License
 
-This project is licensed under the [Gnu General Public License Version **3**](COPYING).
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
