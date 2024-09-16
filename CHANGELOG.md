@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v0.6.16 (2024-09-16)
+
+### Other
+
+* 🚀 Trigger patch event ([`e850c3b`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/e850c3bb12fc7a003fc52d4395a10ce005b80853))
+
+* 🔧 Set version source to &#39;tag&#39; ([`12b8090`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/12b8090f47a9964f10a7cb017232623537515d82))
+
+* 📄 Remove GNU license ([`236500c`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/236500cb306b8225813cdb7d57e45117d85176c0))
+
+* 📝 Update badges ([`e0156bf`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/e0156bf16bef6de484d32315744851b0f797ce61))
+
+* 🚀 Publish to pypi and upload to gh-release based on `release` id ([`24d1f6b`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/24d1f6b89fe43b3bce5ae25356f93b96530565c9))
+
 ## v0.6.15 (2024-09-15)
 
 ### Other
