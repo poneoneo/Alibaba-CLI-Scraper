@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v0.6.17 (2024-09-18)
+
+### Other
+
+* Merge pull request #19 from poneoneo/hide-input
+
+Hide input while typing api-key ([`0da7c0c`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/0da7c0cac893668ff65cb1a57ad5c92fb054ee1b))
+
+* 🚀 Prepare to create new patch for the next pr ([`e189ae2`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/e189ae26e4094172005924f234e34f17c82322f9))
+
+* ✨ Hide api key while typing ([`970afcd`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/970afcd201c20d3614a64791d05593375be422ee))
+
+* 📝 Update license footer info ([`dc9c8f8`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/dc9c8f87fcd432a3875ed318f8d842ba3858d3ec))
+
+* 🚀 Block new release and push MIT license file ([`d20cae3`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/d20cae389e2c16cb34172d161490efb3f3076590))
+
 ## v0.6.16 (2024-09-16)
 
 ### Other
