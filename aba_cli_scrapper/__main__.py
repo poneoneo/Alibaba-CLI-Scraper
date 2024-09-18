@@ -218,11 +218,7 @@ def syphoon_scraper(
 def db_update(
 	kw_results: Annotated[
 		Path,
-		typer.Option(
-			"--kw-results",
-			"-kr",
-			help="Folder where the html results are stored",
-		),
+		typer.Option("--kw-results", "-kr", help="Folder where the html results are stored"),
 	],
 	db_engine: Annotated[
 		Optional[str], typer.Argument(help="Name of database engine to use")
@@ -233,6 +229,7 @@ def db_update(
 			"--filename",
 			"-f",
 			help="Name of the sqlite file(without any extensions) to update with news data",
+			rich_help_panel="To update SQLite engine",
 		),
 	] = None,
 	host: Annotated[
@@ -241,11 +238,17 @@ def db_update(
 			"--host",
 			"-h",
 			help="Host of the database engine",
+			rich_help_panel="To update MySQL engine",
 		),
 	] = "localhost",
 	port: Annotated[
 		Optional[int],
-		typer.Option("--port", "-p", help="Port of the database engine"),
+		typer.Option(
+			"--port",
+			"-p",
+			help="Port of the database engine",
+			rich_help_panel="To update MySQL engine",
+		),
 	] = 3306,
 	user: Annotated[
 		Optional[str],
@@ -254,6 +257,7 @@ def db_update(
 			"-u",
 			help="User of the database engine",
 			show_default=False,
+			rich_help_panel="To update MySQL engine",
 		),
 	] = None,
 	password: Annotated[
@@ -263,6 +267,7 @@ def db_update(
 			"-pw",
 			help="Password of the database engine",
 			show_default=False,
+			rich_help_panel="To update MySQL engine",
 		),
 	] = None,
 	db_name: Annotated[
@@ -272,6 +277,7 @@ def db_update(
 			"-db",
 			help="Database of the database engine",
 			show_default=False,
+			rich_help_panel="To update MySQL engine",
 		),
 	] = None,
 ):
@@ -317,6 +323,7 @@ def db_init(
 			"-f",
 			help="Name of the sqlite file to use (without any extensions)",
 			show_default=False,
+			rich_help_panel="For SQLite initialization",
 		),
 	] = None,
 	host: Annotated[
@@ -325,19 +332,35 @@ def db_init(
 			"--host",
 			"-h",
 			help="Host of the database engine",
+			rich_help_panel="For MySQL initialization",
 		),
 	] = "localhost",
 	port: Annotated[
 		Optional[int],
-		typer.Option("--port", "-p", help="Port of the database engine"),
+		typer.Option(
+			"--port",
+			"-p",
+			help="Port of the database engine",
+			rich_help_panel="For MySQL initialization",
+		),
 	] = 3306,
 	user: Annotated[
 		Optional[str],
-		typer.Option("--user", "-u", help="User of the database engine"),
+		typer.Option(
+			"--user",
+			"-u",
+			help="User of the database engine",
+			rich_help_panel="For MySQL initialization",
+		),
 	] = None,
 	password: Annotated[
 		Optional[str],
-		typer.Option("--password", "-pw", help="Password of the database engine"),
+		typer.Option(
+			"--password",
+			"-pw",
+			help="Password of the database engine",
+			rich_help_panel="For MySQL initialization",
+		),
 	] = None,
 	db_name: Annotated[
 		Optional[str],
@@ -345,6 +368,7 @@ def db_init(
 			"--db-name",
 			"-db",
 			help="Database of the database engine",
+			rich_help_panel="For MySQL initialization",
 		),
 	] = None,
 	only_with: Annotated[
