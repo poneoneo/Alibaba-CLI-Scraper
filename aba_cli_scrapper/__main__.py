@@ -469,12 +469,12 @@ def set_api_key(
 		str,
 		typer.Option(
 			help="take api key from selected proxies provider (i.e: Brightdata, Syphoon)",
-			prompt=True,
+			prompt="Enter your proxies provider api key",
 			hide_input=True,
 		),
-	],
+	] = "",
 ) -> None:
-	"""Sets your proxies provider api key could beBrightdata or Syphoon."""
+	"""Sets your proxies provider api key i.e: Brightdata or Syphoon."""
 	display_banner()  # display banner for all commands
 	dotenv_file = dotenv.find_dotenv()
 	dotenv.load_dotenv(dotenv_file)
@@ -488,12 +488,16 @@ def set_api_key(
 	else:
 		return
 	dotenv.set_key(dotenv_file, f"{value}", os.environ[f"{value}"])
-	rprint(
-		"[bold white]API key has been saved with success now you can use [magenta bold] `scraper` [/magenta bold] subcommand with async mode  :white_heavy_check_mark-emoji: ![/bold white]"
-	)
-	rprint(
-		"[bold white]You can now use [magenta bold] `scraper` [/magenta bold]  subcommand with async mode with success :white_heavy_check_mark-emoji: ![/bold white]"
-	)
+	if value == "SYPHOON_API_KEY":
+		rprint(
+			"[bold white]Syphoon API key has been saved with success now  [magenta bold] `syphoon-scraper` [/magenta bold]  subcommand is ready  to go :white_heavy_check_mark-emoji: ![/bold white]"
+		)
+	elif value == "BRIGHT_DATA_API_KEY":
+		rprint(
+			"[bold white]Brightdata API key has been saved with success now  [magenta bold] `scraper` [/magenta bold]  subcommand is ready  to go :white_heavy_check_mark-emoji: ![/bold white]"
+		)
+	else:
+		pass
 
 
 @app_t.command()
