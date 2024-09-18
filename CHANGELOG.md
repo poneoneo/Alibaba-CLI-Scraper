@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.7.1 (2024-09-18)
+
+### Other
+
+* 🚀 New release&#39;s first patch ([`6197b0f`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/6197b0f0a38bead7bd11606cb4698433105387ca))
+
+* ♿️ Allow empty string as api_key value ... a kind of reset ([`2417622`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/24176222e5f7f5146f0f6fb2cce262f7adcf8d68))
+
 ## v0.7.0 (2024-09-18)
 
 ### Other
