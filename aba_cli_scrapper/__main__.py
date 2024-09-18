@@ -459,18 +459,18 @@ def export_as_csv(
 
 @app_t.command()
 def set_api_key(
-	api_key: Annotated[
-		str,
-		typer.Argument(
-			help="take bright data api key you want to use",
-		),
-	],
 	proxies_provider: Annotated[
 		str,
-		typer.Option(
-			"--proxies-provider",
-			"-pp",
+		typer.Argument(
 			help="take proxies provider you want to use (i.e: Syphoon, Brightdata, etc.)",
+		),
+	],
+	api_key: Annotated[
+		str,
+		typer.Option(
+			help="take api key from selected proxies provider (i.e: Brightdata, Syphoon)",
+			prompt=True,
+			hide_input=True,
 		),
 	],
 ) -> None:
