@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.7.0 (2024-09-18)
+
+### Other
+
+* 🚀 Prepare minor version ([`decfd3a`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/decfd3a40b896352912356ecd469018a850a2b1b))
+
+* ✨ Auto install playwright ([`992f6d6`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/992f6d66aa7f6e7769015a9d228dfae5a7b6c4eb))
+
 ## v0.6.17 (2024-09-18)
 
 ### Other
