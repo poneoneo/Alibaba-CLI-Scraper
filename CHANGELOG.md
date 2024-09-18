@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.7.2 (2024-09-18)
+
+### Other
+
+* 💄 Split CLI Options and Arguments when user asking for --help ([`5a2ca7f`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/5a2ca7f627bc5fdc6f682a92aad543a736c5fe0c))
+
 ## v0.7.1 (2024-09-18)
 
 ### Other
