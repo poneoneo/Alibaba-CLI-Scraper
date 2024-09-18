@@ -9,8 +9,9 @@ managing environment variables.
 
 import asyncio
 import os
-
+import platform
 import urllib3
+
 from click import UsageError
 from loguru import logger
 from playwright.async_api import async_playwright, APIRequestContext
@@ -82,12 +83,15 @@ class BrightDataProxyProvider:
 							"[red]Bright data account has been suspended by system may your api is exhausted recharge it and try again. You can use `--sync-api` flag after your last command to enable sync scrapping but you may not encounter enought success.  [/red]"
 						)
 						return
-					elif "exists" in str(e):
+					elif "Executable doesn't exist at" in str(e):
 						rprint(
-							"[white] Seems like playwright is not installed or needs to be update. lets aba install it for you... [/white]"
+							"[white]Seems like playwright is not installed or needs to be update. We will install it for you after that rerun your previous command [/white]"
 						)
 						os.system("playwright install")
-						return typer.Exit(code=1)
+						if platform.system() == "Windows":
+							os.system("cls")
+						if platform.system() == "Linux":
+							os.system("clear")
 					elif "WebSocket error" in str(e):
 						rprint(
 							"[red]Web Socket is disconnected. You May need to activate your Internet connexion"
@@ -312,35 +316,34 @@ class SyphoonProxyProvider:
 			async with async_playwright() as p:
 				logger.info("Connecting to CDP and creating the browser... ")
 				try:
-					# print("rt")
-
 					if cls.SP_API_KEY == "":
 						rprint(
 							"[red]You need to set your SCRAPING BROWSER API key from BrightData or proxies API key from Syphoon"
 						)
-						return
+						return typer.Exit(code=1)
 					browser = await p.chromium.launch()
 				except PError as e:  # type: ignore
 					if "Account is suspended" in str(e):
-						# print(str(e))
 						rprint(
 							"[red]Bright data account has been suspended by system may your api is exhausted recharge it and try again. You can use `--sync-api` flag after your last command to enable sync scrapping but you may not encounter enought success.  [/red]"
 						)
-						return typer.Exit(code=1)
-					elif "exists" in str(e):
-						# print(str(e))
-						rprint(
-							"[white] Seems like playwright is not installed or needs to be update. lets aba install it for you... [/white]"
-						)
-						os.system("playwright install")
 						return typer.Exit(code=1)
 					elif "WebSocket error" in str(e):
 						rprint(
 							"[red]Web Socket is disconnected. You May need to activate your Internet connexion"
 						)
 						return typer.Exit(code=1)
+					elif "Executable doesn't exist at" in str(e):
+						rprint(
+							"[white]Seems like playwright is not installed or needs to be update. We will install it for you after that rerun your previous command [/white]"
+						)
+						os.system("playwright install")
+						if platform.system() == "Windows":
+							os.system("cls")
+						if platform.system() == "Linux":
+							os.system("clear")
 					else:
-						rprint("[red]Unexpected error occured ...")
+						rprint(f"[red]Unexpected error occured ...:{str(e)}[/red]")
 						return typer.Exit(code=1)
 				context_browser = await browser.new_context(base_url="http://api.syphoon.com/")
 				s_one = asyncio.Semaphore(value=2)
