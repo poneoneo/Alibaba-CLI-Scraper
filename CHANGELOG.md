@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.7.4 (2024-09-19)
+
+### Other
+
+* ⚗️ Avoid creation of useless json file ([`a3f3bd2`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/a3f3bd2243ec490993dc47ef90ca8942d301b74f))
+
 ## v0.7.3 (2024-09-19)
 
 ### Other
