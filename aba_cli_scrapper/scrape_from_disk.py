@@ -135,8 +135,6 @@ class PageParser:
 			)
 			# single_page_task = progress.add_task(description="Retrieving suppliers ...", total=1)
 			for divs, offers in self._divs_and_dict():
-				with open("offers_i.json", "w") as f:
-					f.write(json.dumps(offers, indent=4))
 				try:
 					if offers["offerTotalCount"] == 0:
 						continue
