@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.7.3 (2024-09-19)
+
+### Other
+
+* 🐛 Fix: NoneType has no attributte &#39;text&#39;. occuring while checking wether supplier is verified or not ([`87718f9`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/87718f93731553cc510b7664550477cc113bedb6))
+
 ## v0.7.2 (2024-09-18)
 
 ### Other
