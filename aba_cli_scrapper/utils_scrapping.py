@@ -115,16 +115,19 @@ def suppliers_status(tags: list[Node], offer: dict):
 	:return: The verification status of the supplier.
 	:rtype: str
 	"""
+
 	for tag in tags:
-		# print(tag.attributes)
-		company_name = tag.css_first("a[data-spm='d_companyName']").text().strip().lower()
-		# print(company_name+ "1")
+		company_name = tag.css_first("a[data-spm='d_companyName']", default="")
+		if company_name == "":
+			return "unverified"
+		else:
+			company_name = (
+				tag.css_first("a[data-spm='d_companyName']", default="").text().strip().lower()
+			)
 		if company_name == offer["companyName"].lower().strip():
-			# print(offer['companyName'].lower().strip()+"2")
 			node_a = tag.css_first(".auth-info-group-normal.J_no_jump")
 			if node_a is None:
 				node_a = tag.css_first(".search-card-e-popper__trigger").child
-				# print(node_a.attributes)
 				node_a = node_a.css_first(".verified-supplier-icon__wrapper")  # type: ignore
 				if node_a is None:
 					return "unverified"
@@ -132,11 +135,11 @@ def suppliers_status(tags: list[Node], offer: dict):
 				return mode.split("=")[2]  # type: ignore
 			node_a = node_a.css_first("a.verified-supplier-icon__wrapper")
 			if node_a is not None:
-				# print(node_a.attributes)
 				mode = node_a.attributes.get("data-aplus-auto-card-mod")
-				# print(mode)
 				mode = mode.split("=")[2]  # type: ignore
 				return mode
+			return "unverified"
+		else:
 			return "unverified"
 	return "unverified"
 
