@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.7.5 (2024-09-20)
+
+### Other
+
+* Update README.md ([`0ece034`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/0ece034d01bc30d89853f1bbbeada4df20851182))
+
 ## v0.7.4 (2024-09-19)
 
 ### Other
