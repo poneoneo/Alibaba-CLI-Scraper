@@ -198,7 +198,7 @@ If you'd like to use `pip` instead, just replace `pipx` with `pip` but obviously
 
 <div align="center">
   <p>
-    <a href="#"><img src="images\aba-run-help-image.png" width="600" height="340" alt="aba-run help image" /></a>
+    <a href="#"><img src="images\aba-run-help-image.png" width="700" height="340" alt="aba-run help image" /></a>
   </p>
 
 </div>
@@ -225,7 +225,7 @@ If you'd like to use `pip` instead, just replace `pipx` with `pip` but obviously
 ##### Scraper and syphoon-scraper subcommands
 <div align="center">
   <p>
-    <a href="#"><img src="images\syphoon-scraper-help-options.png" width="600" height="340" alt="aba-run help image" /></a>
+    <a href="#"><img src="images\syphoon-scraper-help-options.png" width="700" height="340" alt="aba-run help image" /></a>
   </p>
 
 </div>
@@ -271,7 +271,7 @@ If you'd like to use `pip` instead, just replace `pipx` with `pip` but obviously
 ##### db-init Sub-Command
   <div align="center">
     <p>
-      <a href="#"><img src="images\db-init-help-options.png" width="600" height="340" alt="aba-run help image" /></a>
+      <a href="#"><img src="images\db-init-help-options.png" width="700" height="340" alt="aba-run help image" /></a>
     </p>
   </div>
 
@@ -311,7 +311,7 @@ If you'd like to use `pip` instead, just replace `pipx` with `pip` but obviously
 ##### db-update Sub-Command
 <div align="center">
   <p>
-    <a href="#"><img src="images\db-update-help.png" width="600" height="340" alt="aba-run help image" /></a>
+    <a href="#"><img src="images\db-update-help.png" width="700" height="340" alt="aba-run help image" /></a>
   </p>
 
 </div>
@@ -349,7 +349,7 @@ If you'd like to use `pip` instead, just replace `pipx` with `pip` but obviously
 ##### export-as-csv Sub-Command
 <div align="center">
   <p>
-    <a href="#"><img src="images\export-as-csv-help.png" width="600" height="340" alt="aba-run help image" /></a>
+    <a href="#"><img src="images\export-as-csv-help.png" width="700" height="340" alt="aba-run help image" /></a>
   </p>
 
 </div>
@@ -364,7 +364,7 @@ If you'd like to use `pip` instead, just replace `pipx` with `pip` but obviously
 ##### ai-agent Sub-Command
 <div align="center">
   <p>
-    <a href="#"><img src="images\ai-agent-help.png" width="600" height="340" alt="aba-run help image" /></a>
+    <a href="#"><img src="images\ai-agent-help.png" width="700" height="340" alt="aba-run help image" /></a>
   </p>
 
 </div>
