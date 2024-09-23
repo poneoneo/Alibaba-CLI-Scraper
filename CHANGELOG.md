@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## v0.7.6 (2024-09-23)
+
+### Other
+
+* 🚀 Prepare patch release ([`838670e`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/838670e3ece39daaea5beee96ee7fff9bbc5713b))
+
+* ⚡️ Display banner more quickly and separate commands from __main__ file ([`9a28915`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/9a289154b41aeddf3396ba9b6ce181a8281cbc97))
+
+* Update README.md ([`185978c`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/185978c557a95577348193c5c78cf74c663279ad))
+
+* Update README.md ([`52b7904`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/52b790460f141d695de6131484bdf8b56d0ac6df))
+
+* Update README.md ([`0f2d4b7`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/0f2d4b7db3ee186fdf62a123530d8251180c20e5))
+
+* 📝 Explain how to use Syphoon proxies and news commands ([`6dec24e`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/6dec24e95f6ed96fc5caf585420f49660da6b4db))
+
+* 📝 Add new images for readme ([`e5eac4f`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/e5eac4f08a18ece4d72adc5208da02195fdd66af))
+
+* remove automate patch ([`ab59abd`](https://github.com/poneoneo/Alibaba-CLI-Scraper/commit/ab59abd17f5b69756a905e6deb9b5c47ca70631a))
+
 ## v0.7.5 (2024-09-20)
 
 ### Other
