@@ -1,6 +1,6 @@
 <div align="center">
   <p>
-    <a href="#"><img src="images\image.png" width="300" height="300" alt="overview image" /></a>
+    <a href="#"><img src="images\syphoon-sponsor.jpeg" width="700" height="350" alt="overview image" /></a>
   </p>
 </div>
 <p align="center">  <b>Alibaba-CLI-Scraper</b> </p>
