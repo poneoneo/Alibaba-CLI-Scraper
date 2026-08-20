@@ -5,6 +5,7 @@
 </div>
 <p align="center">  <b>Alibaba-CLI-Scraper</b> </p>
 <p align="center"> 🛒-💻- 🕸 </p>
+
 > ⚠️ **Ce repo est archivé et n'est plus maintenu.**
 > Il a été remplacé par **[PickMySupplier](https://github.com/poneoneo/pickmysupplier)**,
 > repensé et amélioré (interface Streamlit unique, recherche en langage naturel
