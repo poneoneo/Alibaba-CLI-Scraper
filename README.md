@@ -5,7 +5,15 @@
 </div>
 <p align="center">  <b>Alibaba-CLI-Scraper</b> </p>
 <p align="center"> 🛒-💻- 🕸 </p>
+> ⚠️ **Ce repo est archivé et n'est plus maintenu.**
+> Il a été remplacé par **[PickMySupplier](https://github.com/poneoneo/pickmysupplier)**,
+> repensé et amélioré (interface Streamlit unique, recherche en langage naturel
+> sans code généré, export CSV, agent de qualité déterministe, etc.).
+>
+> 👉 App en ligne : **https://pickmysupplier.streamlit.app**
+> 👉 Code source : **https://github.com/poneoneo/pickmysupplier**
 
+---
 ---
 
 <p align="center"> <b> Create your own Alibaba dataset and interact with it in plain English. </b> </p>
