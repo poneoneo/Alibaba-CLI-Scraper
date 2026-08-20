@@ -1,3 +1,13 @@
+> ⚠️ **Ce repo est archivé et n'est plus maintenu.**
+> Il a été remplacé par **[PickMySupplier](https://github.com/poneoneo/pickmysupplier)**,
+> repensé et amélioré (interface Streamlit unique, recherche en langage naturel
+> sans code généré, export CSV, agent de qualité déterministe, etc.).
+>
+> 👉 App en ligne : **https://pickmysupplier.streamlit.app**
+> 👉 Code source : **https://github.com/poneoneo/pickmysupplier**
+
+---
+
 <div align="center">
   <p>
     <a href="#"><img src="images\syphoon-sponsor.jpeg" width="700" height="350" alt="overview image" /></a>
